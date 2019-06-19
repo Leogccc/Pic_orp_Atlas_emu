@@ -238,7 +238,7 @@ int1 parsing_in_buffer(char *rcv_buffer) {
 
 int8 identifica_comando( char * comando) {
 /*Identiicacao de qual comando foi recebido pelo PIC*/
-for( int8 cmd= cmd_err; cmd<=cmd_RT  ; cmd++ ) { // varre do primeiro comando ao ultimo da lista
+for( int8 cmd= cmd_err; cmd<=cmd_Status ; cmd++ ) { // varre do primeiro comando ao ultimo da lista
   if ( strcmp(comando, lista_comandos[cmd] )== 0 ){ return cmd ;   }
 }
  // comando invalido, já que o comando não esta na lista_de_comandos  
@@ -262,14 +262,7 @@ void monta_out_buffer( int8 num_comando) {
        case cmd_R:
                   ANPH_R();// retorna uma única leitura do valor de ph (%.2f) 
            break;   
-       case cmd_T:
-                  ANPH_T(); // Define a compensacao de temperatura
-           break ;
-           
-         case cmd_RT:
-                 ANPH_RT(); // Faz R e T simultaneamente
-           break;
-        case cmd_Find:
+       case cmd_Find:
                   ANPH_FIND(); //Find: LED rapidly blinks white, used to help find device
            break ; 
        case cmd_L:
@@ -357,10 +350,32 @@ void ANPH_L(void){
  */  
  if( (CMD2[0]=='\0')&&(VALOR[0]!='\0') ){
  
- 
+     if (strlen(VALOR)==1){
+  
+        switch(VALOR[0]){
 
+            case '1':
+                       LATA1=1 ;
+                       out_buffer[0]=1; //Response: 1(DEC) 0(NULL)    
+                break;
+            case '0':
+                       LATA1=0 ;
+                       out_buffer[0]=1; // //Response: 1(DEC) 0(NULL)  
+                break;
+
+            case '?':
+                      // Response: 1(DEC) ?L,1 0(NULL) ou 1(DEC) ?L,0 0(NULL)
+                      out_buffer[0]=1; 
+                      sprintf(out_buffer+1,"L,?%d",PORTA1);
+                break ;
+
+            default:
+                out_buffer[0]= 2; // 2 sintax error ; VALOR não é válido
+                break;
+           } 
+     }
      
-     
+     else out_buffer[0]= 2; // 2 sintax error VALOR não tem tamanho 1
  }
  
  else out_buffer[0]= 2; // 2 sintax error ; O comando passado não é da forma RT,VALOR
