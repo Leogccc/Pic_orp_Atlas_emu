@@ -258,7 +258,9 @@ void monta_out_buffer( int8 num_comando) {
        case cmd_Cal:
              
            break;
-           
+       case cmd_i:
+                ANPH_i();
+           break;   
        case cmd_R:
                   ANPH_R();// retorna uma única leitura do valor de ph (%.2f) 
            break;   
@@ -326,7 +328,7 @@ void ANPH_FIND(void){
         
         //Response: DEC NULL
         //           1  0
-        out_buffer[0]=1;
+        out_buffer[0]=1; // response code
         in_buffer[0]=0; //sentinela do comando FIND
         
         while(in_buffer[0]==0){// fica piscando o led até o usuário enviar um caracter(in_buffer[0]=!0)
@@ -380,6 +382,16 @@ void ANPH_L(void){
  
  else out_buffer[0]= 2; // 2 sintax error ; O comando passado não é da forma RT,VALOR
 }
+
+void ANPH_i(void){
+ // Command sintax: i    // device information
+// 1   ?i,ORP, 19.7
+//Dec   ASCII        NULL
+ out_buffer[0]=1;
+ sprintf(out_buffer+1,"?i,ORP,%.2f", VERSAO_FIRMWARE);   
+}
+
+
 
 
 // Funções de comunicação com o MCP3421

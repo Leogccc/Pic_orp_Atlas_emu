@@ -44,7 +44,7 @@ CPD             // Data EEPROM Code Protected
 NOLVP           // No low voltage programing, B3(PIC16) or B5(PIC18) used for I/O
 WDT           //   Watch Dog Timer
 */ 
-
+#define VERSAO_FIRMWARE 1.0
 #define BUF_SIZE 40 // tamanho dos Buffers do I2C1
 #define PIC_ADDRESS  0xC4// endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4
 #define LED_PIN PIN_A1 // pino onde está conectado o LED pino 12 RA1
@@ -149,6 +149,7 @@ float32 get_orp_value(float32 temp_C) ;
 void ANPH_R(void) ; // retorna uma única leitura do valor de ph (%.2f) 
 void ANPH_FIND(void); //Find: LED rapidly blinks white, used to help find device
 void ANPH_L(void); // LED CONTROL
+void ANPH_i(void); // retorna device information para o usuario
 /* */
 
 
