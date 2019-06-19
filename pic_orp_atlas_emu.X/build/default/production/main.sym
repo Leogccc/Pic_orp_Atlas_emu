@@ -268,40 +268,40 @@ FFF     @INTERRUPT_AREA
 
 ROM Allocation:
 000021  SSP_isr_slave
-00004B  @I2C_WRITE_1
-000071  @I2C_WRITEU_2
-000086  config_PIC
-0000A6  adc_init
-0000D7  parsing_in_buffer
-000251  strcmp
-000292  identifica_comando
-0002C3  @I2C_READU_2
-0002D3  @MULFF
-00036F  read_adc_volts_mcp3421
-000372  read_adc_mcp3421
-0003FA  @SDTOF
-000454  @DIV3232
-0004A3  @SPRINTF
-0004B0  @PRINTF_L32D_1297FPFPF
-0004DA  @FTOSD
-0005A5  isStr_float
-000629  strlen
-00066A  @ITOF
-000689  @DIVFF
-000755  @delay_ms1
+00004F  @I2C_WRITE_1
+000075  @I2C_WRITEU_2
+00008A  config_PIC
+0000A9  adc_init
+0000DA  parsing_in_buffer
+000254  strcmp
+000295  identifica_comando
+0002C6  @I2C_READU_2
+0002D6  @MULFF
+000372  read_adc_volts_mcp3421
+000375  read_adc_mcp3421
+0003FD  @SDTOF
+000457  @DIV3232
+0004A6  @SPRINTF
+0004B3  @PRINTF_L32D_1297FPFPF
+0004DD  @FTOSD
+0005A8  isStr_float
+00062C  strlen
+00066D  @ITOF
+00068C  @DIVFF
+000758  @delay_ms1
 000800  @ADDFF
 00097E  strtof
 000AB8  monta_out_buffer
 000AC4  ANPH_R
-000B23  ANPH_T
-000B63  ANPH_RT
-000B90  get_ph_value
-000CE0  ANPH_FIND
-000D1C  ANPH_L
-000D31  @goto49015
-000D46  MAIN
-000D46  @cinit1
-000D7E  @cinit2
+000B22  ANPH_T
+000B62  ANPH_RT
+000B8F  get_ph_value
+000CDE  ANPH_FIND
+000D1A  ANPH_L
+000D2F  @goto65121
+000D44  MAIN
+000D44  @cinit1
+000D7C  @cinit2
 0136  StrtoulGO
 0136  StrtolGO
 
@@ -309,7 +309,7 @@ Project Directory:
     C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\
 
 Project Files:
-    main.c                                                  [17-jun-19 17:17  CRC=965B2EB0]
+    main.c                                                  [19-jun-19 16:01  CRC=C21E716B]
     ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h [20-jul-18 14:24  CRC=7C37FC38]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h [29-jun-16 10:34  CRC=7E9CC16B]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h [05-set-14 12:47  CRC=897CEC6C]
@@ -317,12 +317,12 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h [03-jan-08 15:55  CRC=2D1F019F]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h [31-jul-07 15:24  CRC=4E4534F4]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h  [22-set-16 09:36  CRC=9CF8C837]
-    pic_orp_atlas_emu.h                                     [19-jun-19 12:25  CRC=9A69B66C]
+    pic_orp_atlas_emu.h                                     [19-jun-19 15:55  CRC=B02BD3BF]
 
-Source signature=2C5E86F8
+Source signature=83A60459
 Program memory checksum=0000
 Program memory CRC=0000
-Hex file CRC=C60E
+Hex file CRC=6986
 
 Units:
     main (main)

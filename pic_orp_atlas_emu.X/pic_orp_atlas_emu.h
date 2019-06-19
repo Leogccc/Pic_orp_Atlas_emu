@@ -46,7 +46,7 @@ WDT           //   Watch Dog Timer
 */ 
 
 #define BUF_SIZE 40 // tamanho dos Buffers do I2C1
-#define PIC_ADDRESS  0xC4 // endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4
+#define PIC_ADDRESS  0xC4// endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4
 #define LED_PIN PIN_A1 // pino onde está conectado o LED pino 12 RA1
 #define LED_STATUS  PIN_A1
 #define TAM_MAX  25
@@ -97,8 +97,8 @@ unsigned int1 lendo_str_master = FALSE ; // indica se o PIC está preenchendo in_
 unsigned int8  index_out_buffer;
 unsigned int8  index_in_buffer ;
 
-typedef enum {cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status, cmd_T, cmd_RT} comandos;
-char lista_comandos[17][LEN_MAX_CMD +1]= {"ERR","BAUD","CAL","EXPORT","FACTORY","FIND","I","I2C","IMPORT","L","PLOCK","R","SLEEP","SLOPE","STATUS","T","RT"} ;
+typedef enum {cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status} comandos;
+char lista_comandos[15][LEN_MAX_CMD +1]= {"ERR","BAUD","CAL","EXPORT","FACTORY","FIND","I","I2C","IMPORT","L","PLOCK","R","SLEEP","SLOPE","STATUS"} ;
 /* variaveis PH */
 
 void config_PIC(void) ;
@@ -127,7 +127,6 @@ void monta_out_buffer( int8 num_comando ) ; // monta o vetor out_buffer de respo
 
 //fator_k= ;
 //fator_b= ;
- float32 temp_solucao= 25.0; // armazena a temperatura em ºC para compensacao de temperatura na leitura do ph ( Usado nos comandos T,RT e R) (padrão 25ºC (sem compensacao) )
 
  /*
  Protótipos das funções do ANPH
@@ -143,13 +142,11 @@ Temperature is always in Celsius
 Temperature is not retained if power is cut
  */
 int1 isStr_float(char *str_teste) ;// verifica se uma string representa um float válido
-float32 get_ph_value(float32 temp_C) ;
+float32 get_orp_value(float32 temp_C) ;
 
 
 /*Retorna uma única Leitura*/
 void ANPH_R(void) ; // retorna uma única leitura do valor de ph (%.2f) 
-void ANPH_T(void); // Define a compensacao de temperatura
-void ANPH_RT(void) ; // /*Retorna uma única Leitura e define a compensacao de temperatura (Faz R e T em um mesmo comando)
 void ANPH_FIND(void); //Find: LED rapidly blinks white, used to help find device
 void ANPH_L(void); // LED CONTROL
 /* */
@@ -255,7 +252,7 @@ void ANPH_L(void); // LED CONTROL
 #endif
 
 #ifndef MCP3421_ADDRESS
- #define MCP3421_ADDRESS 1 // endereco MCP3421 0x69 => 0xD0|0x01<<1  ; 0x69 => 0xD0|0x01<<1 
+ #define MCP3421_ADDRESS 0 // endereco MCP3421 0x68=> 0xD0|0x00<<1  ;  
 #endif
 
 

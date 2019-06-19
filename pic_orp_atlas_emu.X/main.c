@@ -50,6 +50,8 @@ if(state == 0x00 ) /*recebou o endereco do master( bit R/W =0 escrita), slave ir
     { 
       i2c_read(I2C_PIC_SLAVE); 
       lendo_str_master = TRUE ; // usado para controlar  a flag_monta_out_buffer que é setada dps de um delay do TMR0
+      
+      out_buffer[0]=254;                    // Response code: still processing, not ready
       index_in_buffer=0; 
     }
    
@@ -311,13 +313,10 @@ int1 isStr_float(char *str_teste)  {
  return TRUE;      
 }
 
-float32 get_ph_value(float32 temp_C) {
+float32 get_orp_value(float32 temp_C) {
           
             float32 mcp_value_mV = read_adc_volts_mcp3421(MCP3421_ADDRESS)*1000 ;
-            float32 valor_ph = (-0.01672*mcp_value_mV) + 6.804; // curva do sensor de ph
-            valor_ph = (((7-valor_ph)*temp_C)/300) - ((7-valor_ph)/12) + valor_ph; // compensacao de temperatura
-            //valor_ph = fator_k*valor_ph + fator_b; // ajuste do valor_ph usando os fatores de calibração k e beta (calibração feita pelo usuário)
-            return valor_ph ;
+            return mcp_value_mV ;
 }
 
 void ANPH_R(void){
@@ -327,31 +326,6 @@ void ANPH_R(void){
         else out_buffer[0]= 2; // 2 sintax error
 }
 
-void ANPH_T(void){
-    
-    if( (CMD2[0]=='\0')&&(VALOR[0]!='\0') ) { // comando passado é da forma T,VALOR
-        
-        if(isStr_float(VALOR)) 
-             {
-              temp_solucao= atof(VALOR) ; sprintf(out_buffer,"OK") ; 
-             }
-        else out_buffer[0]= 2; // 2 sintax errorfloat invalido
-    }
-    else out_buffer[0]= 2; // 2 sintax error
-}
-
-void ANPH_RT(void) {
-    
-    if( (CMD2[0]=='\0')&&(VALOR[0]!='\0') ) {
-             if( isStr_float(VALOR) ) 
-             {
-              temp_solucao= atof(VALOR) ;
-              sprintf(out_buffer,"%.2f", get_ph_value(temp_solucao) ) ;
-             }
-             else out_buffer[0]= 2;  // ErroSintaxe: float invalido  
-    }
-    else out_buffer[0]= 2; // 2 sintax error ; O comando passado não é da forma RT,VALOR
-}
 
 void ANPH_FIND(void){
     
