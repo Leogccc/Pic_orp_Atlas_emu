@@ -46,7 +46,7 @@ WDT           //   Watch Dog Timer
 */ 
 
 #define BUF_SIZE 40 // tamanho dos Buffers do I2C1
-#define PIC_ADDRESS 0xA0 // endereco da I2C1 do pic (modo slave) (em 8 bits=> o valor verdadeiro do endereco vai ser PIC_ADDRESS>>1 (endereco em 7 bits)
+#define PIC_ADDRESS  0xC4 // endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4
 #define LED_PIN PIN_A1 // pino onde está conectado o LED pino 12 RA1
 #define LED_STATUS  PIN_A1
 #define TAM_MAX  25
