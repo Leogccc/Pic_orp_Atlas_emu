@@ -17,6 +17,18 @@
 
 // configuracoes de hardware do PIC (fuses)
  #fuses RSTOSC_HFINTRC, WRT, PROTECT, CPD, NOLVP, NOWDT  
+// Descrição fuses do PIC16F18326 que estão configurados 
+/* 
+RSTOSC_HFINTRC   // On Power-up clock running from HFINTRC
+PUT             // Power Up Timer
+LPBOR           // Low-Power Brownout reset is enabled
+WRT            //  Program Memory Write Protected
+PROTECT        //  Code protected from reads
+CPD             // Data EEPROM Code Protected
+NOLVP           // No low voltage programing, B3(PIC16) or B5(PIC18) used for I/O
+WDT           //   Watch Dog Timer
+*/ 
+
 
 /*
  Def para acesso dos registradores do PIC (ambiente CCS) ; Obs: Alterar alguns desses bits do registrador(diretamente) pode sobreescrever os FUSES se não tomar cuidado
@@ -56,17 +68,18 @@ bit 4 TSRNG: Temperature Indicator Range Selection bit(3)
 */
 #bit  TSRNG = FVRCON.4
 
-// Descrição fuses do PIC16F18326 que estão configurados 
-/* 
-RSTOSC_HFINTRC   // On Power-up clock running from HFINTRC
-PUT             // Power Up Timer
-LPBOR           // Low-Power Brownout reset is enabled
-WRT            //  Program Memory Write Protected
-PROTECT        //  Code protected from reads
-CPD             // Data EEPROM Code Protected
-NOLVP           // No low voltage programing, B3(PIC16) or B5(PIC18) used for I/O
-WDT           //   Watch Dog Timer
-*/ 
+/*
+bit 1-0 ADFVR<1:0>: ADC FVR Buffer Gain Selection bit
+11 = ADC FVR Buffer Gain is 4x, (4.096V)(2)
+10 = ADC FVR Buffer Gain is 2x, (2.048V)(2)
+01 = ADC FVR Buffer Gain is 1x, (1.024V)
+00 = ADC FVR Buffer is off
+*/
+
+#bit ADFVR_bit1= FVRCON.1
+#bit ADFVR_bit0= FVRCON.0
+
+
 #define VERSAO_FIRMWARE 1.0
 #define BUF_SIZE 40 // tamanho dos Buffers do I2C1
 #define PIC_ADDRESS  0xC4// endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4
@@ -119,6 +132,7 @@ char VALOR[LEN_MAX_VALOR+1]={} ;
 unsigned int1 lendo_str_master = FALSE ; // indica se o PIC está preenchendo in_buffer (I2C)
 unsigned int8  index_out_buffer;
 unsigned int8  index_in_buffer ;
+unsigned int1 FIND_exe= FALSE ;// status do comando FIND (se está executando é TRUE)
 
 typedef enum {cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status} comandos;
 char lista_comandos[15][LEN_MAX_CMD +1]= {"ERR","BAUD","CAL","EXPORT","FACTORY","FIND","I","I2C","IMPORT","L","PLOCK","R","SLEEP","SLOPE","STATUS"} ;
@@ -168,11 +182,12 @@ int1 isStr_float(char *str_teste) ;// verifica se uma string representa um float
 float32 get_orp_value(float32 temp_C) ;
 
 
-/*Retorna uma única Leitura*/
 void ANPH_R(void) ; // retorna uma única leitura do valor de ph (%.2f) 
 void ANPH_FIND(void); //Find: LED rapidly blinks white, used to help find device
 void ANPH_L(void); // LED CONTROL
 void ANPH_i(void); // retorna device information para o usuario
+void ANPH_STATUS(void) ; //  Status voltage at Vcc pin and reason for last restart
+
 /* */
 
 

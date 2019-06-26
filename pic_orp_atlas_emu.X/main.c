@@ -4,6 +4,7 @@
  *
  * Created on 17 de Junho de 2019, 16:35
  */
+#DEVICE PIC16F18326 ADC=10
 
 #include <16F18326.h>
 #include <stdlib.h>
@@ -51,9 +52,10 @@ if(state == 0x00 ) /*recebou o endereco do master( bit R/W =0 escrita), slave ir
       i2c_read(I2C_PIC_SLAVE); 
       lendo_str_master = TRUE ; // usado para controlar  a flag_monta_out_buffer que é setada dps de um delay do TMR0
       
-      out_buffer[0]=254;                    // Response code: still processing, not ready
+      out_buffer[0]= (FIND_exe==FALSE) ? 254: 0;                    // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
       index_in_buffer=0; 
-    }
+       
+}
    
 if(state == 0x80)  { i2c_read(I2C_PIC_SLAVE,2); index_out_buffer=0 ; }// recebeu o endereco do master (bit R/W =1 leitura), slave deve responder a requisicao de leitura do master; e reinicia o indice do buffer tbm         
 
@@ -139,28 +141,29 @@ void config_PIC(void)
     adc_init(MCP3421_ADDRESS);// envia a configuração inicial para o MCP3421
     
  
-  FVREN=1 ; // Fixed Voltage Reference is enabled  
-  TSEN=1 ; // Temperature Indicator is enabled
-/*
-TSRNG: Temperature Indicator Range Selection bit(3); 1 => VOUT = VDD - 4VT (High Range) ; 0 => VOUT = VDD - 2VT (Low Range)
- Para TEMPERATURE INDICATOR MODULE
- TSRNG = 1 => Min. VDD  3.6V
- TSRNG = 0 => Min. VDD, 1.8V
-/////////////////////////////////////////////////////////////////////////////
-*/
- TSRNG= 0 ;
+   FVREN=1 ; // Fixed Voltage Reference is enabled  
+// TSEN=1 ; // Temperature Indicator is enabled
+// TSRNG= 0 ; 
          
  /*Configuracao do ADC do PIC*/
+    // ADFVR<1:0> = ADC FVR Buffer Gain is 2x, (2.048V)( Tensão de referência do ADC)
+    ADFVR_bit1= 1 ;
+    ADFVR_bit0= 0 ;
+    
     setup_adc(ADC_CLOCK_INTERNAL) ; // clock do adc é Fosc=16MHz/4
-    set_adc_channel(TEMPERATURE_INDICATOR); // usa o canal interno para medir Vout          
+    setup_adc_ports(sAN2); // pino A2 definido como entrada analógica ; usa o canal conectado ao Vdd da placa    */ 
+    set_adc_channel(2) ; // definindo de qual canal o ADC fará a leitura ( pino A2 está no canal 2 do ADC)
+    setup_adc_reference(VSS_FVR); // Range 0-Fixed Voltage Reference(FVR) (0-2.048)
+    // set_adc_channel(TEMPERATURE_INDICATOR); // usa o canal interno para medir Vout 
+      //set_adc_channel(FVR_CHANNEL); // usa o canal interno para medir FVR    
    // setup_uart(TRUE,UART_PIC); // inicia a UART
         
     
-    
+    /* Configuracao e uso do DAC
  //setup_dac(DAC_VSS_VDD | DAC_OUTPUT);                // setup conversor digital para analógico (5 bits)
-  
    //dac_write(4);//(5/31)*4 V                                    // Write DAC value 0-31 (5 bits)/*           
-    
+    */
+            
     /*Cálculo de parametros associados a interrupcao de TMR0(por overflow)
     FCLK- frequência do clock que o pic utiliza ; Neste caso FCLK= internal=16MHZ
     Fout? The output frequency after the division. 
@@ -285,6 +288,9 @@ void monta_out_buffer( int8 num_comando) {
        case cmd_L:
                   ANPH_L(); // LED CONTROL
            break;
+       case cmd_Status:
+                 ANPH_STATUS(); //
+           break;
        case cmd_err: 
                     out_buffer[0]= 2; // 2 sintax error "Comando invalido
            break;
@@ -340,7 +346,7 @@ void ANPH_R(void){
 void ANPH_FIND(void){
     
     if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma FIND
-        
+        FIND_exe= TRUE ;
         //Response: DEC NULL
         //           1  0
         out_buffer[0]=1; // response code
@@ -357,6 +363,8 @@ void ANPH_FIND(void){
         }
     
     else out_buffer[0]= 2; // 2 sintax error  
+    
+    FIND_exe= FALSE ;
 }
 
 void ANPH_L(void){
@@ -407,7 +415,28 @@ void ANPH_i(void){
 }
 
 
+void ANPH_STATUS(void){
+    
+//Status voltage at Vcc pin and reason for last restart
+      /*Response:   DEC         ASCII                       NULL
+        //           1 ?Status,Reason_for_restart, Vcc       0
+        // Reason_for_restart (Restart codes)    
+            P powered off
+            S software reset
+            B brown out
+            W watchdog
+            U unknown
+         */
+    
+if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma STATUS
+       
+        float32 Vdd= ((10000+4700)/4700.0)*(2.048*( read_adc()/1023.0) ); // adc de 10 bits com 2.048 de referência (usando um divisor de tensao de 4K7/10K +4K7)
+        out_buffer[0]=1; // response code
+        sprintf(out_buffer+1,"?Status,%c,%.2f",'U',Vdd) ;
+        }
+    else out_buffer[0]= 2; // 2 sintax error  
 
+}
 
 // Funções de comunicação com o MCP3421
 #ifndef debug 

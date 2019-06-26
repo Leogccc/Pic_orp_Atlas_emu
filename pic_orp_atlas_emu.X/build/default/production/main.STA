@@ -1,19 +1,19 @@
 
-ROM used:   2365/16384 (14%)
-            2404/16384 (15%) including unused fragments
+ROM used:   2848/16384 (17%)
+            3143/16384 (19%) including unused fragments
 
             0.4 Average locations per line
-            2.8 Average locations per statement
+            3.3 Average locations per statement
 
 RAM used:   277/2048 (14%) at main() level
-            328/2048 (16%) worst case
+            330/2048 (16%) worst case
 
 Stack used: 0 worst case (0 in main + 0 for interrupts)
 Stack size: 16
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  564   234  27  main.c
+  589   244  28  main.c
  1385     0   0  ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h
  1352   359  42  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h
    32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h
@@ -21,63 +21,67 @@ Lines Stmts  %   Files
    28     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h
    37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h
  2227   258  30  ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h
-  312     0   0  pic_orp_atlas_emu.h
+  322     0   0  pic_orp_atlas_emu.h
 ----- -----
- 6372   851 Total
+ 6407   861 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
-0     65   3    5    243  7.0  strcmp
+0     65   2    5    243  7.0  strcmp
  Inline         5    140  5.0  strlen
-0    119   5   17             @MULFF
+0    119   4   17             @MULFF
+ Inline         2             @ITOF
+ Inline        16             @DIVFF
 0     22   1    1             @delay_ms1
  Inline         1             @I2C_WRITE_1
 0     21   1    1             @I2C_WRITEU_2
 0     16   1    1             @I2C_READU_2
-0     93   4    3    592  6.2  SSP_isr_slave
-1    357  15    7   1005  6.1  MAIN
-0     98   4    4    501  4.8  config_PIC
-0    378  16   12   2402 12.1  parsing_in_buffer
+0     97   3    3    646  7.2  SSP_isr_slave
+0    351  12    7   1005  6.1  MAIN
+0    108   4    4    528  4.8  config_PIC
+0    378  13   12   2402 12.1  parsing_in_buffer
 0     49   2    6    182  5.7  identifica_comando
-0    701  30    1    293  4.0  monta_out_buffer
-0     16   1    0             @goto30272
+1   1077  38    1    339  4.1  monta_out_buffer
+1     19   1    0             @goto3308
  Inline         5    239  4.8  ANPH_R
-0     13   1    1             @SPRINTF
+0     13   0    1             @SPRINTF
  Inline         5             @FTOSD
 0     79   3   17             @DIV3232
-0    245  10   16             @PRINTF_L32D_1296FPFPF
- Inline         1    401  5.6  ANPH_FIND
+0    245   9   16             @PRINTF_L32D_1300FPFPF
+ Inline         1    455  5.7  ANPH_FIND
  Inline         1    643  7.9  ANPH_L
 0     23   1    3             @DIV88
- Inline         8             @PRINTF_D_1296
+ Inline         8             @PRINTF_D_1300
  Inline         0     82  2.4  ANPH_i
-0      6   0    0             @const1313
- Inline         5             @PSTRINGCN7_1296
+0      6   0    0             @const1317
+0     88   3    6             @PSTRINGCN7_1300
+ Inline         7    408  5.8  ANPH_STATUS
+0      8   0    0             @const1321
  Inline         2    191  3.6  adc_init
  Inline         7   1700  7.6  read_adc_mcp3421
- Inline        16    282  3.3  read_adc_volts_mcp3421
+ Inline        13    282  3.3  read_adc_volts_mcp3421
  Inline         5             @SDTOF
  Inline         0             @cinit1
 
 Program metrics:
-    Functions               15
-    Statements              851
-    Comments                1297
-    Volume (V)              13930
-    Difficulty (D)          86.4
-    Effort to implement (E) 1203650
-    Time to implement (T)   18 hours, 34 minutes
+    Functions               16
+    Statements              861
+    Comments                1321
+    Volume (V)              15064
+    Difficulty (D)          92.9
+    Effort to implement (E) 1399565
+    Time to implement (T)   21 hours, 36 minutes
     Est Delivered Bugs (B)  4
-    Cyclomatic Complexity   58
-    Maintainability (MI)    117
+    Cyclomatic Complexity   60
+    Maintainability (MI)    120
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00002     3  0  
 00003-00003     0  1  
 00004-00040    61  0  
-00041-007FF  1944  39  
-00800-00FFF   357  1691  
+00041-007FF  1688  295  
+00800-00FFF  1096  952  
 01000-017FF     0  2048  
 01800-01FFF     0  2048  
 02000-027FF     0  2048  
