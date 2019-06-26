@@ -19,19 +19,42 @@
  #fuses RSTOSC_HFINTRC, WRT, PROTECT, CPD, NOLVP, NOWDT  
 
 /*
- Def para acesso dos registradores (ambiente CCS) relacionado aos I/O do PORTA
+ Def para acesso dos registradores do PIC (ambiente CCS) ; Obs: Alterar alguns desses bits do registrador(diretamente) pode sobreescrever os FUSES se não tomar cuidado
  */
-#byte TRISA= getenv("SFR:TRISA") 
+#byte TRISA= getenv("SFR:TRISA") // registrador que define se os pinos do PORTA são Digital input ou  Digital output
 #bit TRISA1= TRISA.1 
 
-#byte PORTA= getenv("SFR:PORTA") 
+#byte PORTA= getenv("SFR:PORTA") // registrador para leitura do estado atual dos pinos do PORTA (pode ser usado para escrita, igual ao LATA)
 #bit  PORTA1= PORTA.1 
 
-#byte LATA=getenv("SFR:LATA") 
+#byte LATA=getenv("SFR:LATA") // registrador que altera as saídas nos pinos digitais do PORTA(caso seja input muda a semântica desse registrador)
 #bit  LATA1= LATA.1 
 
+#byte FVRCON =getenv("SFR:FVRCON") // FIXED VOLTAGE REFERENCE CONTROL REGISTER
 
-
+/* bit 7 FVREN: Fixed Voltage Reference Enable bit bit 7 FVREN: Fixed Voltage Reference Enable bit
+1 = Fixed Voltage Reference is enabled
+0 = Fixed Voltage Reference is disabled
+*/
+#bit  FVREN = FVRCON.7 
+   
+/*
+bit 5 TSEN: Temperature Indicator Enable bit(3)
+1 = Temperature Indicator is enabled
+0 = Temperature Indicator is disabled
+*/
+#bit  TSEN = FVRCON.5
+/*
+bit 4 TSRNG: Temperature Indicator Range Selection bit(3)
+1 => VOUT = VDD - 4VT (High Range)
+0 => VOUT = VDD - 2VT (Low Range)
+ * 
+ Para TEMPERATURE INDICATOR MODULE
+ TSRNG = 1 => Min. VDD  3.6V
+ TSRNG = 0 => Min. VDD, 1.8V
+/////////////////////////////////////////////////////////////////////////////
+*/
+#bit  TSRNG = FVRCON.4
 
 // Descrição fuses do PIC16F18326 que estão configurados 
 /* 

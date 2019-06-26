@@ -137,10 +137,27 @@ void config_PIC(void)
     
     i2c_init( MCP3421_STREAM,1); // inicia I2C2 (MCP3421) 
     adc_init(MCP3421_ADDRESS);// envia a configuração inicial para o MCP3421
-     
+    
+ 
+  FVREN=1 ; // Fixed Voltage Reference is enabled  
+  TSEN=1 ; // Temperature Indicator is enabled
+/*
+TSRNG: Temperature Indicator Range Selection bit(3); 1 => VOUT = VDD - 4VT (High Range) ; 0 => VOUT = VDD - 2VT (Low Range)
+ Para TEMPERATURE INDICATOR MODULE
+ TSRNG = 1 => Min. VDD  3.6V
+ TSRNG = 0 => Min. VDD, 1.8V
+/////////////////////////////////////////////////////////////////////////////
+*/
+ TSRNG= 0 ;
+         
+ /*Configuracao do ADC do PIC*/
+    setup_adc(ADC_CLOCK_INTERNAL) ; // clock do adc é Fosc=16MHz/4
+    set_adc_channel(TEMPERATURE_INDICATOR); // usa o canal interno para medir Vout          
    // setup_uart(TRUE,UART_PIC); // inicia a UART
-              
-   //setup_dac(DAC_VSS_VDD | DAC_OUTPUT);                // setup conversor digital para analógico (5 bits)
+        
+    
+    
+ //setup_dac(DAC_VSS_VDD | DAC_OUTPUT);                // setup conversor digital para analógico (5 bits)
   
    //dac_write(4);//(5/31)*4 V                                    // Write DAC value 0-31 (5 bits)/*           
     
@@ -166,12 +183,10 @@ void config_PIC(void)
      */
     setup_timer_0(T0_INTERNAL|T0_DIV_2048| T0_16_BIT); //TMR0 incrementa a cada 512us
     
-    
 TRISA1=0; // configura o pino do led como saída
 LATA1=0; // led A1 comeca desligado
 
-   
-    RESET_in_buffer ;
+ RESET_in_buffer ;
 }
 
 
