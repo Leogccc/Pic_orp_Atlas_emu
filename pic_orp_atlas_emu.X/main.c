@@ -329,7 +329,7 @@ int1 isStr_float(char *str_teste)  {
  return TRUE;      
 }
 
-float32 get_orp_value(float32 temp_C) {
+float32 get_orp_value_mV(void) {
           
             float32 mcp_value_mV = read_adc_volts_mcp3421(MCP3421_ADDRESS)*1000 ;
             return mcp_value_mV ;
@@ -340,7 +340,7 @@ void ANPH_R(void){
 // resposta: 1(DEC) %.2f(ASCII) 0(DEC)
         if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma R
         out_buffer[0]=1;
-        sprintf(out_buffer+1,"%.2f",read_adc_volts_mcp3421(MCP3421_ADDRESS)*1000) ;
+        sprintf(out_buffer+1,"%.2f",get_orp_value_mV() ) ;
         }
         else out_buffer[0]= 2; // 2 sintax error
 }

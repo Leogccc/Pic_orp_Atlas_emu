@@ -179,7 +179,7 @@ Temperature is always in Celsius
 Temperature is not retained if power is cut
  */
 int1 isStr_float(char *str_teste) ;// verifica se uma string representa um float válido
-float32 get_orp_value(float32 temp_C) ;
+float32 get_orp_value_mV(void) ;
 
 
 void ANPH_R(void) ; // retorna uma única leitura do valor de ph (%.2f) 
