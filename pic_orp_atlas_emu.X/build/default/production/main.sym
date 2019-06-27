@@ -252,41 +252,41 @@ FFF     @INTERRUPT_AREA
 
 ROM Allocation:
 000041  SSP_isr_slave
-000075  @I2C_WRITE_1
-0000A2  @const1317.call
-0000A8  @const1321.call
-0000B0  @I2C_WRITEU_2
-0000C5  config_PIC
-0000E4  adc_init
-000131  parsing_in_buffer
-0002AB  strcmp
-0002EC  identifica_comando
-00031D  @SPRINTF
-00032A  @PSTRINGCN7_1300
-000382  @MULFF
-0003F9  @DIV3232
-000448  @PRINTF_L32D_1300FPFPF
-000472  @FTOSD
-00053D  @I2C_READU_2
-00054D  @delay_ms1
-000563  @DIV88
-00057A  MAIN
-00057A  @cinit1
-0005AD  @cinit2
+000077  @I2C_WRITE_1
+0000A4  @const1317.call
+0000AA  @const1321.call
+0000B2  @I2C_WRITEU_2
+0000C7  config_PIC
+0000E6  adc_init
+000133  parsing_in_buffer
+0002AD  strcmp
+0002EE  identifica_comando
+00031F  @SPRINTF
+00032C  @PSTRINGCN7_1300
+000384  @MULFF
+0003FB  @DIV3232
+00044A  @PRINTF_L32D_1300FPFPF
+000474  @FTOSD
+00053F  @I2C_READU_2
+00054F  @delay_ms1
+000565  @DIV88
+00057C  MAIN
+00057C  @cinit1
+0005AF  @cinit2
 000800  monta_out_buffer
 00080C  ANPH_i
 000830  ANPH_R
-00084D  read_adc_volts_mcp3421
-00084F  read_adc_mcp3421
-0008EF  @SDTOF
-000985  ANPH_FIND
-0009C3  ANPH_L
-0009CF  strlen
-000A27  @PRINTF_D_1300
-000AA4  ANPH_STATUS
-000ACD  @ITOF
-000AF8  @DIVFF
-000C35  @goto3308
+000850  read_adc_volts_mcp3421
+000852  read_adc_mcp3421
+0008F2  @SDTOF
+000988  ANPH_FIND
+0009C6  ANPH_L
+0009D2  strlen
+000A2A  @PRINTF_D_1300
+000AA7  ANPH_STATUS
+000AD0  @ITOF
+000AFB  @DIVFF
+000C38  @goto8010
 0136  StrtoulGO
 0136  StrtolGO
 
@@ -294,7 +294,7 @@ Project Directory:
     C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\
 
 Project Files:
-    main.c                                                  [26-jun-19 18:02  CRC=C5A33306]
+    main.c                                                  [27-jun-19 17:22  CRC=538645BA]
     ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h [20-jul-18 14:24  CRC=7C37FC38]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h [29-jun-16 10:34  CRC=7E9CC16B]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h [05-set-14 12:47  CRC=897CEC6C]
@@ -304,10 +304,10 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h  [22-set-16 09:36  CRC=9CF8C837]
     pic_orp_atlas_emu.h                                     [26-jun-19 17:48  CRC=6153AED5]
 
-Source signature=E97A7C20
+Source signature=775D8ED4
 Program memory checksum=0000
 Program memory CRC=0000
-Hex file CRC=C922
+Hex file CRC=5A6A
 
 Units:
     main (main)

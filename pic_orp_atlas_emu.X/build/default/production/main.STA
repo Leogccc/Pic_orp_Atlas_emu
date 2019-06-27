@@ -1,6 +1,6 @@
 
-ROM used:   2848/16384 (17%)
-            3143/16384 (19%) including unused fragments
+ROM used:   2849/16384 (17%)
+            3146/16384 (19%) including unused fragments
 
             0.4 Average locations per line
             3.3 Average locations per statement
@@ -13,7 +13,7 @@ Stack size: 16
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  589   244  28  main.c
+  596   247  29  main.c
  1385     0   0  ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h
  1352   359  42  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h
    32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h
@@ -23,7 +23,7 @@ Lines Stmts  %   Files
  2227   258  30  ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h
   322     0   0  pic_orp_atlas_emu.h
 ----- -----
- 6407   861 Total
+ 6414   864 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -36,14 +36,14 @@ Page ROM  %  RAM    Vol Diff  Functions:
  Inline         1             @I2C_WRITE_1
 0     21   1    1             @I2C_WRITEU_2
 0     16   1    1             @I2C_READU_2
-0     97   3    3    646  7.2  SSP_isr_slave
-0    351  12    7   1005  6.1  MAIN
+0     99   3    3    687  6.2  SSP_isr_slave
+0    347  12    7    943  5.6  MAIN
 0    108   4    4    528  4.8  config_PIC
 0    378  13   12   2402 12.1  parsing_in_buffer
 0     49   2    6    182  5.7  identifica_comando
-1   1077  38    1    339  4.1  monta_out_buffer
-1     19   1    0             @goto3308
- Inline         5    239  4.8  ANPH_R
+1   1080  38    1    339  4.1  monta_out_buffer
+1     19   1    0             @goto8010
+ Inline         5    291  5.3  ANPH_R
 0     13   0    1             @SPRINTF
  Inline         5             @FTOSD
 0     79   3   17             @DIV3232
@@ -65,12 +65,12 @@ Page ROM  %  RAM    Vol Diff  Functions:
 
 Program metrics:
     Functions               16
-    Statements              861
-    Comments                1321
-    Volume (V)              15064
-    Difficulty (D)          92.9
-    Effort to implement (E) 1399565
-    Time to implement (T)   21 hours, 36 minutes
+    Statements              864
+    Comments                1320
+    Volume (V)              15135
+    Difficulty (D)          92.0
+    Effort to implement (E) 1392154
+    Time to implement (T)   21 hours, 29 minutes
     Est Delivered Bugs (B)  4
     Cyclomatic Complexity   60
     Maintainability (MI)    120
@@ -80,8 +80,8 @@ Program metrics:
 00000-00002     3  0  
 00003-00003     0  1  
 00004-00040    61  0  
-00041-007FF  1688  295  
-00800-00FFF  1096  952  
+00041-007FF  1686  297  
+00800-00FFF  1099  949  
 01000-017FF     0  2048  
 01800-01FFF     0  2048  
 02000-027FF     0  2048  

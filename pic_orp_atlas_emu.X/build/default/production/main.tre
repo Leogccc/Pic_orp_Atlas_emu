@@ -1,5 +1,5 @@
 ÀÄpic_orp_atlas_emu
-   ÃÄMAIN  0/351  Ram=7
+   ÃÄMAIN  0/347  Ram=7
    ³  ÃÄ@cinit1  (Inline)  Ram=0
    ³  ÃÄconfig_PIC  0/108  Ram=4
    ³  ³  ÀÄadc_init  (Inline)  Ram=2
@@ -8,8 +8,8 @@
    ³  ÃÄparsing_in_buffer  0/378  Ram=12
    ³  ÃÄidentifica_comando  0/49  Ram=6
    ³  ³  ÀÄstrcmp  0/65  Ram=5
-   ³  ÀÄmonta_out_buffer  1/1077  Ram=1
-   ³     ÃÄ@goto3308  1/19  Ram=0
+   ³  ÀÄmonta_out_buffer  1/1080  Ram=1
+   ³     ÃÄ@goto8010  1/19  Ram=0
    ³     ÃÄANPH_i  (Inline)  Ram=0
    ³     ³  ÃÄ@PSTRINGCN7_1300  0/88  Ram=6
    ³     ³  ³  ÃÄ@SPRINTF  0/13  Ram=1
@@ -72,5 +72,5 @@
    ³        ÃÄ@SPRINTF  0/13  Ram=1
    ³        ÀÄ@PRINTF_L32D_1300FPFPF  0/245  Ram=16
    ³           ÀÄ*
-   ÀÄSSP_isr_slave  0/97  Ram=3
+   ÀÄSSP_isr_slave  0/99  Ram=3
       ÀÄ@I2C_WRITE_1  (Inline)  Ram=1

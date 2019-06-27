@@ -50,9 +50,11 @@ void SSP_isr_slave(void) // ISR associado a interrupcao INT_SSP
 if(state == 0x00 ) /*recebou o endereco do master( bit R/W =0 escrita), slave ira armazenar os dados vindos pelo master*/
     { 
       i2c_read(I2C_PIC_SLAVE); 
-      lendo_str_master = TRUE ; // usado para controlar  a flag_monta_out_buffer que é setada dps de um delay do TMR0
       
-      out_buffer[0]= (FIND_exe==FALSE) ? 254: 0;                    // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
+      
+      if(FIND_exe==FALSE) {lendo_str_master = TRUE ;  out_buffer[0]= 254 ; }                  // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
+      else {out_buffer[0]= 0; } // isso evita que o caracter de saida do FIND seja analisado
+      
       index_in_buffer=0; 
        
 }
@@ -77,8 +79,8 @@ else{
      if(index_in_buffer<=BUF_SIZE) {
     in_buffer[index_in_buffer] = i2c_read(I2C_PIC_SLAVE) ;// o slave lê só até o byte BUF_SIZE-1 ou até receber um caracter nulo; O slave envia  um nack para o mestre na leitura desse byte(ultimo byte) informando para o mestre gerar um stop no protocolo(parar de enviar dados)) 
     index_in_buffer++ ;
-         }  
-     }
+      }  
+    }
   }
 } // fim isr_slave
 
@@ -92,8 +94,7 @@ void main()
     
     while(TRUE)
     { 
-     if(in_buffer[0]!='\0'){ // analisa in_buffer apenas se ele for não nulo
-         
+           
       // delay de leitura do in_buffer I2C
       if(lendo_str_master) { 
           set_timer0(0);// timer0 comeca a contar do 0 (incrementando a cada 512us; para um delay de 30ms=512us*N_incrementos => N_incrementos=58.59375~ 59)  
@@ -123,8 +124,7 @@ void main()
            RESET_in_buffer ; // limpa o in_buffer (deixa limpo  para um proximo comando)
     
       } // fim if flag_monta_out_buffer  
-      
-     } //fim de monitora se in_buffer não nulo
+     
     } // fim loop   
 } // fim main
 
@@ -277,7 +277,7 @@ void monta_out_buffer( int8 num_comando) {
              
            break;
        case cmd_i:
-                ANPH_i();
+                 ANPH_i();
            break;   
        case cmd_R:
                   ANPH_R();// retorna uma única leitura do valor de ph (%.2f) 
@@ -292,7 +292,7 @@ void monta_out_buffer( int8 num_comando) {
                  ANPH_STATUS(); //
            break;
        case cmd_err: 
-                    out_buffer[0]= 2; // 2 sintax error "Comando invalido
+                    out_buffer[0]= 2; // 2 sintax error "Comando invalido"
            break;
    }       
        
@@ -336,8 +336,11 @@ float32 get_orp_value(float32 temp_C) {
 }
 
 void ANPH_R(void){
+    
+// resposta: 1(DEC) %.2f(ASCII) 0(DEC)
         if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma R
-        sprintf(out_buffer,"%.2f",read_adc_volts_mcp3421(MCP3421_ADDRESS)*1000 /*get_ph_value(temp_solucao)*/) ;
+        out_buffer[0]=1;
+        sprintf(out_buffer+1,"%.2f",read_adc_volts_mcp3421(MCP3421_ADDRESS)*1000) ;
         }
         else out_buffer[0]= 2; // 2 sintax error
 }
@@ -433,10 +436,12 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
         float32 Vdd= ((10000+4700)/4700.0)*(2.048*( read_adc()/1023.0) ); // adc de 10 bits com 2.048 de referência (usando um divisor de tensao de 4K7/10K +4K7)
         out_buffer[0]=1; // response code
         sprintf(out_buffer+1,"?Status,%c,%.2f",'U',Vdd) ;
-        }
+      
+}
     else out_buffer[0]= 2; // 2 sintax error  
 
 }
+
 
 // Funções de comunicação com o MCP3421
 #ifndef debug 
