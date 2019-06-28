@@ -187,7 +187,7 @@ void ANPH_FIND(void); //Find: LED rapidly blinks white, used to help find device
 void ANPH_L(void); // LED CONTROL
 void ANPH_i(void); // retorna device information para o usuario
 void ANPH_STATUS(void) ; //  Status voltage at Vcc pin and reason for last restart
-
+void ANPH_SLEEP(void) ; // Placa entre em modo Sleep
 /* */
 
 

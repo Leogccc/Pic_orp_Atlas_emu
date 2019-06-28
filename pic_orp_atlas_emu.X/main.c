@@ -4,8 +4,23 @@
  *
  * Created on 17 de Junho de 2019, 16:35
  */
-#DEVICE PIC16F18326 ADC=10
 
+/*
+ PIC Operating Voltage Range:
+- 2.3V to 5.5V (PIC16F18326/18346)
+
+ Inicialização:  Mantém no reset até Vdd>2.3(POR) ; Se Vdd<2.3=> Desliga PIC 
+ Durante a operação(Vdd>2.3V): caso ocorra a condicao de BOR (Vdd<VBORth) o pic Reseta até que Vdd>VBORth seja verdadeiro (tem um delay para estabilizacao de Vdd)
+ Modo sleep ( diminui o consumo de energia através da diminuição do consumo de corrente ( CPU e Memória ficam "paradas" 
+ * ; Periféricos continuam operando) )
+ 
+ */
+
+
+
+#DEVICE PIC16F18326 ADC=10 //10 is the number of bits read_adc() should return 
+#DEVICE PIC16F18326 CONST=ROM // Uses the CCS compiler traditional keyword CONST definition, making CONST variables located in program memory
+      
 #include <16F18326.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -291,6 +306,9 @@ void monta_out_buffer( int8 num_comando) {
        case cmd_Status:
                  ANPH_STATUS(); //
            break;
+       case cmd_Sleep:
+                      ANPH_SLEEP();
+           break;
        case cmd_err: 
                     out_buffer[0]= 2; // 2 sintax error "Comando invalido"
            break;
@@ -441,6 +459,22 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
     else out_buffer[0]= 2; // 2 sintax error  
 
 }
+
+
+ void ANPH_SLEEP(void){
+ // Sleep mode/low power : Send any character or command to awaken device 
+ // Command syntax: Sleep; Resposta : no response (Do not read status byte after issuing sleep command.)
+ // Consumo: 5V- standby(x mA) sleep (x mA) ; 
+ // Consumo: 3.3V- standby(x mA) sleep (x mA) ; 
+ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) sleep();  // comando passado é da forma Sleep
+ 
+
+ else   out_buffer[0]= 2; // 2 sintax error 
+ 
+ }
+
+
+
 
 
 // Funções de comunicação com o MCP3421
