@@ -133,6 +133,7 @@ unsigned int1 lendo_str_master = FALSE ; // indica se o PIC está preenchendo in_
 unsigned int8  index_out_buffer;
 unsigned int8  index_in_buffer ;
 unsigned int1 FIND_exe= FALSE ;// status do comando FIND (se está executando é TRUE)
+unsigned int1  SLEEP_exe= FALSE ; // // status do comando SLEEP
 
 typedef enum {cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status} comandos;
 char lista_comandos[15][LEN_MAX_CMD +1]= {"ERR","BAUD","CAL","EXPORT","FACTORY","FIND","I","I2C","IMPORT","L","PLOCK","R","SLEEP","SLOPE","STATUS"} ;

@@ -1,5 +1,5 @@
 
-ROM used:   3044/16384 (19%)
+ROM used:   3056/16384 (19%)
             4208/16384 (26%) including unused fragments
 
             0.5 Average locations per line
@@ -13,17 +13,17 @@ Stack size: 16
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  628   252  29  main.c
+  636   259  30  main.c
  1385     0   0  ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h
  1352   359  41  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h
    32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h
   435     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\string.h
    28     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h
    37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h
- 2227   258  30  ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h
-  322     0   0  pic_orp_atlas_emu.h
+ 2227   258  29  ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h
+  323     0   0  pic_orp_atlas_emu.h
 ----- -----
- 6446   869 Total
+ 6455   876 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -37,29 +37,29 @@ Page ROM  %  RAM    Vol Diff  Functions:
  Inline         1             @I2C_WRITE_1
 0     21   1    1             @I2C_WRITEU_2
 0     16   1    1             @I2C_READU_2
-0     99   3    3    687  6.2  SSP_isr_slave
-0    347  11    7    943  5.6  MAIN
+0    109   4    3    876  6.8  SSP_isr_slave
+0    348  11    7    943  5.6  MAIN
 0    108   4    4    528  4.8  config_PIC
 0    409  13   13   2402 12.1  parsing_in_buffer
 0     49   2    6    182  5.7  identifica_comando
-1   1131  37    1    385  4.1  monta_out_buffer
-1     19   1    0             @goto31767
+1   1132  37    1    385  4.1  monta_out_buffer
+1     19   1    0             @goto677
  Inline         9     59  2.3  get_orp_value_mV
  Inline         5    269  4.8  ANPH_R
 0     13   0    1             @SPRINTF
  Inline         5             @FTOSD
 0     79   3   17             @DIV3232
-0    245   8   16             @PRINTF_L32D_1285FPFPF
+0    245   8   16             @PRINTF_L32D_1286FPFPF
  Inline         1    455  5.7  ANPH_FIND
  Inline         1    643  7.9  ANPH_L
 0     23   1    3             @DIV88
- Inline         8             @PRINTF_D_1285
+ Inline         8             @PRINTF_D_1286
  Inline         0     82  2.4  ANPH_i
-0      6   0    0             @const1302
-0     88   3    6             @PSTRINGCN7_1285
+0      6   0    0             @const1303
+0     88   3    6             @PSTRINGCN7_1286
  Inline         7    408  5.8  ANPH_STATUS
-0      8   0    0             @const1306
- Inline         1    176  4.4  ANPH_SLEEP
+0      8   0    0             @const1307
+ Inline         1    204  4.5  ANPH_SLEEP
  Inline         2    191  3.6  adc_init
  Inline         7   1700  7.6  read_adc_mcp3421
  Inline        15    282  3.3  read_adc_volts_mcp3421
@@ -68,14 +68,14 @@ Page ROM  %  RAM    Vol Diff  Functions:
 
 Program metrics:
     Functions               18
-    Statements              869
-    Comments                1416
-    Volume (V)              15800
-    Difficulty (D)          98.6
-    Effort to implement (E) 1557602
-    Time to implement (T)   24 hours, 2 minutes
-    Est Delivered Bugs (B)  4
-    Cyclomatic Complexity   62
+    Statements              876
+    Comments                1420
+    Volume (V)              16138
+    Difficulty (D)          99.2
+    Effort to implement (E) 1600120
+    Time to implement (T)   24 hours, 42 minutes
+    Est Delivered Bugs (B)  5
+    Cyclomatic Complexity   65
     Maintainability (MI)    118
 
  Segment     Used  Free
@@ -83,8 +83,8 @@ Program metrics:
 00000-00002     3  0  
 00003-00003     0  1  
 00004-00040    61  0  
-00041-007FF  1717  266  
-00800-00FFF  1150  898  
+00041-007FF  1728  255  
+00800-00FFF  1151  897  
 01000-017FF     0  2048  
 01800-01FFF     0  2048  
 02000-027FF     0  2048  
