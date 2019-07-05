@@ -58,7 +58,8 @@ void  RDA_isr(void)
 #INT_SSP // interrupcao I2C1 ( dispara a cada dado recebido ou dado enviado por SSP, chamando SSP_isr_slave )
 void SSP_isr_slave(void) // ISR associado a interrupcao INT_SSP 
 {
-   
+
+    
    unsigned int8 state;
    state = i2c_isr_state(I2C_PIC_SLAVE);
        
@@ -68,11 +69,9 @@ if(state == 0x00 ) /*recebou o endereco do master( bit R/W =0 escrita), slave ir
       index_in_buffer=0; 
       
 
-      if( (FIND_exe==FALSE)&&(SLEEP_exe==FALSE) ) {lendo_str_master = TRUE ;  out_buffer[0]= 254 ; }                  // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
-      else {  
-       if (FIND_exe==TRUE)  out_buffer[0]= 0; // limpa a resposta anterior do FIND 
-      
-      } // isso evita que o caracter de saida (lixo) do FIND ou Sleep (ou algum outro) seja analisado
+      if( FIND_exe==FALSE ) {lendo_str_master = TRUE ;  out_buffer[0]= 254 ; }                  // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
+      else out_buffer[0]= 0; // limpa a resposta anterior do FIND 
+       // isso evita que o caracter de saida (lixo) do FIND ou Sleep (ou algum outro) seja analisado
            
 }
    
@@ -83,9 +82,9 @@ if(state >= 0x80) {
     if(index_out_buffer<=BUF_SIZE) {
         
     // slave respondendo a requisicao do master
-   if(SLEEP_exe==FALSE) { i2c_write(I2C_PIC_SLAVE, out_buffer[index_out_buffer] );
-    index_out_buffer++ ; 
-                }
+     i2c_write(I2C_PIC_SLAVE, out_buffer[index_out_buffer] );
+     index_out_buffer++ ; 
+                
     }
 }
 
@@ -104,6 +103,8 @@ else {
                   }
     }
 } // fim isr_slave
+
+
 
 void main()
 {   
@@ -313,9 +314,7 @@ void monta_out_buffer( int8 num_comando) {
                  ANPH_STATUS(); //
            break;
        case cmd_Sleep:   
-                         SLEEP_exe= TRUE ;
-                         out_buffer[0]=0 ;
-                         sprintf(out_buffer+1,"%s%s%s",CMD,CMD2,VALOR) ;   // ANPH_SLEEP();
+                      ANPH_SLEEP();
            break;
        case cmd_err: 
                     out_buffer[0]= 2; // 2 sintax error "Comando invalido"
@@ -476,14 +475,15 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
  // Consumo: 3.3V- standby(x mA) sleep (x mA) ; 
  if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0') ) {
     SLEEP_exe= TRUE ; // indica a execucao do modo Sleep; Usado para a interrupcao I2C não interpretar como comando quando o usuario fazer: (Send any character or command to awaken device )
-    
+    LATA1=0; // desliga o led
     sleep();  // comando passado é da forma Sleep
+    SLEEP_exe= FALSE;
  }
        
 
  else   out_buffer[0]= 2; // 2 sintax error 
  
-  SLEEP_exe=FALSE ; 
+  
  }
 
 

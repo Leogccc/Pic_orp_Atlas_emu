@@ -1,7 +1,7 @@
-004-005 @WRITE_PROGRAM_MEMORY8.P1
-004-005 @WRITE_PACKED_MEMORY.P2
-004-005 @READ_PROGRAM_MEMORY8.P3
-004-005 @READ_PACKED_MEMORY.P4
+004-005 @READ_PROGRAM_MEMORY8.P1
+004-005 @WRITE_PROGRAM_MEMORY8.P2
+004-005 @READ_PACKED_MEMORY.P3
+004-005 @WRITE_PACKED_MEMORY.P4
 006-007 @WRITE_PACKED_MEMORY.P1
 006-007 @READ_PACKED_MEMORY.P2
 00C     PORTA
@@ -41,8 +41,8 @@
 10C.1   LATA1
 111.6   C1OUT
 113.6   C2OUT
-117.0   ADFVR_bit0
 117     FVRCON
+117.0   ADFVR_bit0
 117.1   ADFVR_bit1
 117.4   TSRNG
 117.5   TSEN
@@ -56,31 +56,30 @@
 1B7     MAIN.cmd_identificado
 1B8     MAIN.i
 1B9-1BC atan2.x
-1BA-1BB identifica_comando.comando
-1BA-1BB parsing_in_buffer.rcv_buffer
-1BA     monta_out_buffer.num_comando
 1BA     config_PIC.i
+1BA-1BB identifica_comando.comando
+1BA     monta_out_buffer.num_comando
+1BA-1BB parsing_in_buffer.rcv_buffer
 1BA     MAIN.@SCRATCH1
-1BB-1BC strlen.s
-1BB-1BE ANPH_STATUS.Vdd
 1BB     @delay_ms1.P1
+1BB-1BE get_orp_value_mV.mcp_value_mV
+1BB-1BE ANPH_STATUS.Vdd
+1BB-1BC strlen.s
 1BB     MAIN.@SCRATCH2
 1BB     ANPH_FIND.@SCRATCH1
 1BB     ANPH_L.@SCRATCH1
+1BB     ANPH_SLEEP.@SCRATCH1
+1BC     @PRINTF_D_1286.P1
 1BC     identifica_comando.CMD
-1BC     parsing_in_buffer.num_separadores
-1BC     @PRINTF_D_1278.P1
 1BC     adc_init.address
-1BC-1BF get_orp_value_mV.mcp_value_mV
+1BC     parsing_in_buffer.num_separadores
 1BC     config_PIC.@SCRATCH1
-1BC     @PSTRINGR_1278.@SCRATCH1
 1BC     ANPH_R.@SCRATCH1
-1BD     @PRINTF_D_1278.P1
-1BD-1C0 atan2.z
-1BD-1BE strlen.sc
 1BD     parsing_in_buffer.index_separador_1
+1BD-1BE strlen.sc
+1BD     @PRINTF_D_1286.P1
+1BD-1C0 atan2.z
 1BD     config_PIC.@SCRATCH2
-1BD     @PSTRINGR_1278.@SCRATCH2
 1BD     ANPH_R.@SCRATCH2
 1BD     adc_init.@SCRATCH1
 1BE     parsing_in_buffer.index_separador_2
@@ -90,66 +89,66 @@
 1BF     strlen.@SCRATCH1
 1BF     identifica_comando.@SCRATCH2
 1BF     ANPH_R.@SCRATCH4
-1C0-1C3 @PRINTF_L32D_1278FPFPF.P1
-1C0     @PSTRINGCN7_1278.P2
+1C0     @PSTRINGCN7_1286.P1
 1C0-1C1 strcmp.s1
-1C0     read_adc_volts_mcp3421.address
+1C0-1C3 @PRINTF_L32D_1286FPFPF.P1
 1C0     parsing_in_buffer.i
 1C0     get_orp_value_mV.@SCRATCH1
-1C0     @PRINTF_D_1278.@SCRATCH1
+1C0     @PRINTF_D_1286.@SCRATCH1
 1C0     ANPH_STATUS.@SCRATCH1
-1C1.0   atan2.sign
-1C1-1C4 read_adc_volts_mcp3421.result
 1C1     parsing_in_buffer.i
+1C1     read_adc_volts_mcp3421.address
+1C1.0   atan2.sign
 1C1     get_orp_value_mV.@SCRATCH2
-1C1     @PRINTF_D_1278.@SCRATCH2
+1C1     @PRINTF_D_1286.@SCRATCH2
 1C1     ANPH_STATUS.@SCRATCH2
+1C2-1C5 read_adc_volts_mcp3421.result
+1C2     parsing_in_buffer.i
+1C2-1C3 strcmp.s2
 1C2-1C5 @DIVFF.P1
 1C2-1C3 @ITOF.P2
-1C2     parsing_in_buffer.i
 1C2     atan2.quad
-1C2-1C3 strcmp.s2
 1C2     get_orp_value_mV.@SCRATCH3
-1C2     @PRINTF_D_1278.@SCRATCH3
+1C2     @PRINTF_D_1286.@SCRATCH3
 1C3     parsing_in_buffer.@SCRATCH1
 1C3     get_orp_value_mV.@SCRATCH4
-1C3     @PRINTF_D_1278.@SCRATCH4
-1C3     @PSTRINGCN7_1278.@SCRATCH1
+1C3     @PRINTF_D_1286.@SCRATCH4
+1C3     @PSTRINGCN7_1286.@SCRATCH1
 1C4     @DIV88.P1
-1C4     @PRINTF_L32D_1278FPFPF.P2
+1C4     @PRINTF_L32D_1286FPFPF.P2
 1C4     strcmp.@SCRATCH1
 1C4     parsing_in_buffer.@SCRATCH2
-1C4     @PSTRINGCN7_1278.@SCRATCH2
+1C4     @PSTRINGCN7_1286.@SCRATCH2
 1C5     @DIV88.P1
-1C5-1C8 read_adc_volts_mcp3421.fresult
 1C5     parsing_in_buffer.@SCRATCH3
-1C5     @PSTRINGCN7_1278.@SCRATCH3
+1C5     @PSTRINGCN7_1286.@SCRATCH3
+1C6     @READ_PROGRAM_MEMORY8.P1
+1C6-1C9 read_adc_volts_mcp3421.fresult
 1C6-1C9 @DIVFF.P1
-1C6     @READ_PROGRAM_MEMORY8.P2
 1C6     @DIV88.@SCRATCH1
-1C8     @PRINTF_L32D_1278FPFPF.@SCRATCH1
-1C9     @PRINTF_L32D_1278FPFPF.@SCRATCH2
-1CA     @PRINTF_L32D_1278FPFPF.@SCRATCH3
-1CB     @PRINTF_L32D_1278FPFPF.@SCRATCH4
-1CC     read_adc_mcp3421.address
+1C8     @PRINTF_L32D_1286FPFPF.@SCRATCH1
+1C9     @PRINTF_L32D_1286FPFPF.@SCRATCH2
+1CA     @PRINTF_L32D_1286FPFPF.@SCRATCH3
+1CB     @PRINTF_L32D_1286FPFPF.@SCRATCH4
 1CC-1CF @SDTOF.P1
+1CC     read_adc_mcp3421.address
 1CC     @DIVFF.@SCRATCH1
-1CC     @PRINTF_L32D_1278FPFPF.@SCRATCH5
+1CC     @PRINTF_L32D_1286FPFPF.@SCRATCH5
 1CC     read_adc_volts_mcp3421.@SCRATCH1
 1CD-1D0 read_adc_mcp3421.result
 1CD     @DIVFF.@SCRATCH2
-1CD     @PRINTF_L32D_1278FPFPF.@SCRATCH6
+1CD     @PRINTF_L32D_1286FPFPF.@SCRATCH6
 1CD     read_adc_volts_mcp3421.@SCRATCH2
 1CE     @DIVFF.@SCRATCH3
-1CE     @PRINTF_L32D_1278FPFPF.@SCRATCH7
+1CE     @PRINTF_L32D_1286FPFPF.@SCRATCH7
 1CE     read_adc_volts_mcp3421.@SCRATCH3
 1CF     @DIVFF.@SCRATCH4
-1CF     @PRINTF_L32D_1278FPFPF.@SCRATCH8
+1CF     @PRINTF_L32D_1286FPFPF.@SCRATCH8
 1CF     read_adc_volts_mcp3421.@SCRATCH4
-1D0-1D3 @DIV3232.P1
-1D0     @SPRINTF.P2
-1D0-1D3 @FTOSD.P3
-1D0-1D3 @MULFF.P4
+1D0-1D3 @MULFF.P1
+1D0-1D3 @DIV3232.P2
+1D0     @SPRINTF.P3
+1D0-1D3 @FTOSD.P4
 1D0     @DIVFF.@SCRATCH5
 1D0     @SDTOF.@SCRATCH1
 1D1     read_adc_mcp3421.status
@@ -179,15 +178,15 @@
 291     CCP_1
 291     CCP_1_LOW
 292     CCP_1_HIGH
-295     CCP_2_LOW
 295     CCP_2
+295     CCP_2_LOW
 296     CCP_2_HIGH
 2FF     @INTERRUPT_AREA
-311     CCP_3_LOW
 311     CCP_3
+311     CCP_3_LOW
 312     CCP_3_HIGH
-315     CCP_4_LOW
 315     CCP_4
+315     CCP_4_LOW
 316     CCP_4_HIGH
 37F     @INTERRUPT_AREA
 39C.0   MDBIT
@@ -205,8 +204,8 @@
 77F     @INTERRUPT_AREA
 7FF     @INTERRUPT_AREA
 87F     @INTERRUPT_AREA
-891-892 @READ_PROGRAM_MEMORY8.P1
-891-892 @WRITE_PROGRAM_MEMORY8.P2
+891-892 @WRITE_PROGRAM_MEMORY8.P1
+891-892 @READ_PROGRAM_MEMORY8.P2
 8FF     @INTERRUPT_AREA
 97F     @INTERRUPT_AREA
 9FF     @INTERRUPT_AREA
@@ -261,29 +260,28 @@ FFF     @INTERRUPT_AREA
 
 ROM Allocation:
 000041  SSP_isr_slave
-00007F  @I2C_WRITE_1
-0000AC  @const1305.call
-0000B2  @const1309.call
-0000BA  @I2C_WRITEU_2
-0000CF  config_PIC
-0000EE  adc_init
-00013B  parsing_in_buffer
-00017F  @READ_PROGRAM_MEMORY8
-0002D4  strcmp
-000315  identifica_comando
-000346  @SPRINTF
-000353  @PSTRINGCN7_1278
-0003AB  @MULFF
-000422  @DIV3232
-000471  @PRINTF_L32D_1278FPFPF
-00049B  @FTOSD
-000566  @I2C_READU_2
-000576  @delay_ms1
-00058C  @DIV88
-0005A3  @PSTRINGR_1278
-0005B8  MAIN
-0005B8  @cinit1
-0005EC  @cinit2
+000077  @I2C_WRITE_1
+0000A4  @const1303.call
+0000AA  @const1307.call
+0000B2  @I2C_WRITEU_2
+0000C7  config_PIC
+0000E6  adc_init
+000133  parsing_in_buffer
+000177  @READ_PROGRAM_MEMORY8
+0002CC  strcmp
+00030D  identifica_comando
+00033E  @SPRINTF
+00034B  @PSTRINGCN7_1286
+0003A3  @MULFF
+00041A  @DIV3232
+000469  @PRINTF_L32D_1286FPFPF
+000493  @FTOSD
+00055E  @I2C_READU_2
+00056E  @delay_ms1
+000584  @DIV88
+00059B  MAIN
+00059B  @cinit1
+0005CF  @cinit2
 000800  monta_out_buffer
 00080C  ANPH_i
 000830  ANPH_R
@@ -294,11 +292,12 @@ ROM Allocation:
 000998  ANPH_FIND
 0009D6  ANPH_L
 0009E2  strlen
-000A3A  @PRINTF_D_1278
+000A3A  @PRINTF_D_1286
 000AB7  ANPH_STATUS
 000AE0  @ITOF
 000B0B  @DIVFF
-000C7A  @goto42598
+000C40  ANPH_SLEEP
+000C72  @goto37126
 0136  StrtoulGO
 0136  StrtolGO
 
@@ -316,7 +315,7 @@ Project Directory:
     C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\
 
 Project Files:
-    main.c                                                  [04-jul-19 17:42  CRC=843A188F]
+    main.c                                                  [05-jul-19 16:25  CRC=F788F547]
     ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h [20-jul-18 14:24  CRC=7C37FC38]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h [29-jun-16 10:34  CRC=7E9CC16B]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h [05-set-14 12:47  CRC=897CEC6C]
@@ -326,10 +325,10 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h  [22-set-16 09:36  CRC=9CF8C837]
     pic_orp_atlas_emu.h                                     [04-jul-19 15:06  CRC=587B9FCB]
 
-Source signature=96614395
-Program memory checksum=517E
+Source signature=09B0204D
+Program memory checksum=B37D
 Program memory CRC=3DEA
-Hex file CRC=C959
+Hex file CRC=1E73
 
 Units:
     main (main)

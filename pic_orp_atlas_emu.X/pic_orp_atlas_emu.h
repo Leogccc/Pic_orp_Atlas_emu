@@ -35,6 +35,8 @@ WDT           //   Watch Dog Timer
  */
 #byte TRISA= getenv("SFR:TRISA") // registrador que define se os pinos do PORTA são Digital input ou  Digital output
 #bit TRISA1= TRISA.1 
+#bit TRISA2= TRISA.2
+
 
 #byte PORTA= getenv("SFR:PORTA") // registrador para leitura do estado atual dos pinos do PORTA (pode ser usado para escrita, igual ao LATA)
 #bit  PORTA1= PORTA.1 
@@ -75,9 +77,13 @@ bit 1-0 ADFVR<1:0>: ADC FVR Buffer Gain Selection bit
 01 = ADC FVR Buffer Gain is 1x, (1.024V)
 00 = ADC FVR Buffer is off
 */
-
 #bit ADFVR_bit1= FVRCON.1
 #bit ADFVR_bit0= FVRCON.0
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 #define VERSAO_FIRMWARE 1.0
