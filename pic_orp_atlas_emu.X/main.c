@@ -225,8 +225,11 @@ offset_cal.valor_byte[3]= read_eeprom(OFFSET_CAL_ADDRESS +3 );
 
 device_calibrated= read_eeprom(DEVICE_CALIBRATED_ADDRESS); // status da calibração
 
+ Reason_for_restart = restart_cause() ;
+
  RESET_in_buffer ;
 }
+
 
 void disable_Modulos_PIC(void){
 
@@ -502,6 +505,8 @@ float32 get_orp_value_mV(void) {
             return mcp_value_mV ;
 }
 
+
+
 void ANORP_R(void){
     
 // resposta: 1(DEC) %.2f(ASCII) 0(DEC)
@@ -604,8 +609,28 @@ void ANORP_STATUS(void){
 if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma STATUS
        
         float32 Vdd= ((10000+4700)/4700.0)*(2.048*( read_adc()/1023.0) ); // adc de 10 bits com 2.048 de referência (usando um divisor de tensao de 4K7/10K +4K7)
+        
         out_buffer[0]=1; // response code
-        sprintf(out_buffer+1,"?Status,%c,%.2f",'U',Vdd) ;
+        
+        switch(Reason_for_restart){
+            case  NORMAL_POWER_UP: // O ultimo reset foi por falta de alimentacao => ultimo reset foi quando o dispositivo "ligou" dps de ter estar sem alimentacao (Normal)      
+                  sprintf(out_buffer+1,"?Status,%c,%.2f",'P',Vdd) ;
+                   break;  
+            case BROWNOUT_RESTART:
+                  sprintf(out_buffer+1,"?Status,%c,%.2f",'B',Vdd) ;
+                   break;
+            case  WDT_TIMEOUT: 
+                  sprintf(out_buffer+1,"?Status,%c,%.2f",'W',Vdd) ;
+            case  WDT_FROM_SLEEP:
+                  sprintf(out_buffer+1,"?Status,%c,%.2f",'W',Vdd) ;
+                 break;  
+                
+            case  RESET_INSTRUCTION:
+                sprintf(out_buffer+1,"?Status,%c,%.2f",'S',Vdd) ;
+                break;    
+            default: 
+                sprintf(out_buffer+1,"?Status,%c,%.2f",'U',Vdd) ;
+        } 
       
 }
     else out_buffer[0]= 2; // 2 sintax error  
@@ -633,7 +658,7 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
   
  }
 
-void ANORP_CAL() {
+void ANORP_CAL(void) {
 /*
 Command syntax 
 Cal,n // calibrates the ORP circuit to a set value ; Response:
@@ -719,7 +744,8 @@ LATA1=1;
 //Response codes enabled (Falta implementar)
 
 //Response: device reboot
-sprintf(out_buffer,"%s", "device reboot") ;
+out_buffer[0]=1;
+//sprintf(out_buffer,"%s", "device reboot") ;
 }
 
 else out_buffer[0]= 2; // 2 sintax error  

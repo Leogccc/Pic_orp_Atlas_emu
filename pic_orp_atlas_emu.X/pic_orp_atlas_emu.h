@@ -248,6 +248,8 @@ unsigned int1  FIND_exe= FALSE ;// status do comando FIND (se está executando é 
 unsigned int1  SLEEP_exe= FALSE ; // // status do comando SLEEP
 unsigned int8  device_calibrated ; // indica se o dispositivo está calibrado ou não TRUE= Calibrado; FALSE= Não calibrado
 
+int8 Reason_for_restart ; // indica a causa do ultimo restart do PIC
+
 
 typedef enum {cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status} comandos;
 char lista_comandos[15][LEN_MAX_CMD +1]= {"ERR","BAUD","CAL","EXPORT","FACTORY","FIND","I","I2C","IMPORT","L","PLOCK","R","SLEEP","SLOPE","STATUS"} ;
