@@ -34,8 +34,8 @@ WDT           //   Watch Dog Timer
  Def para acesso dos registradores do PIC (ambiente CCS) ; Obs: Alterar alguns desses bits do registrador(diretamente) pode sobreescrever os FUSES se não tomar cuidado
  */
 #byte TRISA= getenv("SFR:TRISA") // registrador que define se os pinos do PORTA são Digital input ou  Digital output
-#bit TRISA1= TRISA.1 
-#bit TRISA2= TRISA.2
+#bit  TRISA1= TRISA.1 
+#bit  TRISA2= TRISA.2
 
 
 #byte PORTA= getenv("SFR:PORTA") // registrador para leitura do estado atual dos pinos do PORTA (pode ser usado para escrita, igual ao LATA)
@@ -241,15 +241,17 @@ char VALOR[LEN_MAX_VALOR+1]={} ;
 
 // unsigned int8  index_in_buffer_uart =0; 
 
-unsigned int1 lendo_str_master = FALSE ; // indica se o PIC está preenchendo in_buffer (I2C)
+unsigned int1  lendo_str_master = FALSE ; // indica se o PIC está preenchendo in_buffer (I2C)
 unsigned int8  index_out_buffer;
 unsigned int8  index_in_buffer ;
 unsigned int1  FIND_exe= FALSE ;// status do comando FIND (se está executando é TRUE)
 unsigned int1  SLEEP_exe= FALSE ; // // status do comando SLEEP
+unsigned int8  device_calibrated ; // indica se o dispositivo está calibrado ou não TRUE= Calibrado; FALSE= Não calibrado
+
 
 typedef enum {cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status} comandos;
 char lista_comandos[15][LEN_MAX_CMD +1]= {"ERR","BAUD","CAL","EXPORT","FACTORY","FIND","I","I2C","IMPORT","L","PLOCK","R","SLEEP","SLOPE","STATUS"} ;
-/* variaveis PH */
+
 
 void config_PIC(void) ;
 void disable_Modulos_PIC(void);
@@ -274,35 +276,34 @@ void monta_out_buffer( int8 num_comando ) ; // monta o vetor out_buffer de respo
 
 
 /*
- Variáveis e definições ANPH 
+ Variáveis e definições ANORP
  */
 
-//fator_k= ;
-//fator_b= ;
+ union float32_eeprom 
+    {
+        float32  valor; // float
+        unsigned int8 valor_byte[4]; // bytes do float onde MSB valor_byte[0] e LSB é valor_byte[3]
+     }  ;
+
+union float32_eeprom offset_cal; //valor  do offset usado na calibracao do eletrodo de ORP (Salvo na eeprom)
+
 
  /*
- Protótipos das funções do ANPH
+ Protótipos das funções do ANORP
  */
 
-/*
-   retorna o valor ph com ou sem compensacao de temperatura  
- comp_temp=TRUE => retorna o valor ph com compensacao de temperatura (temp_C é a temperatura da solucao)
- comp_temp=FALSE => retorna o valor ph sem compensacao de temperatura (temp_C= 25ºC)
-     
-Default temperature = 25°C
-Temperature is always in Celsius
-Temperature is not retained if power is cut
- */
 int1 isStr_float(char *str_teste) ;// verifica se uma string representa um float válido
 float32 get_orp_value_mV(void) ;
 
 
-void ANPH_R(void) ; // retorna uma única leitura do valor de ph (%.2f) 
-void ANPH_FIND(void); //Find: LED rapidly blinks white, used to help find device
-void ANPH_L(void); // LED CONTROL
-void ANPH_i(void); // retorna device information para o usuario
-void ANPH_STATUS(void) ; //  Status voltage at Vcc pin and reason for last restart
-void ANPH_SLEEP(void) ; // Placa entre em modo Sleep
+void ANORP_R(void) ; // retorna uma única leitura do valor de ph (%.2f) 
+void ANORP_FIND(void); //Find: LED rapidly blinks white, used to help find device
+void ANORP_L(void); // LED CONTROL
+void ANORP_i(void); // retorna device information para o usuario
+void ANORP_STATUS(void) ; //  Status voltage at Vcc pin and reason for last restart
+void ANORP_SLEEP(void) ; // Placa entre em modo Sleep
+void ANORP_CAL(void); //
+void ANORP_FACTORY(void);//
 /* */
 
 

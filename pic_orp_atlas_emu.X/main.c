@@ -28,6 +28,7 @@
 #include<string.h>
 #include<ctype.h>
 
+#include "MAPA_DATA_EEPROM.h"
 #include "pic_orp_atlas_emu.h"
 
 //------------------Serial data receive interrupt------------------------------------------------- 
@@ -209,7 +210,20 @@ void config_PIC(void)
     setup_timer_0(T0_INTERNAL|T0_DIV_2048| T0_16_BIT); //TMR0 incrementa a cada 512us
     
 TRISA1=0; // configura o pino do led como saída
-LATA1=0; // led A1 comeca desligado
+LATA1=1; // led A1 comeca ligado
+
+/*
+ Carrega os parametros e status armazenados na EEPROM
+ 
+ */
+
+// Obtem o valor do  offset de calibracao da ultima calibracao realizada (salvo na eeprom)
+offset_cal.valor_byte[0]= read_eeprom(OFFSET_CAL_ADDRESS);
+offset_cal.valor_byte[1]= read_eeprom(OFFSET_CAL_ADDRESS +1);
+offset_cal.valor_byte[2]= read_eeprom(OFFSET_CAL_ADDRESS +2);
+offset_cal.valor_byte[3]= read_eeprom(OFFSET_CAL_ADDRESS +3 );
+
+device_calibrated= read_eeprom(DEVICE_CALIBRATED_ADDRESS); // status da calibração
 
  RESET_in_buffer ;
 }
@@ -419,27 +433,30 @@ void monta_out_buffer( int8 num_comando) {
        case cmd_Baud:
            
            break;
-           
+       
        case cmd_Cal:
-             
+                 ANORP_CAL(); //
+           break;
+       case cmd_Factory:
+                 ANORP_FACTORY();//
            break;
        case cmd_i:
-                 ANPH_i();
+                 ANORP_i();
            break;   
        case cmd_R:
-                  ANPH_R();// retorna uma única leitura do valor de ph (%.2f) 
+                  ANORP_R();// retorna uma única leitura do valor de ph (%.2f) 
            break;   
        case cmd_Find:
-                  ANPH_FIND(); //Find: LED rapidly blinks white, used to help find device
+                  ANORP_FIND(); //Find: LED rapidly blinks white, used to help find device
            break ; 
        case cmd_L:
-                  ANPH_L(); // LED CONTROL
+                  ANORP_L(); // LED CONTROL
            break;
        case cmd_Status:
-                 ANPH_STATUS(); //
+                 ANORP_STATUS(); //
            break;
        case cmd_Sleep:   
-                      ANPH_SLEEP();
+                 ANORP_SLEEP();
            break;
        case cmd_err: 
                     out_buffer[0]= 2; // 2 sintax error "Comando invalido"
@@ -485,18 +502,21 @@ float32 get_orp_value_mV(void) {
             return mcp_value_mV ;
 }
 
-void ANPH_R(void){
+void ANORP_R(void){
     
 // resposta: 1(DEC) %.2f(ASCII) 0(DEC)
         if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma R
+        
+        float32 orp=  get_orp_value_mV() + offset_cal.valor ; // Orp value em mV
+        
         out_buffer[0]=1;
-        sprintf(out_buffer+1,"%.2f",get_orp_value_mV() ) ;
+        sprintf(out_buffer+1,"%.2f",orp) ;
         }
         else out_buffer[0]= 2; // 2 sintax error
 }
 
 
-void ANPH_FIND(void){
+void ANORP_FIND(void){
     
     if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma FIND
         FIND_exe= TRUE ;
@@ -520,7 +540,7 @@ void ANPH_FIND(void){
     FIND_exe= FALSE ;
 }
 
-void ANPH_L(void){
+void ANORP_L(void){
 /* Comando sintaxe
  L,1 // LED on ; Response: 1(DEC) 0(NULL)
  L,0  //  LED off ; Response: 1(DEC) 0(NULL)
@@ -559,7 +579,7 @@ void ANPH_L(void){
  else out_buffer[0]= 2; // 2 sintax error ; O comando passado não é da forma RT,VALOR
 }
 
-void ANPH_i(void){
+void ANORP_i(void){
  // Command sintax: i    // device information
 // 1   ?i,ORP, 19.7
 //Dec   ASCII        NULL
@@ -568,7 +588,7 @@ void ANPH_i(void){
 }
 
 
-void ANPH_STATUS(void){
+void ANORP_STATUS(void){
     
 //Status voltage at Vcc pin and reason for last restart
       /*Response:   DEC         ASCII                       NULL
@@ -593,11 +613,11 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
 }
 
 
- void ANPH_SLEEP(void){
+ void ANORP_SLEEP(void){
  // Sleep mode/low power : Send any character or command to awaken device 
  // Command syntax: Sleep; Resposta : no response (Do not read status byte after issuing sleep command.)
- // Consumo: 5V- standby(x mA) sleep (x mA) ; 
- // Consumo: 3.3V- standby(x mA) sleep (x mA) ; 
+ // Consumo: 5V-  led on, 10.5 mA ; standby( 7,5 mA) sleep ( 5,8 mA) ; 
+ // Consumo: 3.3 V- led on 6.65 mA  ;standby( 5.5mA) sleep (3.8 mA) ; 
  if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0') ) {
     SLEEP_exe= TRUE ; // indica a execucao do modo Sleep; Usado para a interrupcao I2C não interpretar como comando quando o usuario fazer: (Send any character or command to awaken device )
     LATA1=0; // desliga o led
@@ -613,8 +633,97 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
   
  }
 
+void ANORP_CAL() {
+/*
+Command syntax 
+Cal,n // calibrates the ORP circuit to a set value ; Response:
+Cal,clear  // delete calibration data;  Response:
+Cal,? //device calibrated?;   Response:
+*/
 
+char str_clear[]= "CLEAR" ;   
+char str_interrogacao[]= "?" ;
 
+if( (CMD2[0]=='\0')&&(VALOR[0]!='\0')) // Comando é da da forma: Cal,%c
+
+{    
+    
+    if(isStr_float(VALOR) ) {   // Cal,n 
+
+    offset_cal.valor=  atof(VALOR) -get_orp_value_mV(); //
+   
+    // salva na eeprom
+    write_eeprom(OFFSET_CAL_ADDRESS   , offset_cal.valor_byte[0] );
+    write_eeprom(OFFSET_CAL_ADDRESS +1, offset_cal.valor_byte[1] );
+    write_eeprom(OFFSET_CAL_ADDRESS +2, offset_cal.valor_byte[2] );
+    write_eeprom(OFFSET_CAL_ADDRESS +3, offset_cal.valor_byte[3] );    
+    
+    device_calibrated=TRUE;
+    write_eeprom(DEVICE_CALIBRATED_ADDRESS,device_calibrated);   
+    
+    out_buffer[0]= 1; // Response 1 NULL 
+    }
+
+    else    if(strcmp(VALOR,str_clear)==0){ // Cal,clear
+                            offset_cal.valor=0;
+                            
+                            // salva na eeprom
+                            write_eeprom(OFFSET_CAL_ADDRESS   , offset_cal.valor_byte[0] );
+                            write_eeprom(OFFSET_CAL_ADDRESS +1, offset_cal.valor_byte[1] );
+                            write_eeprom(OFFSET_CAL_ADDRESS +2, offset_cal.valor_byte[2] );
+                            write_eeprom(OFFSET_CAL_ADDRESS +3, offset_cal.valor_byte[3] );   
+                            
+                            device_calibrated=FALSE;
+                            write_eeprom(DEVICE_CALIBRATED_ADDRESS,device_calibrated);  
+                            
+                            out_buffer[0]= 1; // Response: 1 NULL             
+                                        }
+        
+    else  if(strcmp(VALOR,str_interrogacao)==0){ // Cal,?
+                                             out_buffer[0]= 1; // Response Code: 1 
+                                             sprintf(out_buffer+1,"?Cal,%d",device_calibrated) ;
+                                               }
+                     else out_buffer[0]= 2;  // ErroSintaxe: Segundo argumento é inválido
+
+}
+
+else out_buffer[0]= 2;  // ErroSintaxe: comando invalido
+}
+
+void ANORP_FACTORY(void){
+   
+/* 
+Clears calibration
+LED on
+Response codes enabled
+ * 
+ * Command syntax
+ Factory  // enable factory reset
+ Response: device reboot
+ */
+    
+if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) // Comando passada é da forma: Factory
+{    
+// Clears calibration
+offset_cal.valor=0 ; // valor de offset de calibracao de fabrica 
+write_eeprom(OFFSET_CAL_ADDRESS   , offset_cal.valor_byte[0] );
+write_eeprom(OFFSET_CAL_ADDRESS +1, offset_cal.valor_byte[1] );
+write_eeprom(OFFSET_CAL_ADDRESS +2, offset_cal.valor_byte[2] );
+write_eeprom(OFFSET_CAL_ADDRESS +3, offset_cal.valor_byte[3] );
+
+device_calibrated= FALSE;
+write_eeprom(DEVICE_CALIBRATED_ADDRESS,device_calibrated);
+
+//LED on
+LATA1=1;
+//Response codes enabled (Falta implementar)
+
+//Response: device reboot
+sprintf(out_buffer,"%s", "device reboot") ;
+}
+
+else out_buffer[0]= 2; // 2 sintax error  
+}
 
 
 // Funções de comunicação com o MCP3421
