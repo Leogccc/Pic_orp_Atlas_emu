@@ -11,8 +11,8 @@
    ³  ³  ÀÄ@READ_PROGRAM_MEMORY8  (Inline)  Ram=7
    ³  ÃÄidentifica_comando  0/49  Ram=6
    ³  ³  ÀÄstrcmp  0/65  Ram=5
-   ³  ÀÄmonta_out_buffer  1/1140  Ram=1
-   ³     ÃÄ@goto8026  1/19  Ram=0
+   ³  ÀÄmonta_out_buffer  1/1142  Ram=1
+   ³     ÃÄ@goto38693  1/19  Ram=0
    ³     ÃÄANPH_i  (Inline)  Ram=0
    ³     ³  ÃÄ@PSTRINGCN7_1328  0/88  Ram=6
    ³     ³  ³  ÃÄ@SPRINTF  0/13  Ram=1

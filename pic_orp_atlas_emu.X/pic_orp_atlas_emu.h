@@ -80,6 +80,112 @@ bit 1-0 ADFVR<1:0>: ADC FVR Buffer Gain Selection bit
 #bit ADFVR_bit1= FVRCON.1
 #bit ADFVR_bit0= FVRCON.0
 
+// REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)
+
+
+#byte PMD0 = getenv("SFR:PMD0") //PMD0: PMD CONTROL REGISTER 0
+/*
+bit 7 SYSCMD: Disable Peripheral System Clock Network bit
+See description in Section 14.3 ?System Clock Disable?.
+
+1 = System Clock network disabled (a.k.a. FOSC)
+0 = System Clock network enabled
+*/
+#bit  SYSCMD = PMD0.7
+/*
+bit 6 FVRMD: Disable Fixed Voltage Reference FVR bit
+1 = FVR module disabled
+0 = FVR module enabled
+*/
+#bit  FVRMD = PMD0.6
+// bit 5-3 Unimplemented: Read as ?0?
+
+ /* bit 2 NVMMD: NVM Module Disable bit(1)
+1 = Data EEPROM (a.k.a. user memory, EEPROM) reading and writing is disabled; NVMCON
+registers cannot be written; FSR access to EEPROM returns zero.
+0 = NVM module enabled
+*/
+#bit NVMMD = PMD0.2
+
+ /* bit 1 CLKRMD: Disable Clock Reference CLKR bit
+1 = CLKR module disabled
+0 = CLKR module enabled */
+#bit CLKRMD = PMD0.1
+
+/* bit 0 IOCMD: Disable Interrupt-on-Change bit, All Ports
+1 = IOC module(s) disabled
+0 = IOC module(s) enabled */
+#bit IOCMD = PMD0.0
+
+// Note 1: When enabling NVM, a delay of up to 1 ?s may be required before accessing data.
+////////////////////////////////////////////////////////
+
+#byte PMD1 = getenv("SFR:PMD1") //PMD1: PMD CONTROL REGISTER 1
+/* bits PMD1:
+1 = module disabled
+0 = module enabled */
+
+#bit NCOMD =  PMD1.7 //bit 7 NCOMD: Disable Numerically Control Oscillator bit
+#bit TMR6MD = PMD1.6 //bit 6 TMR6MD: Disable Timer TMR6 bit
+#bit TMR5MD = PMD1.5 //bit 5 TMR5MD: Disable Timer TMR5 bit
+#bit TMR4MD = PMD1.4 //bit 4 TMR4MD: Disable Timer TMR4 bit
+#bit TMR3MD = PMD1.3 //bit 3 TMR3MD: Disable Timer TMR3 bit
+#bit TMR2MD = PMD1.2 //bit 2 TMR2MD: Disable Timer TMR2 bit
+#bit TMR1MD = PMD1.1 //bit 1 TMR1MD: Disable Timer TMR1 bit
+#bit TMR0MD = PMD1.0 //bit 0 TMR0MD: Disable Timer TMR0 bit
+
+#byte PMD2 =  getenv("SFR:PMD2") //PMD2: PMD CONTROL REGISTER 2
+/* bits PMD2:
+1 = module disabled
+0 = module enabled */
+
+//bit 7 Unimplemented: Read as ?0?
+#bit DACMD = PMD2.6 //bit 6 DACMD: Disable DAC bit
+#bit ADCMD = PMD2.5 //bit 5 ADCMD: Disable ADC bit
+//bit 4-3 Unimplemented: Read as ?0?
+#bit CMP2MD = PMD2.2 //bit 2 CMP2MD: Disable Comparator C2 bit
+#bit CMP1MD = PMD2.1 //bit 1 CMP1MD: Disable Comparator C1 bit
+//bit 0 Unimplemented: Read as ?0?
+
+
+#byte PMD3 = getenv("SFR:PMD3") //PMD3: PMD CONTROL REGISTER 3
+/* bits PMD3:
+1 = module disabled
+0 = module enabled */
+
+#bit CWG2MD = PMD3.7     //bit 7 CWG2MD: Disable CWG2 bit
+#bit CWG1MD = PMD3.6     //bit 6 CWG1MD: Disable CWG1 bit
+#bit PWM6MD = PMD3.5     //bit 5 PWM6MD: Disable PWM6 bit
+#bit PWM5MD = PMD3.4     //bit 4 PWM5MD: Disable PWM5 bit
+#bit CCP4MD = PMD3.3     //bit 3 CCP4MD: Disable CCP4 bit
+#bit CCP3MD = PMD3.2     //bit 2 CCP3MD: Disable CCP3 bit
+#bit CCP2MD = PMD3.1     //bit 1 CCP2MD: Disable CCP2 bit
+#bit CCP1MD = PMD3.0     //bit 0 CCP1MD: Disable CCP1 bit
+
+#byte PMD4 = getenv("SFR:PMD4") //PMD4: PMD CONTROL REGISTER 4
+/* bits PMD4:
+1 = module disabled
+0 = module enabled */
+
+//bit 7-6 Unimplemented: Read as ?0?
+#bit UART1MD = PMD4.5  //bit 5 UART1MD: Disable EUSART1 bit
+//bit 4-3 Unimplemented: Read as ?0?
+#bit MSSP2MD = PMD4.2     //bit 2 MSSP2MD: Disable MSSP2 bit
+#bit MSSP1MD = PMD4.1     //bit 1 MSSP1MD: Disable MSSP1 bit
+//bit 0 Unimplemented: Read as ?0?
+
+
+#byte PMD5 = getenv("SFR:PMD5") //PMD5: PMD CONTROL REGISTER 5
+/* bits PMD5:
+1 = module disabled
+0 = module enabled */
+//bit 7-5 Unimplemented: Read as ?0?
+#bit CLC4MD = PMD5.4   //bit 4 CLC4MD: Disable CLC4 bit
+#bit CLC3MD = PMD5.3   //bit 3 CLC3MD: Disable CLC3 bit
+#bit CLC2MD = PMD5.2    //bit 2 CLC2MD: Disable CLC2 bit
+#bit CLC1MD = PMD5.1     //bit 1 CLC1MD: Disable CLC1 bit
+#bit DSMMD = PMD5.0      //bit 0 DSMMD: Disable Data Signal Modulator bit
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,6 +252,8 @@ char lista_comandos[15][LEN_MAX_CMD +1]= {"ERR","BAUD","CAL","EXPORT","FACTORY",
 /* variaveis PH */
 
 void config_PIC(void) ;
+void disable_Modulos_PIC(void);
+void renable_Modulos_PIC(void);
 
 /*
  Faz o parseamento de in_buffer, conforme o protocolo definido abaixo:

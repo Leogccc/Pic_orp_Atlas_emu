@@ -1,9 +1,10 @@
 D G "__PCM__" 0 0 ""5.080""
 D G "__DEVICE__" 0 0 ""
-D G "__DATE__" 0 0 ""10-Jul-19""
-D G "__TIME__" 0 0 ""09:45:39""
+D G "__DATE__" 0 0 ""8-Jul-19""
+D G "__TIME__" 0 0 ""17:30:05""
 D G "_UNICODE" 0 0 ""?""
 D G "__EVAL" 0 0 ""?""
+D G "__DEBUG" 0 0 "1"
 D G "__16F18326" 0 0 "1" "* File:   main.c"
 C G "" 0 1 1 "*"
 C G "" 0 1 6 "*"
@@ -2547,26 +2548,26 @@ C L "MAIN" 0 33 1 "FUNCTION"
 F N "MAIN" 0 109 ""
 F G "MAIN" 0 110 "void()" `1300 
 C L "MAIN" 0 33 1 "FUNCTION"
-C L "MAIN" 0 33 2 "FUNCTION"
-V L "flag_monta_out_buffer" 0 115 "int1" `1303 
+C L "MAIN" 0 33 1 "FUNCTION"
+V L "flag_monta_out_buffer" 0 114 "int1" `1303 
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
-V L "i" 0 135 "int8" `1304 
+V L "i" 0 134 "int8" `1304 
 C L "MAIN" 0 33 1 "FUNCTION"
-V L "parseamento_ok" 0 137 "int1" `1305 
-V L "cmd_identificado" 0 141 "int8" `1306 
+V L "parseamento_ok" 0 136 "int1" `1305 
+V L "cmd_identificado" 0 140 "int8" `1306 
 C L "MAIN" 0 33 1 "FUNCTION"
-V L "i" 0 146 "int8" `1307 
+V L "i" 0 145 "int8" `1307 
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
-F N "config_PIC" 0 153 ""
-F G "config_PIC" 0 154 "void()" `1265 
+F N "config_PIC" 0 152 ""
+F G "config_PIC" 0 153 "void()" `1265 
 C L "config_PIC" 0 33 2 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
@@ -2580,9 +2581,9 @@ C L "config_PIC" 0 33 22 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
-V L "i" 0 214 "int8" `1308 
-F N "disable_Modulos_PIC" 0 217 ""
-F G "disable_Modulos_PIC" 0 217 "void()" `1266  "REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)"
+V L "i" 0 213 "int8" `1308 
+F N "disable_Modulos_PIC" 0 216 ""
+F G "disable_Modulos_PIC" 0 216 "void()" `1266  "REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)"
 C L "disable_Modulos_PIC" 0 33 5 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 12 "FUNCTION"
@@ -2604,8 +2605,8 @@ C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
-F N "renable_Modulos_PIC" 0 279 ""
-F G "renable_Modulos_PIC" 0 279 "void()" `1267  "REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)"
+F N "renable_Modulos_PIC" 0 278 ""
+F G "renable_Modulos_PIC" 0 278 "void()" `1267  "REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)"
 C L "renable_Modulos_PIC" 0 33 5 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 12 "FUNCTION"
@@ -2613,70 +2614,70 @@ C L "renable_Modulos_PIC" 0 33 2 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 22 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 1 "FUNCTION"
-F N "parsing_in_buffer" 0 343 ""
-V L "rcv_buffer" 0 343 "*int8" `1310 
-F G "parsing_in_buffer" 0 343 "int8(*int8 rcv_buffer)" `1268 
-V L "num_separadores" 0 345 "int8" `1309 
-V L "index_separador_1" 0 346 "int8" `1310 
-V L "index_separador_2" 0 347 "int8" `1311 
-V L "separador" 0 348 "rom int8" `1312 
-V L "i" 0 350 "int8" `1313 
+F N "parsing_in_buffer" 0 342 ""
+V L "rcv_buffer" 0 342 "*int8" `1310 
+F G "parsing_in_buffer" 0 342 "int8(*int8 rcv_buffer)" `1268 
+V L "num_separadores" 0 344 "int8" `1309 
+V L "index_separador_1" 0 345 "int8" `1310 
+V L "index_separador_2" 0 346 "int8" `1311 
+V L "separador" 0 347 "rom int8" `1312 
+V L "i" 0 349 "int8" `1313 
 C L "parsing_in_buffer" 0 33 2 "FUNCTION"
 C L "parsing_in_buffer" 0 33 2 "FUNCTION"
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
-V L "i" 0 364 "int8" `1314 
+V L "i" 0 363 "int8" `1314 
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
-V L "i" 0 370 "int8" `1315 
+V L "i" 0 369 "int8" `1315 
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
-V L "i" 0 381 "int8" `1316 
+V L "i" 0 380 "int8" `1316 
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
 C L "parsing_in_buffer" 0 33 2 "FUNCTION"
-F N "identifica_comando" 0 404 ""
-V L "comando" 0 404 "*int8" `1318 
-F G "identifica_comando" 0 404 "int8(*int8 comando)" `1270  "Identiicacao de qual comando foi recebido pelo PIC*"
-V L "CMD" 0 406 "int8" `1317 
+F N "identifica_comando" 0 403 ""
+V L "comando" 0 403 "*int8" `1318 
+F G "identifica_comando" 0 403 "int8(*int8 comando)" `1270  "Identiicacao de qual comando foi recebido pelo PIC*"
+V L "CMD" 0 405 "int8" `1317 
 C L "identifica_comando" 0 33 1 "FUNCTION"
 C L "identifica_comando" 0 33 1 "FUNCTION"
-F N "monta_out_buffer" 0 414 ""
-V L "num_comando" 0 414 "int8" `1319 
-F G "monta_out_buffer" 0 414 "void(int8 num_comando)" `1272  "Os comandos podem ser(ou qualquer outro acrescentado em lista_comandos[] e em enum comandos): cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status, cmd_T, cmd_RT"
+F N "monta_out_buffer" 0 413 ""
+V L "num_comando" 0 413 "int8" `1319 
+F G "monta_out_buffer" 0 413 "void(int8 num_comando)" `1272  "Os comandos podem ser(ou qualquer outro acrescentado em lista_comandos[] e em enum comandos): cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status, cmd_T, cmd_RT"
 C L "monta_out_buffer" 0 33 1 "FUNCTION"
 C L "monta_out_buffer" 0 33 1 "FUNCTION"
 C L "monta_out_buffer" 0 33 1 "FUNCTION"
 C L "monta_out_buffer" 0 33 1 "FUNCTION"
 C L "isStr_float" 0 33 1 "FUNCTION"
-F N "isStr_float" 0 453 ""
-V L "str_teste" 0 453 "*int8" `1320 
-F G "isStr_float" 0 453 "int8(*int8 str_teste)" `1274 
-V L "num_ponto" 0 455 "int8" `1319 
-V L "num_sinal_menos" 0 456 "int8" `1320 
+F N "isStr_float" 0 452 ""
+V L "str_teste" 0 452 "*int8" `1320 
+F G "isStr_float" 0 452 "int8(*int8 str_teste)" `1274 
+V L "num_ponto" 0 454 "int8" `1319 
+V L "num_sinal_menos" 0 455 "int8" `1320 
 C L "isStr_float" 0 33 1 "FUNCTION"
-V L "i" 0 459 "int8" `1321 
-C L "isStr_float" 0 33 1 "FUNCTION"
-C L "isStr_float" 0 33 1 "FUNCTION"
+V L "i" 0 458 "int8" `1321 
 C L "isStr_float" 0 33 1 "FUNCTION"
 C L "isStr_float" 0 33 1 "FUNCTION"
 C L "isStr_float" 0 33 1 "FUNCTION"
 C L "isStr_float" 0 33 1 "FUNCTION"
-F N "get_orp_value_mV" 0 482 ""
-F G "get_orp_value_mV" 0 482 "float()" `1276 
-V L "mcp_value_mV" 0 484 "float" `1325 
-F N "ANPH_R" 0 488 ""
-F G "ANPH_R" 0 488 "void()" `1277  "resposta: 1(DEC) %.2f(ASCII) 0(DEC)"
+C L "isStr_float" 0 33 1 "FUNCTION"
+C L "isStr_float" 0 33 1 "FUNCTION"
+F N "get_orp_value_mV" 0 481 ""
+F G "get_orp_value_mV" 0 481 "float()" `1276 
+V L "mcp_value_mV" 0 483 "float" `1325 
+F N "ANPH_R" 0 487 ""
+F G "ANPH_R" 0 487 "void()" `1277  "resposta: 1(DEC) %.2f(ASCII) 0(DEC)"
 C L "ANPH_R" 0 33 1 "FUNCTION"
 C L "ANPH_R" 0 33 1 "FUNCTION"
-F N "ANPH_FIND" 0 499 ""
-F G "ANPH_FIND" 0 499 "void()" `1278 
+F N "ANPH_FIND" 0 498 ""
+F G "ANPH_FIND" 0 498 "void()" `1278 
 C L "ANPH_FIND" 0 33 1 "FUNCTION"
 C L "ANPH_FIND" 0 33 2 "FUNCTION"
 C L "ANPH_FIND" 0 33 1 "FUNCTION"
 C L "ANPH_FIND" 0 33 1 "FUNCTION"
 C L "ANPH_FIND" 0 33 1 "FUNCTION"
 C L "ANPH_FIND" 0 33 1 "FUNCTION"
-F N "ANPH_L" 0 523 ""
-F G "ANPH_L" 0 523 "void()" `1279  "Comando sintaxe"
+F N "ANPH_L" 0 522 ""
+F G "ANPH_L" 0 522 "void()" `1279  "Comando sintaxe"
 C L "ANPH_L" 0 33 3 "FUNCTION"
 C L "ANPH_L" 0 33 1 "FUNCTION"
 C L "ANPH_L" 0 33 1 "FUNCTION"
@@ -2684,19 +2685,19 @@ C L "ANPH_L" 0 33 1 "FUNCTION"
 C L "ANPH_L" 0 33 1 "FUNCTION"
 C L "ANPH_L" 0 33 1 "FUNCTION"
 C L "ANPH_L" 0 33 1 "FUNCTION"
-F N "ANPH_i" 0 562 ""
-F G "ANPH_i" 0 562 "void()" `1280  "Command sintax: i    // device information"
+F N "ANPH_i" 0 561 ""
+F G "ANPH_i" 0 561 "void()" `1280  "Command sintax: i    // device information"
 C L "ANPH_i" 0 33 2 "FUNCTION"
-F N "ANPH_STATUS" 0 571 ""
-F G "ANPH_STATUS" 0 571 "void()" `1281  "Status voltage at Vcc pin and reason for last restart"
+F N "ANPH_STATUS" 0 570 ""
+F G "ANPH_STATUS" 0 570 "void()" `1281  "Status voltage at Vcc pin and reason for last restart"
 C L "ANPH_STATUS" 0 33 8 "FUNCTION"
 C L "ANPH_STATUS" 0 33 1 "FUNCTION"
-V L "Vdd" 0 586 "float" `1348 
+V L "Vdd" 0 585 "float" `1348 
 C L "ANPH_STATUS" 0 33 1 "FUNCTION"
 C L "ANPH_STATUS" 0 33 1 "FUNCTION"
 C L "ANPH_STATUS" 0 33 1 "FUNCTION"
-F N "ANPH_SLEEP" 0 596 ""
-F G "ANPH_SLEEP" 0 596 "void()" `1282  "Sleep mode/low power : Send any character or command to awaken device"
+F N "ANPH_SLEEP" 0 595 ""
+F G "ANPH_SLEEP" 0 595 "void()" `1282  "Sleep mode/low power : Send any character or command to awaken device"
 C L "ANPH_SLEEP" 0 33 3 "FUNCTION"
 C L "ANPH_SLEEP" 0 33 1 "FUNCTION"
 C L "ANPH_SLEEP" 0 33 1 "FUNCTION"
@@ -2705,18 +2706,18 @@ C L "ANPH_SLEEP" 0 33 1 "FUNCTION"
 C L "ANPH_SLEEP" 0 33 1 "FUNCTION"
 C L "ANPH_SLEEP" 0 33 1 "FUNCTION"
 C L "adc_init" 0 33 9 "FUNCTION"
-F N "adc_init" 0 634 ""
-V L "address" 0 634 "int8" `1289 
-F G "adc_init" 0 635 "void(int8=0 address)" `1288 
+F N "adc_init" 0 633 ""
+V L "address" 0 633 "int8" `1289 
+F G "adc_init" 0 634 "void(int8=0 address)" `1288 
 C L "adc_init" 0 33 1 "FUNCTION"
 C L "adc_init" 0 33 1 "FUNCTION"
 C L "adc_init" 0 33 1 "FUNCTION"
 C L "adc_init" 0 33 1 "FUNCTION"
-F N "read_adc_mcp3421" 0 653 ""
-V L "address" 0 653 "int8" `1292 
-F G "read_adc_mcp3421" 0 657 "sint32(int8=0 address)" `1291 
-V L "result" 0 667 "{sint32 sint32,int8[4] b}" `1353 
-V L "status" 0 668 "int8" `1354 
+F N "read_adc_mcp3421" 0 652 ""
+V L "address" 0 652 "int8" `1292 
+F G "read_adc_mcp3421" 0 656 "sint32(int8=0 address)" `1291 
+V L "result" 0 666 "{sint32 sint32,int8[4] b}" `1353 
+V L "status" 0 667 "int8" `1354 
 C L "read_adc_mcp3421" 0 33 1 "FUNCTION"
 C L "read_adc_mcp3421" 0 33 1 "FUNCTION"
 C L "read_adc_mcp3421" 0 33 1 "FUNCTION"
@@ -2737,11 +2738,11 @@ C L "read_adc_mcp3421" 0 33 1 "FUNCTION"
 C L "read_adc_mcp3421" 0 33 1 "FUNCTION"
 C L "read_adc_mcp3421" 0 33 1 "FUNCTION"
 C L "read_adc_volts_mcp3421" 0 33 7 "FUNCTION"
-F N "read_adc_volts_mcp3421" 0 733 ""
-V L "address" 0 733 "int8" `1295 
-F G "read_adc_volts_mcp3421" 0 734 "float(int8=0 address)" `1294 
-V L "result" 0 736 "sint32" `1355 
-V L "fresult" 0 741 "float" `1356 
+F N "read_adc_volts_mcp3421" 0 732 ""
+V L "address" 0 732 "int8" `1295 
+F G "read_adc_volts_mcp3421" 0 733 "float(int8=0 address)" `1294 
+V L "result" 0 735 "sint32" `1355 
+V L "fresult" 0 740 "float" `1356 
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep" 0 0

@@ -108,9 +108,9 @@ else {
 
 void main()
 {   
-
-    config_PIC() ;
-   
+    disable_Modulos_PIC(); // desabilita todos os modulos do PIC (exceto alguns que eu não estou alterando)
+    renable_Modulos_PIC(); // reabilita só os modulos que eu estou utilizando e os configura (chama config_PIC() ; // configura os Módulos, Registradores etc )
+    //config_PIC();
     
     unsigned int1 flag_monta_out_buffer= FALSE ;// flag para montar o vetor out_buffer
     
@@ -214,6 +214,131 @@ LATA1=0; // led A1 comeca desligado
  RESET_in_buffer ;
 }
 
+void disable_Modulos_PIC(void){
+
+// REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)
+/* bits :
+1 = module disabled
+0 = module enabled */
+    
+// PMD0 bits
+ 
+// SYSCMD = 1; // 1 = System Clock network disabled (a.k.a. FOSC) See description in Section 14.3 ?System Clock Disable?.
+FVRMD = 1 ; // 1 = FVR module disable
+NVMMD = 1 ; //1 = Data EEPROM (a.k.a. user memory, EEPROM) reading and writing is disabled; NVMCON registers cannot be written; FSR access to EEPROM returns zero. //0 = NVM module enabled
+// CLKRMD = 1 ; //  Disable Clock Reference CLKR bit
+// IOCMD = 1 ;// 1 = IOC module(s) disabled ; 0 = IOC module(s) enabled ; Disable Interrupt-on-Change bit, All Ports
+// Note 1: When enabling NVM, a delay of up to 1 ?s may be required before accessing data.
+////////////////////////////////////////////////////////
+
+// PMD1 bits
+
+// NCOMD = 1;  //bit 7 NCOMD: Disable Numerically Control Oscillator bit
+//TMR6MD=  1  ; //bit 6 TMR6MD: Disable Timer TMR6 bit
+//TMR5MD = 1 ; //bit 5 TMR5MD: Disable Timer TMR5 bit
+//TMR4MD = 1 ; //bit 4 TMR4MD: Disable Timer TMR4 bit
+//TMR3MD = 1 ;  //bit 3 TMR3MD: Disable Timer TMR3 bit
+//TMR2MD = 1 ; //bit 2 TMR2MD: Disable Timer TMR2 bit
+//TMR1MD = 1 ; //bit 1 TMR1MD: Disable Timer TMR1 bit
+TMR0MD = 1 ; //bit 0 TMR0MD: Disable Timer TMR0 bit
+
+//bits PMD2:
+
+DACMD = 1 ;  //bit 6 DACMD: Disable DAC bit
+ADCMD = 1 ;  //bit 5 ADCMD: Disable ADC bit
+CMP2MD = 1 ; //bit 2 CMP2MD: Disable Comparator C2 bit
+CMP1MD = 1 ; //bit 1 CMP1MD: Disable Comparator C1 bit
+
+/* bits PMD3:*/
+
+CWG2MD = 1 ;    //bit 7 CWG2MD: Disable CWG2 bit
+CWG1MD = 1 ;   //bit 6 CWG1MD: Disable CWG1 bit
+PWM6MD = 1 ;     //bit 5 PWM6MD: Disable PWM6 bit
+PWM5MD = 1 ;    //bit 4 PWM5MD: Disable PWM5 bit
+CCP4MD = 1 ;     //bit 3 CCP4MD: Disable CCP4 bit
+CCP3MD = 1 ;    //bit 2 CCP3MD: Disable CCP3 bit
+CCP2MD = 1 ;     //bit 1 CCP2MD: Disable CCP2 bit
+CCP1MD = 1 ;     //bit 0 CCP1MD: Disable CCP1 bit
+
+/* bits PMD4:*/
+
+//UART1MD = 1 ;   //bit 5 UART1MD: Disable EUSART1 bit
+//MSSP2MD = 1 ;   //bit 2 MSSP2MD: Disable MSSP2 bit
+//MSSP1MD = 1 ;   //bit 1 MSSP1MD: Disable MSSP1 bit
+
+/* bits PMD5: */
+
+CLC4MD = 1 ;   //bit 4 CLC4MD: Disable CLC4 bit
+CLC3MD = 1 ;   //bit 3 CLC3MD: Disable CLC3 bit
+CLC2MD = 1 ;    //bit 2 CLC2MD: Disable CLC2 bit
+CLC1MD = 1 ;     //bit 1 CLC1MD: Disable CLC1 bit
+DSMMD  = 1 ;     //bit 0 DSMMD: Disable Data Signal Modulator bit
+
+}
+
+void renable_Modulos_PIC(void) {
+
+// REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)
+/* bits :
+1 = module disabled
+0 = module enabled */
+    
+// PMD0 bits
+ 
+// SYSCMD = 0; // 1 = System Clock network disabled (a.k.a. FOSC) See description in Section 14.3 ?System Clock Disable?.
+FVRMD = 0 ; // 1 = FVR module disable
+NVMMD = 0 ; //1 = Data EEPROM (a.k.a. user memory, EEPROM) reading and writing is disabled; NVMCON registers cannot be written; FSR access to EEPROM returns zero. //0 = NVM module enabled
+// CLKRMD = 0 ; //  Disable Clock Reference CLKR bit
+// IOCMD = 0 ;// 1 = IOC module(s) disabled ; 0 = IOC module(s) enabled ; Disable Interrupt-on-Change bit, All Ports
+// Note 1: When enabling NVM, a delay of up to 1 ?s may be required before accessing data.
+////////////////////////////////////////////////////////
+
+// PMD1 bits
+
+// NCOMD = 0;  //bit 7 NCOMD: Disable Numerically Control Oscillator bit
+//TMR6MD=  0  ; //bit 6 TMR6MD: Disable Timer TMR6 bit
+//TMR5MD = 0 ; //bit 5 TMR5MD: Disable Timer TMR5 bit
+//TMR4MD = 0 ; //bit 4 TMR4MD: Disable Timer TMR4 bit
+//TMR3MD = 0 ;  //bit 3 TMR3MD: Disable Timer TMR3 bit
+//TMR2MD = 0 ; //bit 2 TMR2MD: Disable Timer TMR2 bit
+//TMR1MD = 0 ; //bit 1 TMR1MD: Disable Timer TMR1 bit
+TMR0MD = 0 ; //bit 0 TMR0MD: Disable Timer TMR0 bit
+
+//bits PMD2:
+
+DACMD = 0 ;  //bit 6 DACMD: Disable DAC bit
+ADCMD = 0 ;  //bit 5 ADCMD: Disable ADC bit
+//CMP2MD = 0 ; //bit 2 CMP2MD: Disable Comparator C2 bit
+//CMP1MD = 0 ; //bit 1 CMP1MD: Disable Comparator C1 bit
+
+/* bits PMD3:*/
+
+//CWG2MD = 0 ;    //bit 7 CWG2MD: Disable CWG2 bit
+//CWG1MD = 0 ;   //bit 6 CWG1MD: Disable CWG1 bit
+//PWM6MD = 0 ;     //bit 5 PWM6MD: Disable PWM6 bit
+//PWM5MD = 0 ;    //bit 4 PWM5MD: Disable PWM5 bit
+//CCP4MD = 0 ;     //bit 3 CCP4MD: Disable CCP4 bit
+//CCP3MD = 0 ;    //bit 2 CCP3MD: Disable CCP3 bit
+//CCP2MD = 0 ;     //bit 1 CCP2MD: Disable CCP2 bit
+//CCP1MD = 0 ;     //bit 0 CCP1MD: Disable CCP1 bit
+
+/* bits PMD4:*/
+
+//UART1MD = 0 ;   //bit 5 UART1MD: Disable EUSART1 bit
+//MSSP2MD = 0 ;   //bit 2 MSSP2MD: Disable MSSP2 bit
+//MSSP1MD = 0 ;   //bit 1 MSSP1MD: Disable MSSP1 bit
+
+/* bits PMD5: */
+
+//CLC4MD = 0 ;   //bit 4 CLC4MD: Disable CLC4 bit
+//CLC3MD = 0 ;   //bit 3 CLC3MD: Disable CLC3 bit
+//CLC2MD = 0 ;    //bit 2 CLC2MD: Disable CLC2 bit
+//CLC1MD = 0 ;     //bit 1 CLC1MD: Disable CLC1 bit
+//DSMMD  = 0 ;     //bit 0 DSMMD: Disable Data Signal Modulator bit
+
+config_PIC() ; // quando os modulos são reabilitados ( após um disable)  todos os registradores associados ao modulo estão com valores do estado de reset POR, e dessa forma deve-se configurar o PIC novamente (dependendo do modulo tem que usar novamente as diretivas tbm (Ex #usei2c, caso i2c seja reabilitado))
+
+}
 
 int1 parsing_in_buffer(char *rcv_buffer) {
    
@@ -476,8 +601,10 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
  if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0') ) {
     SLEEP_exe= TRUE ; // indica a execucao do modo Sleep; Usado para a interrupcao I2C não interpretar como comando quando o usuario fazer: (Send any character or command to awaken device )
     LATA1=0; // desliga o led
+    disable_Modulos_PIC(); // desabilita todos os modulos do PIC para consumir menos energia (exceto alguns que eu não estou alterando ex, i2c uart, gerador do Fosc etc)
     sleep();  // comando passado é da forma Sleep
     SLEEP_exe= FALSE;
+    renable_Modulos_PIC(); // reabilita e configura os modulos do Pic que estou utilizando 
  }
        
 

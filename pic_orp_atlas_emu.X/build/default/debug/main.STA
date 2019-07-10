@@ -1,5 +1,5 @@
 
-ROM used:   3083/16384 (19%)
+ROM used:   3085/16384 (19%)
             4208/16384 (26%) including unused fragments
 
             0.5 Average locations per line
@@ -9,11 +9,11 @@ RAM used:   277/2048 (14%) at main() level
             330/2048 (16%) worst case
 
 Stack used: 0 worst case (0 in main + 0 for interrupts)
-Stack size: 16
+Stack size: 15
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  768   284  32  main.c
+  767   284  32  main.c
  1385     0   0  ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h
  1352   359  40  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h
    32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h
@@ -23,7 +23,7 @@ Lines Stmts  %   Files
  2227   258  29  ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h
   437     0   0  pic_orp_atlas_emu.h
 ----- -----
- 6701   901 Total
+ 6700   901 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -44,8 +44,8 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0    113   4    0    108  1.7  renable_Modulos_PIC
 0    409  13   13   2402 12.1  parsing_in_buffer
 0     49   2    6    182  5.7  identifica_comando
-1   1140  37    1    385  4.1  monta_out_buffer
-1     19   1    0             @goto8026
+1   1142  37    1    385  4.1  monta_out_buffer
+1     19   1    0             @goto38693
  Inline         8     59  2.3  get_orp_value_mV
  Inline         5    269  4.8  ANPH_R
 0     13   0    1             @SPRINTF
@@ -71,7 +71,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 Program metrics:
     Functions               20
     Statements              901
-    Comments                1602
+    Comments                1601
     Volume (V)              17272
     Difficulty (D)          102.3
     Effort to implement (E) 1767367
@@ -86,7 +86,7 @@ Program metrics:
 00003-00003     0  1  
 00004-00040    61  0  
 00041-007FF  1747  236  
-00800-00FFF  1159  889  
+00800-00FFF  1161  887  
 01000-017FF     0  2048  
 01800-01FFF     0  2048  
 02000-027FF     0  2048  

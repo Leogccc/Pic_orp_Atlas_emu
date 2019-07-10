@@ -58,11 +58,11 @@
 1B8     MAIN.i
 1B9-1BC atan2.x
 1BA     monta_out_buffer.num_comando
-1BA-1BB identifica_comando.comando
 1BA-1BB parsing_in_buffer.rcv_buffer
+1BA-1BB identifica_comando.comando
 1BA     MAIN.@SCRATCH1
-1BB     config_PIC.i
 1BB-1BC strlen.s
+1BB     config_PIC.i
 1BB     @delay_ms1.P1
 1BB-1BE ANPH_STATUS.Vdd
 1BB     MAIN.@SCRATCH2
@@ -70,16 +70,16 @@
 1BB     ANPH_L.@SCRATCH1
 1BB     ANPH_SLEEP.@SCRATCH1
 1BC     @PRINTF_D_1328.P1
-1BC     identifica_comando.CMD
 1BC-1BF get_orp_value_mV.mcp_value_mV
 1BC     parsing_in_buffer.num_separadores
+1BC     identifica_comando.CMD
 1BC     adc_init.address
 1BC     config_PIC.@SCRATCH1
 1BC     ANPH_R.@SCRATCH1
-1BD     parsing_in_buffer.index_separador_1
-1BD     @PRINTF_D_1328.P1
 1BD-1C0 atan2.z
+1BD     parsing_in_buffer.index_separador_1
 1BD-1BE strlen.sc
+1BD     @PRINTF_D_1328.P1
 1BD     config_PIC.@SCRATCH2
 1BD     ANPH_R.@SCRATCH2
 1BD     adc_init.@SCRATCH1
@@ -90,25 +90,25 @@
 1BF     strlen.@SCRATCH1
 1BF     identifica_comando.@SCRATCH2
 1BF     ANPH_R.@SCRATCH4
-1C0     read_adc_volts_mcp3421.address
 1C0-1C1 strcmp.s1
-1C0     parsing_in_buffer.i
 1C0     @PSTRINGCN7_1328.P1
-1C0-1C3 @PRINTF_L32D_1328FPFPF.P2
+1C0     read_adc_volts_mcp3421.address
+1C0-1C3 @PRINTF_L32D_1328FPFPF.P1
+1C0     parsing_in_buffer.i
 1C0     get_orp_value_mV.@SCRATCH1
 1C0     @PRINTF_D_1328.@SCRATCH1
 1C0     ANPH_STATUS.@SCRATCH1
-1C1.0   atan2.sign
 1C1-1C4 read_adc_volts_mcp3421.result
+1C1.0   atan2.sign
 1C1     parsing_in_buffer.i
 1C1     get_orp_value_mV.@SCRATCH2
 1C1     @PRINTF_D_1328.@SCRATCH2
 1C1     ANPH_STATUS.@SCRATCH2
+1C2     atan2.quad
 1C2     parsing_in_buffer.i
 1C2-1C3 strcmp.s2
 1C2-1C3 @ITOF.P1
-1C2     atan2.quad
-1C2-1C5 @DIVFF.P1
+1C2-1C5 @DIVFF.P2
 1C2     get_orp_value_mV.@SCRATCH3
 1C2     @PRINTF_D_1328.@SCRATCH3
 1C3     parsing_in_buffer.@SCRATCH1
@@ -120,12 +120,12 @@
 1C4     strcmp.@SCRATCH1
 1C4     parsing_in_buffer.@SCRATCH2
 1C4     @PSTRINGCN7_1328.@SCRATCH2
-1C5-1C8 read_adc_volts_mcp3421.fresult
 1C5     @DIV88.P1
+1C5-1C8 read_adc_volts_mcp3421.fresult
 1C5     parsing_in_buffer.@SCRATCH3
 1C5     @PSTRINGCN7_1328.@SCRATCH3
-1C6     @READ_PROGRAM_MEMORY8.P1
-1C6-1C9 @DIVFF.P2
+1C6-1C9 @DIVFF.P1
+1C6     @READ_PROGRAM_MEMORY8.P2
 1C6     @DIV88.@SCRATCH1
 1C8     @PRINTF_L32D_1328FPFPF.@SCRATCH1
 1C9     @PRINTF_L32D_1328FPFPF.@SCRATCH2
@@ -147,9 +147,9 @@
 1CF     @PRINTF_L32D_1328FPFPF.@SCRATCH8
 1CF     read_adc_volts_mcp3421.@SCRATCH4
 1D0     @SPRINTF.P1
-1D0-1D3 @DIV3232.P2
-1D0-1D3 @MULFF.P3
-1D0-1D3 @FTOSD.P4
+1D0-1D3 @FTOSD.P2
+1D0-1D3 @DIV3232.P3
+1D0-1D3 @MULFF.P4
 1D0     @DIVFF.@SCRATCH5
 1D0     @SDTOF.@SCRATCH1
 1D1     read_adc_mcp3421.status
@@ -157,8 +157,8 @@
 1D2     @I2C_READU_2.P1
 1D2     read_adc_mcp3421.@SCRATCH1
 1D3     @I2C_WRITEU_2.P1
-1D4-1D7 @DIV3232.P1
-1D4-1D7 @MULFF.P2
+1D4-1D7 @MULFF.P1
+1D4-1D7 @DIV3232.P2
 1D4     @FTOSD.@SCRATCH1
 1DC     @MULFF.@SCRATCH1
 1DC     @DIV3232.@SCRATCH1
@@ -208,14 +208,14 @@
 891-892 @WRITE_PROGRAM_MEMORY8.P1
 891-892 @READ_PROGRAM_MEMORY8.P2
 8FF     @INTERRUPT_AREA
-911     PMD0
 911.0   IOCMD
+911     PMD0
 911.1   CLKRMD
 911.2   NVMMD
 911.6   FVRMD
 911.7   SYSCMD
-912.0   TMR0MD
 912     PMD1
+912.0   TMR0MD
 912.1   TMR1MD
 912.2   TMR2MD
 912.3   TMR3MD
@@ -228,8 +228,8 @@
 913.2   CMP2MD
 913.5   ADCMD
 913.6   DACMD
-914     PMD3
 914.0   CCP1MD
+914     PMD3
 914.1   CCP2MD
 914.2   CCP3MD
 914.3   CCP4MD
@@ -326,20 +326,20 @@ ROM Allocation:
 0005EB  @cinit2
 000800  monta_out_buffer
 00080C  ANPH_i
-000830  ANPH_R
-00084E  get_orp_value_mV
-000850  read_adc_volts_mcp3421
-000852  read_adc_mcp3421
-0008F2  @SDTOF
-000998  ANPH_FIND
-0009D6  ANPH_L
-0009E2  strlen
-000A3A  @PRINTF_D_1328
-000AB7  ANPH_STATUS
-000AE0  @ITOF
-000B0B  @DIVFF
-000C40  ANPH_SLEEP
-000C74  @goto8026
+000831  ANPH_R
+00084F  get_orp_value_mV
+000851  read_adc_volts_mcp3421
+000853  read_adc_mcp3421
+0008F3  @SDTOF
+000999  ANPH_FIND
+0009D7  ANPH_L
+0009E3  strlen
+000A3B  @PRINTF_D_1328
+000AB9  ANPH_STATUS
+000AE2  @ITOF
+000B0D  @DIVFF
+000C42  ANPH_SLEEP
+000C76  @goto38693
 0136  StrtoulGO
 0136  StrtolGO
 
@@ -357,7 +357,7 @@ Project Directory:
     C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\
 
 Project Files:
-    main.c                                                  [10-jul-19 09:40  CRC=4B5A3638]
+    main.c                                                  [08-jul-19 17:23  CRC=FE35773F]
     ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h [20-jul-18 14:24  CRC=7C37FC38]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h [29-jun-16 10:34  CRC=7E9CC16B]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h [05-set-14 12:47  CRC=897CEC6C]
@@ -365,12 +365,12 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h [03-jan-08 15:55  CRC=2D1F019F]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h [31-jul-07 15:24  CRC=4E4534F4]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h  [22-set-16 09:36  CRC=9CF8C837]
-    pic_orp_atlas_emu.h                                     [08-jul-19 18:31  CRC=70CE09DD]
+    pic_orp_atlas_emu.h                                     [08-jul-19 17:03  CRC=AD46E47A]
 
-Source signature=8E263562
-Program memory checksum=ADBA
-Program memory CRC=3DEA
-Hex file CRC=70BD
+Source signature=B9F32BA3
+Program memory checksum=5D5B
+Program memory CRC=0000
+Hex file CRC=1BDF
 
 Units:
     main (main)
@@ -382,19 +382,21 @@ Compiler Settings:
     Opt Level:      9
     Short,Int,Long: UNSIGNED: 1,8,16
     Float,Double:   32,32
+    ICD Provisions: Yes
     Enhanced 16:    Yes
     Compile Mode:       CCS5
     Predefined symbols:
+       #define __DEBUG 1
        #define __16F18326 1
 
 Output Files:
-    XREF file:   build\default\production\main.xsym
-    Errors:      build\default\production\main.err
-    Ext Symbols: build\default\production\main.esym
-    INHX8:       build\default\production\main.hex
-    Symbols:     build\default\production\main.sym
-    List:        build\default\production\main.lst
-    Debug/COFF:  build\default\production\main.cof
+    XREF file:   build\default\debug\main.xsym
+    Errors:      build\default\debug\main.err
+    Ext Symbols: build\default\debug\main.esym
+    INHX8:       build\default\debug\main.hex
+    Symbols:     build\default\debug\main.sym
+    List:        build\default\debug\main.lst
+    Debug/COFF:  build\default\debug\main.cof
     Project:     main.ccspjt
-    Call Tree:   build\default\production\main.tre
-    Statistics:  build\default\production\main.STA
+    Call Tree:   build\default\debug\main.tre
+    Statistics:  build\default\debug\main.STA
