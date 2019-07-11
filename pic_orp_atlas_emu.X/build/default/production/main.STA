@@ -1,5 +1,5 @@
 
-ROM used:   4951/16384 (30%)
+ROM used:   4958/16384 (30%)
             6256/16384 (38%) including unused fragments
 
             0.7 Average locations per line
@@ -13,7 +13,7 @@ Stack size: 16
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  903   343  36  main.c
+  910   345  36  main.c
  1385     0   0  ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h
  1352   359  37  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h
    32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h
@@ -22,9 +22,9 @@ Lines Stmts  %   Files
    37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h
  2227   258  27  ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h
    32     0   0  MAPA_DATA_EEPROM.h
-  440     0   0  pic_orp_atlas_emu.h
+  450     0   0  pic_orp_atlas_emu.h
 ----- -----
- 6871   960 Total
+ 6888   962 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -36,19 +36,19 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0    327   7   16             @ADDFF
 0    204   4   16             @DIVFF
  Inline        20   1549 12.4  strtof
-1     22   0    1             @delay_ms1
+0     25   1    1             @delay_ms1
  Inline         1             @I2C_WRITE_1
 0     21   0    1             @I2C_WRITEU_2
 0     16   0    1             @I2C_READU_2
 0     90   2    4    681  6.2  SSP_isr_slave
-1    357   7    7    965  5.6  MAIN
- Inline         3    951  5.8  config_PIC
+1    383   8    7   1024  5.6  MAIN
+ Inline         3    945  5.8  config_PIC
 0     23   0    0    461  1.9  disable_Modulos_PIC
-0    190   4    0    108  1.7  renable_Modulos_PIC
+0    168   3    0    108  1.7  renable_Modulos_PIC
 0    409   8   15   2402 12.1  parsing_in_buffer
 0     49   1    6    182  5.7  identifica_comando
 2   1865  38    1    451  4.2  monta_out_buffer
-2     19   0    0             @goto32054
+2     19   0    0             @goto38204
  Inline         6   1017  8.9  isStr_float
 0    271   5    8     59  2.3  get_orp_value_mV
  Inline        13    329  5.4  ANORP_R
@@ -82,23 +82,23 @@ Page ROM  %  RAM    Vol Diff  Functions:
 
 Program metrics:
     Functions               24
-    Statements              960
-    Comments                1675
-    Volume (V)              27659
+    Statements              962
+    Comments                1683
+    Volume (V)              27741
     Difficulty (D)          140.4
-    Effort to implement (E) 3882971
-    Time to implement (T)   59 hours, 55 minutes
+    Effort to implement (E) 3894859
+    Time to implement (T)   60 hours, 6 minutes
     Est Delivered Bugs (B)  8
     Cyclomatic Complexity   96
-    Maintainability (MI)    92
+    Maintainability (MI)    93
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00002     3  0  
 00003-00003     0  1  
 00004-00040    61  0  
-00041-007FF  1974  9  
-00800-00FFF   916  1132  
+00041-007FF  1977  6  
+00800-00FFF   920  1128  
 01000-017FF  1884  164  
 01800-01FFF     0  2048  
 02000-027FF     0  2048  

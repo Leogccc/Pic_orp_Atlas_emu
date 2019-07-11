@@ -109,6 +109,9 @@ else {
 
 void main()
 {   
+    
+    Reason_for_restart = restart_cause() ; // Usado no comando STATUS
+    
     disable_Modulos_PIC(); // desabilita todos os modulos do PIC (exceto alguns que eu não estou alterando)
     renable_Modulos_PIC(); // reabilita só os modulos que eu estou utilizando e os configura (chama config_PIC() ; // configura os Módulos, Registradores etc )
     //config_PIC();
@@ -117,7 +120,8 @@ void main()
     
     while(TRUE)
     { 
-           
+      restart_wdt();
+      
       // delay de leitura do in_buffer I2C
       if(lendo_str_master) { 
           set_timer0(0);// timer0 comeca a contar do 0 (incrementando a cada 512us; para um delay de 30ms=512us*N_incrementos => N_incrementos=58.59375~ 59)  
@@ -154,6 +158,9 @@ void main()
 void config_PIC(void) 
 {   
    
+    setup_wdt(WDT_4S); // configura o WTD para resetar dps de 4s sem chamar restart_wdt(); Comeca a contar logo após do fuse WDT
+    
+    
     enable_interrupts(INT_SSP); // habilita a interrupcao de uma atividade em MSSP1 (interrupcao da I2C PIC SLAVE) 
     // enable_interrupts(INT_RDA); // habilita a interrupcao recieve data rs232
     enable_interrupts(GLOBAL); // habilita todas as interrupcoes unmasked, que foram habilitadas anteriormente dessa chamada
@@ -224,8 +231,6 @@ offset_cal.valor_byte[2]= read_eeprom(OFFSET_CAL_ADDRESS +2);
 offset_cal.valor_byte[3]= read_eeprom(OFFSET_CAL_ADDRESS +3 );
 
 device_calibrated= read_eeprom(DEVICE_CALIBRATED_ADDRESS); // status da calibração
-
- Reason_for_restart = restart_cause() ;
 
  RESET_in_buffer ;
 }
@@ -613,7 +618,8 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
         out_buffer[0]=1; // response code
         
         switch(Reason_for_restart){
-            case  NORMAL_POWER_UP: // O ultimo reset foi por falta de alimentacao => ultimo reset foi quando o dispositivo "ligou" dps de ter estar sem alimentacao (Normal)      
+            
+            case NORMAL_POWER_UP: //??? O ultimo reset foi por falta de alimentacao => ultimo reset foi quando o dispositivo "ligou" dps de ter estar sem alimentacao (Normal)      
                   sprintf(out_buffer+1,"?Status,%c,%.2f",'P',Vdd) ;
                    break;  
             case BROWNOUT_RESTART:
@@ -746,6 +752,7 @@ LATA1=1;
 //Response: device reboot
 out_buffer[0]=1;
 //sprintf(out_buffer,"%s", "device reboot") ;
+
 }
 
 else out_buffer[0]= 2; // 2 sintax error  

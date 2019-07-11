@@ -257,8 +257,8 @@
 911.2   NVMMD
 911.6   FVRMD
 911.7   SYSCMD
-912.0   TMR0MD
 912     PMD1
+912.0   TMR0MD
 912.1   TMR1MD
 912.2   TMR2MD
 912.3   TMR3MD
@@ -271,8 +271,8 @@
 913.2   CMP2MD
 913.5   ADCMD
 913.6   DACMD
-914.0   CCP1MD
 914     PMD3
+914.0   CCP1MD
 914.1   CCP2MD
 914.2   CCP3MD
 914.3   CCP4MD
@@ -356,32 +356,32 @@ ROM Allocation:
 0000EC  @I2C_WRITEU_2
 000101  renable_Modulos_PIC
 000107  config_PIC
-000126  adc_init
-0001BF  parsing_in_buffer
-000203  @READ_PROGRAM_MEMORY8
-000358  strcmp
-000399  identifica_comando
-0003CA  strlen
-0003E6  @MULFF
-000482  @ITOF
-0004A1  @DIVFF
-00056D  @ADDFF
-0006B4  @I2C_READU_2
-0006C4  get_orp_value_mV
-0006C6  read_adc_volts_mcp3421
-0006C8  read_adc_mcp3421
-000750  @SDTOF
-0007D3  @SPRINTF
-0007E0  @DIV88
+000128  adc_init
+0001A9  parsing_in_buffer
+0001ED  @READ_PROGRAM_MEMORY8
+000342  strcmp
+000383  identifica_comando
+0003B4  strlen
+0003D0  @MULFF
+00046C  @ITOF
+00048B  @DIVFF
+000557  @ADDFF
+00069E  @I2C_READU_2
+0006AE  get_orp_value_mV
+0006B0  read_adc_volts_mcp3421
+0006B2  read_adc_mcp3421
+00073A  @SDTOF
+0007BD  @SPRINTF
+0007CA  @DIV88
+0007E1  @delay_ms1
 000800  @PSTRINGCN7_1337
 00085C  @PRINTF_D_1337
 0008CB  @DIV3232
 00091A  @PRINTF_L32D_1337FPFPF
 000946  @FTOSD
-000A19  @delay_ms1
-000A2F  @cinit1
-000A2F  MAIN
-000A63  @cinit2
+000A19  @cinit1
+000A19  MAIN
+000A4D  @cinit2
 001000  monta_out_buffer
 00100A  ANORP_CAL
 001025  isStr_float
@@ -393,7 +393,7 @@ ROM Allocation:
 0014FE  ANORP_L
 00155F  ANORP_STATUS
 001715  ANORP_SLEEP
-001749  @goto32054
+001749  @goto38204
 0136  StrtoulGO
 0136  StrtolGO
 
@@ -411,7 +411,7 @@ Project Directory:
     C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\
 
 Project Files:
-    main.c                                                  [10-jul-19 18:06  CRC=15E977AE]
+    main.c                                                  [11-jul-19 16:28  CRC=7DC25A8A]
     ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h [20-jul-18 14:24  CRC=7C37FC38]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h [29-jun-16 10:34  CRC=7E9CC16B]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h [05-set-14 12:47  CRC=897CEC6C]
@@ -420,12 +420,12 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h [31-jul-07 15:24  CRC=4E4534F4]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h  [22-set-16 09:36  CRC=9CF8C837]
     MAPA_DATA_EEPROM.h                                      [10-jul-19 16:00  CRC=A2A83836]
-    pic_orp_atlas_emu.h                                     [10-jul-19 18:04  CRC=84915CC9]
+    pic_orp_atlas_emu.h                                     [11-jul-19 16:24  CRC=0A9F1F6E]
 
-Source signature=22E454E6
-Program memory checksum=7277
+Source signature=96D8BD0C
+Program memory checksum=F8DF
 Program memory CRC=B443
-Hex file CRC=BB7E
+Hex file CRC=9FC9
 
 Units:
     main (main)

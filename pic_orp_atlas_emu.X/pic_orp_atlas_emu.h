@@ -12,21 +12,29 @@
 
 // #define debug /*depuracao*/
 
-#use delay(internal=16MHZ) // CPU rodando em 16MHZ (clock interno)
-
+#use delay(internal=16MHZ,restart_wdt) // CPU rodando em 16MHZ (clock interno); WDT sempre é resetado duranto o uso das funcoes delay built in
 
 // configuracoes de hardware do PIC (fuses)
- #fuses RSTOSC_HFINTRC, WRT, PROTECT, CPD, NOLVP, NOWDT  
+#fuses PUT, RSTOSC_HFINTRC // POR
+#fuses WRT, PROTECT, CPD, NOLVP // Proteção das Memórias  
+#fuses BROWNOUT,BORV27 // BOR- Brown out ativo com V_brow_out= 2.7 V (abaixo de V_brow_out ele fica no Reset)
+#fuses WDT_NOSL // WhatDogTimer (WTD)
+#fuses NOMCLR // MASTER CLEAR (MCLR) 
+
 // Descrição fuses do PIC16F18326 que estão configurados 
 /* 
-RSTOSC_HFINTRC   // On Power-up clock running from HFINTRC
 PUT             // Power Up Timer
-LPBOR           // Low-Power Brownout reset is enabled
+RSTOSC_HFINTRC   // On Power-up clock running from HFINTRC
+ * 
 WRT            //  Program Memory Write Protected
 PROTECT        //  Code protected from reads
 CPD             // Data EEPROM Code Protected
 NOLVP           // No low voltage programing, B3(PIC16) or B5(PIC18) used for I/O
-WDT           //   Watch Dog Timer
+ * 
+NOMCLR           //Master Clear pin used for I/O
+ * 
+WDT_NOSL //  Watch Dog Timer enable, except during SLEEP
+ * 
 */ 
 
 
@@ -217,8 +225,10 @@ registers cannot be written; FSR access to EEPROM returns zero.
  #pin_select SDA1OUT=PIN_C1
 /*configura a I2C1(MSSP1) para o modo slave, com endereco PIC_ADDRESS,  usando hardware I2C 
  functions(FORCE_HW). Uma ID= I2C_PIC_SLAVE  representa o canal(stream) i2c criado 
- A i2c é iniciado com i2c_init() (NOINIT) , */ 
-#use i2c(SLAVE, I2C1, address= PIC_ADDRESS , stream= I2C_PIC_SLAVE, NOINIT,FORCE_HW) 
+ A i2c é iniciado com i2c_init() (NOINIT) ,
+ restart_wdt=> Restart the WDT while waiting in I2C_READ 
+ */ 
+#use i2c(SLAVE, I2C1, address= PIC_ADDRESS , stream= I2C_PIC_SLAVE, NOINIT,FORCE_HW, restart_wdt) 
 
 /*
 #pin_select U1TX= PIN_A4 // PIN_C1 SDA/TX
@@ -419,7 +429,7 @@ void ANORP_FACTORY(void);//
  #pin_select SDA2OUT = MCP3421_SDA
 
 
-#use i2c(MASTER,FAST,SCL=MCP3421_SCL, SDA=MCP3421_SDA, stream= MCP3421_STREAM,NOINIT)
+#use i2c(MASTER,FAST,SCL=MCP3421_SCL, SDA=MCP3421_SDA, stream= MCP3421_STREAM,NOINIT, restart_wdt)
 
 
 /* Protótipos*/
