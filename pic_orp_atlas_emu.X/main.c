@@ -542,6 +542,7 @@ void ANORP_FIND(void){
             delay_ms(100);
             LATA1=!LATA1 ;
             delay_ms(100);
+            restart_wdt(); // usado por causa do loop do find que pode fazer WDT estourar, resetando o pic; delay_ms reseta o WDT implicitamente se restart_wdt estiver em #use delay 
         }
         
         

@@ -285,8 +285,8 @@
 915.1   MSSP1MD
 915.2   MSSP2MD
 915.5   UART1MD
-916     PMD5
 916.0   DSMMD
+916     PMD5
 916.1   CLC1MD
 916.2   CLC2MD
 916.3   CLC3MD
@@ -380,9 +380,9 @@ ROM Allocation:
 00091A  @PRINTF_L32D_1338FPFPF
 000946  @FTOSD
 000A19  @delay_ms1
-000A32  @cinit1
-000A32  MAIN
-000A66  @cinit2
+000A2F  @cinit1
+000A2F  MAIN
+000A63  @cinit2
 001000  monta_out_buffer
 00100A  ANORP_CAL
 001025  isStr_float
@@ -391,10 +391,10 @@ ROM Allocation:
 00144A  ANORP_i
 00146E  ANORP_R
 0014D9  ANORP_FIND
-001517  ANORP_L
-0015AE  ANORP_STATUS
-001764  ANORP_SLEEP
-001798  @goto56928
+001518  ANORP_L
+0015AF  ANORP_STATUS
+001765  ANORP_SLEEP
+001799  @goto57453
 0136  StrtoulGO
 0136  StrtolGO
 
@@ -412,7 +412,7 @@ Project Directory:
     C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\
 
 Project Files:
-    main.c                                                  [11-jul-19 17:15  CRC=31FFA0CB]
+    main.c                                                  [11-jul-19 18:03  CRC=A79816FD]
     ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h [20-jul-18 14:24  CRC=7C37FC38]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h [29-jun-16 10:34  CRC=7E9CC16B]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h [05-set-14 12:47  CRC=897CEC6C]
@@ -421,12 +421,12 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h [31-jul-07 15:24  CRC=4E4534F4]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\math.h  [22-set-16 09:36  CRC=9CF8C837]
     MAPA_DATA_EEPROM.h                                      [11-jul-19 17:09  CRC=4D16ACAE]
-    pic_orp_atlas_emu.h                                     [11-jul-19 17:09  CRC=8D65E42D]
+    pic_orp_atlas_emu.h                                     [11-jul-19 18:03  CRC=ACFAE347]
 
-Source signature=FB120143
-Program memory checksum=1DF0
+Source signature=AFD475A9
+Program memory checksum=97E9
 Program memory CRC=B443
-Hex file CRC=6C65
+Hex file CRC=9576
 
 Units:
     main (main)

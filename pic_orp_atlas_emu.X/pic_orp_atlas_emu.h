@@ -12,7 +12,7 @@
 
 // #define debug /*depuracao*/
 
-#use delay(internal=16MHZ,restart_wdt) // CPU rodando em 16MHZ (clock interno); WDT sempre é resetado duranto o uso das funcoes delay built in
+#use delay(internal=16MHZ/*,restart_wdt*/) // CPU rodando em 16MHZ (clock interno); WDT sempre é resetado duranto o uso das funcoes delay built in se tiver restart_wdt como argumento
 
 // configuracoes de hardware do PIC (fuses)
 #fuses PUT, RSTOSC_HFINTRC // POR
