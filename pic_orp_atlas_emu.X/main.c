@@ -217,7 +217,9 @@ void config_PIC(void)
     setup_timer_0(T0_INTERNAL|T0_DIV_2048| T0_16_BIT); //TMR0 incrementa a cada 512us
     
 TRISA1=0; // configura o pino do led como saída
-LATA1=1; // led A1 comeca ligado
+
+estado_led= read_eeprom(STATUS_LED_CONTROL_ADDRESS);
+LATA1= estado_led; // led A1 comeca conforme seu estado do ultimo comando L usado pelo usuario
 
 /*
  Carrega os parametros e status armazenados na EEPROM
@@ -564,11 +566,15 @@ void ANORP_L(void){
 
             case '1':
                        LATA1=1 ;
-                       out_buffer[0]=1; //Response: 1(DEC) 0(NULL)    
+                       out_buffer[0]=1; //Response: 1(DEC) 0(NULL) 
+                       estado_led= TRUE;
+                       write_eeprom(STATUS_LED_CONTROL_ADDRESS,estado_led);
                 break;
             case '0':
                        LATA1=0 ;
                        out_buffer[0]=1; // //Response: 1(DEC) 0(NULL)  
+                       estado_led= FALSE ;
+                       write_eeprom(STATUS_LED_CONTROL_ADDRESS,estado_led);
                 break;
 
             case '?':
@@ -586,7 +592,7 @@ void ANORP_L(void){
      else out_buffer[0]= 2; // 2 sintax error VALOR não tem tamanho 1
  }
  
- else out_buffer[0]= 2; // 2 sintax error ; O comando passado não é da forma RT,VALOR
+ else out_buffer[0]= 2; // 2 sintax error ;
 }
 
 void ANORP_i(void){
@@ -747,6 +753,8 @@ write_eeprom(DEVICE_CALIBRATED_ADDRESS,device_calibrated);
 
 //LED on
 LATA1=1;
+estado_led= TRUE;
+write_eeprom(STATUS_LED_CONTROL_ADDRESS,estado_led);
 //Response codes enabled (Falta implementar)
 
 //Response: device reboot
@@ -757,6 +765,11 @@ out_buffer[0]=1;
 
 else out_buffer[0]= 2; // 2 sintax error  
 }
+
+
+
+
+
 
 
 // Funções de comunicação com o MCP3421

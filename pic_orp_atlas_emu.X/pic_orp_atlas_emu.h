@@ -257,6 +257,7 @@ unsigned int8  index_in_buffer ;
 unsigned int1  FIND_exe= FALSE ;// status do comando FIND (se está executando é TRUE)
 unsigned int1  SLEEP_exe= FALSE ; // // status do comando SLEEP
 unsigned int8  device_calibrated ; // indica se o dispositivo está calibrado ou não TRUE= Calibrado; FALSE= Não calibrado
+unsigned int8  estado_led; // Estado do led controlado pelo comando L, salvo na EEPROM para voltar caso a energia acabe 
 
 int8 Reason_for_restart ; // indica a causa do ultimo restart do PIC
 
