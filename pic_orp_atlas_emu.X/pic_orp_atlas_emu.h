@@ -16,7 +16,7 @@
 
 // configuracoes de hardware do PIC (fuses)
 #fuses PUT, RSTOSC_HFINTRC // POR
-#fuses WRT, PROTECT, CPD, NOLVP // Proteção das Memórias  
+#fuses WRT, PROTECT, NOLVP, CPD // Proteção das Memórias  
 #fuses BROWNOUT,BORV27 // BOR- Brown out ativo com V_brow_out= 2.7 V (abaixo de V_brow_out ele fica no Reset)
 #fuses WDT_NOSL // WhatDogTimer (WTD)
 #fuses NOMCLR // MASTER CLEAR (MCLR) 
@@ -258,11 +258,12 @@ unsigned int1  FIND_exe= FALSE ;// status do comando FIND (se está executando é 
 unsigned int1  SLEEP_exe= FALSE ; // // status do comando SLEEP
 unsigned int8  device_calibrated ; // indica se o dispositivo está calibrado ou não TRUE= Calibrado; FALSE= Não calibrado
 unsigned int8  estado_led; // Estado do led controlado pelo comando L, salvo na EEPROM para voltar caso a energia acabe 
+unsigned int8  i2c_address; // endereco da i2c da placa padrão é 98 (DEC),mas pode ser alterado com o comando I2C
 
 int8 Reason_for_restart ; // indica a causa do ultimo restart do PIC
 
 
-typedef enum {cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status} comandos;
+typedef enum {cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2C, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status} comandos;
 char lista_comandos[15][LEN_MAX_CMD +1]= {"ERR","BAUD","CAL","EXPORT","FACTORY","FIND","I","I2C","IMPORT","L","PLOCK","R","SLEEP","SLOPE","STATUS"} ;
 
 
@@ -313,10 +314,12 @@ void ANORP_R(void) ; // retorna uma única leitura do valor de ph (%.2f)
 void ANORP_FIND(void); //Find: LED rapidly blinks white, used to help find device
 void ANORP_L(void); // LED CONTROL
 void ANORP_i(void); // retorna device information para o usuario
+void ANORP_I2C(void); //
 void ANORP_STATUS(void) ; //  Status voltage at Vcc pin and reason for last restart
 void ANORP_SLEEP(void) ; // Placa entre em modo Sleep
 void ANORP_CAL(void); //
 void ANORP_FACTORY(void);//
+
 /* */
 
 

@@ -91,6 +91,9 @@ endif
 
 MP_CC="C:\Program Files (x86)\PICC\CCSCON.exe"
 MP_LD="C:\Program Files (x86)\PICC\CCSCON.exe"
+sourceline.device=sourceline="\#device PIC16F18326"
+sourceline.xccompat=sourceline="\#device PASS_STRINGS=IN_RAM" sourceline="\#device CONST=READ_ONLY" sourceline="\#case" sourceline="\#TYPE SIGNED" sourceline="\#type INT=16, LONG=32"
+sourceline.gcccompat=sourceline="\#device PASS_STRINGS=IN_RAM" sourceline="\#device CONST=READ_ONLY" sourceline="\#case" sourceline="\#TYPE SIGNED"
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
@@ -98,11 +101,11 @@ ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	${MKDIR} ${OBJECTDIR} 
 ifeq (1,1) 
 	${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC}  out="${OBJECTDIR}"  main.c +FM +DF +CC  #__DEBUG=1 +ICD +Y=9 +EA +DF +LN +T +A +M +J +EA +Z -P #__16F18326=1 
+	${MP_CC}  out="${OBJECTDIR}"  main.c +FM +DF +CC  #__DEBUG=1 +ICD +Y=9 +EA +DF +LN +T +A +M +J +Z -P #__16F18326=1 
 	@mv ${OBJECTDIR}/main.cof "dist/${CND_CONF}/${IMAGE_TYPE}/pic_orp_atlas_emu.X.${IMAGE_TYPE}.cof" 
 	@mv ${OBJECTDIR}/main.hex "dist/${CND_CONF}/${IMAGE_TYPE}/pic_orp_atlas_emu.X.${IMAGE_TYPE}.hex"
 else 
-	${MP_CC}  out=""${OBJECTDIR}"" main.c +EXPORT +FM +DF +CC  #__DEBUG=1 +ICD +Y=9 +EA +DF +LN +T +A +M +J +EA +Z -P #__16F18326=1 +EXPORTD="${OBJECTDIR}"  
+	${MP_CC}  out=""${OBJECTDIR}"" main.c +EXPORT +FM +DF +CC  #__DEBUG=1 +ICD +Y=9 +EA +DF +LN +T +A +M +J +Z -P #__16F18326=1 +EXPORTD="${OBJECTDIR}"  
 	
 endif 
 	
@@ -111,11 +114,11 @@ ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	${MKDIR} ${OBJECTDIR} 
 ifeq (1,1) 
 	${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC}  out="${OBJECTDIR}"  main.c +FM +DF +CC +Y=9 +EA +DF +LN +T +A +M +J +EA +Z -P #__16F18326=1 
+	${MP_CC}  out="${OBJECTDIR}"  main.c +FM +DF +CC +Y=9 +EA +DF +LN +T +A +M +J +Z -P #__16F18326=1 
 	@mv ${OBJECTDIR}/main.cof "dist/${CND_CONF}/${IMAGE_TYPE}/pic_orp_atlas_emu.X.${IMAGE_TYPE}.cof" 
 	@mv ${OBJECTDIR}/main.hex "dist/${CND_CONF}/${IMAGE_TYPE}/pic_orp_atlas_emu.X.${IMAGE_TYPE}.hex"
 else 
-	${MP_CC}  out=""${OBJECTDIR}"" main.c +EXPORT +FM +DF +CC +Y=9 +EA +DF +LN +T +A +M +J +EA +Z -P #__16F18326=1 +EXPORTD="${OBJECTDIR}"  
+	${MP_CC}  out=""${OBJECTDIR}"" main.c +EXPORT +FM +DF +CC +Y=9 +EA +DF +LN +T +A +M +J +Z -P #__16F18326=1 +EXPORTD="${OBJECTDIR}"  
 	
 endif 
 	
@@ -129,7 +132,7 @@ dist/${CND_CONF}/${IMAGE_TYPE}/pic_orp_atlas_emu.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX
 ifeq (1,1) 
 	
 else 
-	${MP_LD}   out="dist/${CND_CONF}/${IMAGE_TYPE}"  +FM +DF +CC LINK=pic_orp_atlas_emu.X.${IMAGE_TYPE}.hex=${OBJECTDIR}/main.o +Y=9 +EA +DF +LN +T +A +M +J +EA +Z -P
+	${MP_LD}   out="dist/${CND_CONF}/${IMAGE_TYPE}"  +FM +DF +CC LINK=pic_orp_atlas_emu.X.${IMAGE_TYPE}.hex=${OBJECTDIR}/main.o +Y=9 +EA +DF +LN +T +A +M +J +Z -P
 	
 endif 
 	
@@ -139,7 +142,7 @@ dist/${CND_CONF}/${IMAGE_TYPE}/pic_orp_atlas_emu.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX
 ifeq (1,1) 
 	
 else 
-	${MP_LD}   out="dist/${CND_CONF}/${IMAGE_TYPE}"  +FM +DF +CC LINK=pic_orp_atlas_emu.X.${IMAGE_TYPE}.hex=${OBJECTDIR}/main.o +Y=9 +EA +DF +LN +T +A +M +J +EA +Z -P
+	${MP_LD}   out="dist/${CND_CONF}/${IMAGE_TYPE}"  +FM +DF +CC LINK=pic_orp_atlas_emu.X.${IMAGE_TYPE}.hex=${OBJECTDIR}/main.o +Y=9 +EA +DF +LN +T +A +M +J +Z -P
 	
 endif 
 	

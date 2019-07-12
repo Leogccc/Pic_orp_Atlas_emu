@@ -114,6 +114,8 @@
         <property key="voltagevalue" value="5.0"/>
       </PICkit3PlatformTool>
       <ccscompiler>
+        <property key="cc-compat" value="0"/>
+        <property key="ccs-insert-device" value="false"/>
         <property key="close-after-compile" value="true"/>
         <property key="compile-for-icd" value="false"/>
         <property key="create-call-tree" value="true"/>

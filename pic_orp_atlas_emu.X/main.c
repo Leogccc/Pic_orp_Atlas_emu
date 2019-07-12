@@ -145,6 +145,7 @@ void main()
             {
               int8 cmd_identificado = identifica_comando(CMD) ;
               monta_out_buffer(cmd_identificado); 
+              if(cmd_identificado==cmd_I2C) ANORP_I2C(); // era pra estar em monta_out_buffer mas ta com problema na ROM
             }
 
             // fprintf(UART_PIC,"%s", in_buffer) ;
@@ -218,6 +219,8 @@ void config_PIC(void)
     
 TRISA1=0; // configura o pino do led como saída
 
+delay_us(100);
+
 estado_led= read_eeprom(STATUS_LED_CONTROL_ADDRESS);
 LATA1= estado_led; // led A1 comeca conforme seu estado do ultimo comando L usado pelo usuario
 
@@ -234,7 +237,11 @@ offset_cal.valor_byte[3]= read_eeprom(OFFSET_CAL_ADDRESS +3 );
 
 device_calibrated= read_eeprom(DEVICE_CALIBRATED_ADDRESS); // status da calibração
 
- RESET_in_buffer ;
+i2c_address=  read_eeprom(USER_I2C_ADDRESS);
+if( (i2c_address>=1)&&(i2c_address<=127) ) i2c_slaveaddr(I2C_PIC_SLAVE, i2c_address << 1); // Muda o endereco I2C para o endereco da ultima vez que ele escolheu ; A condicao só serve para evitar que algum lixo na EEPROM (Geralmente ocorre pq o ICSP está apagando a EEPROM tbm)  mude o endereco da i2c (continua sendo o padrão nesse caso 98(DEC))
+
+
+RESET_in_buffer ;
 }
 
 
@@ -440,10 +447,6 @@ void monta_out_buffer( int8 num_comando) {
   // Os comandos podem ser(ou qualquer outro acrescentado em lista_comandos[] e em enum comandos): cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status, cmd_T, cmd_RT
    switch(num_comando) {
      
-       case cmd_Baud:
-           
-           break;
-       
        case cmd_Cal:
                  ANORP_CAL(); //
            break;
@@ -453,6 +456,9 @@ void monta_out_buffer( int8 num_comando) {
        case cmd_i:
                  ANORP_i();
            break;   
+       case cmd_I2C:
+               // ANORP_I2C() ;
+           break;  
        case cmd_R:
                   ANORP_R();// retorna uma única leitura do valor de ph (%.2f) 
            break;   
@@ -472,7 +478,8 @@ void monta_out_buffer( int8 num_comando) {
                     out_buffer[0]= 2; // 2 sintax error "Comando invalido"
            break;
    }       
-       
+      
+   
 }
 
 
@@ -767,10 +774,35 @@ out_buffer[0]=1;
 else out_buffer[0]= 2; // 2 sintax error  
 }
 
+void ANORP_I2C(void) {
+// I2C,n // sets I2C address and reboots into I2C mode
+    
+if((CMD2[0]=='\0')&&(VALOR[0]!='\0')) {
 
+// Queremos saber se n é um inteiro 
+    for(int i=0; VALOR[i] != '\0' ; i++){
+        if(isdigit( VALOR[i] )==FALSE)  {out_buffer[0]= 2; return;  } // 2 sintax error  (O endereco não é um inteiro)
+    }
+    
+    i2c_address= atoi(VALOR);  //(endereco de 7 bits)
+   
+    // verifica se n está no range 1-127
+    if( (i2c_address>=1)&&(i2c_address<=127) ) { // valor de n é válido
+      
+     
+     
+     i2c_slaveaddr(I2C_PIC_SLAVE, i2c_address << 1); //  muda o endereco i2c do PIC ; Obs: CCS usa o endereco na forma de 8 bits
+     write_eeprom(USER_I2C_ADDRESS,i2c_address); // salva na EEPROM
+     // reset_cpu(); // Response : device reboot
+      
+    }
 
+    else out_buffer[0]= 2; // 2 sintax error  (endereco está fora do range 1-127)
+    }
 
+else out_buffer[0]= 2; // 2 sintax error (Comando escrito de maneira errada) 
 
+}
 
 
 // Funções de comunicação com o MCP3421
@@ -918,6 +950,5 @@ float32 read_adc_volts_mcp3421(unsigned int8 address=MCP3421_ADDRESS)
 
    return(fresult);
 }
-
 
 #endif

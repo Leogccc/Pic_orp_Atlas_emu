@@ -12,7 +12,8 @@
 #define DEVICE_CALIBRATED_ADDRESS 0 // endereco do status de calibracao
 #define STATUS_LED_CONTROL_ADDRESS 1 // endereco do status do led (usado no comando L)
 #define BAUD_RATE_ADDRESS 2 // armazena o valor do BAUD_RATE do MODO UART
-                
+#define USER_I2C_ADDRESS 3// endereco i2c do PIC escolhido pelo usuario
+
 /*MAPA E2PROM
  * config_fabrica       0   1 byte      uint8
  * operation            1   1 byte      uint8      
