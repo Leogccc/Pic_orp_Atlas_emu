@@ -18,7 +18,6 @@
  * config_fabrica       0   1 byte      uint8
  * operation            1   1 byte      uint8      
  * i2c_address          2   1 byte      uint8
-
  * device_calibrated    DEVICE_CALIBRATED_ADDRESS   1 byte         unsigned int8
  * baud_rate            BAUD_RATE_ADDRESS           2 bytes        unsigned int16
  * offset_cal           DEVICE_CALIBRATED_ADDRESS   4 bytes    float32 e unsigned int8 (union)
@@ -30,4 +29,3 @@
 
 
 #endif	/* MAPA_EEPROM_H */
-

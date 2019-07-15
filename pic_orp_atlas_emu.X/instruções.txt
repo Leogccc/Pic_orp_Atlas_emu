@@ -1,0 +1,18 @@
+No Arduino usar o programa de exemplo Orp da Atlas para I2C
+
+Dps de gravar o código : => Usar o comando factory (Carregar a EEPROM)
+
+Lista de comandos implementados (Funcionamento igual os comandos da Atlas) :
+
+"CAL"
+"FACTORY"
+"FIND"
+"I"
+"I2C"
+"L"
+"R"
+"SLEEP"
+"STATUS"
+
+
+

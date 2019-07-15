@@ -8,15 +8,11 @@
 /*
  PIC Operating Voltage Range:
 - 2.3V to 5.5V (PIC16F18326/18346)
-
- Inicialização:  Mantém no reset até Vdd>2.3(POR) ; Se Vdd<2.3=> Desliga PIC 
- Durante a operação(Vdd>2.3V): caso ocorra a condicao de BOR (Vdd<VBORth) o pic Reseta até que Vdd>VBORth seja verdadeiro (tem um delay para estabilizacao de Vdd)
+ Inicialização:  Mantém no reset até que Vdd>2.7 V(VBOR) ; Se Vdd<2.3=>  PIC off
+ o pic Reseta até que Vdd>VBORth seja verdadeiro (tem um delay para estabilizacao de Vdd)
  Modo sleep ( diminui o consumo de energia através da diminuição do consumo de corrente ( CPU e Memória ficam "paradas" 
- * ; Periféricos continuam operando) )
- 
+ * ; Periféricos continuam operando) (desabilitei com disable_Modulos_PIC ) )
  */
-
-
 
 #DEVICE PIC16F18326 ADC=10 //10 is the number of bits read_adc() should return 
 #DEVICE PIC16F18326 CONST=ROM // Uses the CCS compiler traditional keyword CONST definition, making CONST variables located in program memory
@@ -24,37 +20,14 @@
 #include <16F18326.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h> 
+// #include <math.h> 
 #include<string.h>
 #include<ctype.h>
 
 #include "MAPA_DATA_EEPROM.h"
 #include "pic_orp_atlas_emu.h"
 
-//------------------Serial data receive interrupt------------------------------------------------- 
 
-/*
-#INT_RDA 
-void  RDA_isr(void) 
-{   
-   if(index_in_buffer_uart<=BUF_SIZE) {
-        
-      
-    if ( ( in_buffer[index_in_buffer_uart++]= getc() ) =='\0') 
- 
-    {   
-        index_in_buffer_uart =0; 
-        flag_monta_out_buffer=TRUE; 
-        
-    } 
-      
-   }
-
-   else index_in_buffer_uart =0; // retorna o index no inicio do vetor (sobreescreve o BUFFER)
-           
-} 
-
-*/
 
 #INT_SSP // interrupcao I2C1 ( dispara a cada dado recebido ou dado enviado por SSP, chamando SSP_isr_slave )
 void SSP_isr_slave(void) // ISR associado a interrupcao INT_SSP 
@@ -145,7 +118,7 @@ void main()
             {
               int8 cmd_identificado = identifica_comando(CMD) ;
               monta_out_buffer(cmd_identificado); 
-              if(cmd_identificado==cmd_I2C) ANORP_I2C(); // era pra estar em monta_out_buffer mas ta com problema na ROM
+             
             }
 
             // fprintf(UART_PIC,"%s", in_buffer) ;
@@ -156,6 +129,7 @@ void main()
     } // fim loop   
 } // fim main
 
+#separate
 void config_PIC(void) 
 {   
    
@@ -185,16 +159,8 @@ void config_PIC(void)
     setup_adc_ports(sAN2); // pino A2 definido como entrada analógica ; usa o canal conectado ao Vdd da placa    */ 
     set_adc_channel(2) ; // definindo de qual canal o ADC fará a leitura ( pino A2 está no canal 2 do ADC)
     setup_adc_reference(VSS_FVR); // Range 0-Fixed Voltage Reference(FVR) (0-2.048)
-    // set_adc_channel(TEMPERATURE_INDICATOR); // usa o canal interno para medir Vout 
-      //set_adc_channel(FVR_CHANNEL); // usa o canal interno para medir FVR    
-   // setup_uart(TRUE,UART_PIC); // inicia a UART
-        
     
-    /* Configuracao e uso do DAC
- //setup_dac(DAC_VSS_VDD | DAC_OUTPUT);                // setup conversor digital para analógico (5 bits)
-   //dac_write(4);//(5/31)*4 V                                    // Write DAC value 0-31 (5 bits)/*           
-    */
-            
+           
     /*Cálculo de parametros associados a interrupcao de TMR0(por overflow)
     FCLK- frequência do clock que o pic utiliza ; Neste caso FCLK= internal=16MHZ
     Fout? The output frequency after the division. 
@@ -244,7 +210,7 @@ if( (i2c_address>=1)&&(i2c_address<=127) ) i2c_slaveaddr(I2C_PIC_SLAVE, i2c_addr
 RESET_in_buffer ;
 }
 
-
+#separate
 void disable_Modulos_PIC(void){
 
 // REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)
@@ -307,6 +273,7 @@ DSMMD  = 1 ;     //bit 0 DSMMD: Disable Data Signal Modulator bit
 
 }
 
+#separate
 void renable_Modulos_PIC(void) {
 
 // REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)
@@ -371,6 +338,7 @@ config_PIC() ; // quando os modulos são reabilitados ( após um disable)  todos o
 
 }
 
+#separate
 int1 parsing_in_buffer(char *rcv_buffer) {
    
  unsigned int8 num_separadores=0;
@@ -431,7 +399,7 @@ int1 parsing_in_buffer(char *rcv_buffer) {
 
 }
 
-
+#inline
 int8 identifica_comando( char * comando) {
 /*Identiicacao de qual comando foi recebido pelo PIC*/
 for( int8 cmd= cmd_err; cmd<=cmd_Status ; cmd++ ) { // varre do primeiro comando ao ultimo da lista
@@ -455,10 +423,10 @@ void monta_out_buffer( int8 num_comando) {
            break;
        case cmd_i:
                  ANORP_i();
-           break;   
+           break;
        case cmd_I2C:
-               // ANORP_I2C() ;
-           break;  
+                 ANORP_I2C();
+           break; 
        case cmd_R:
                   ANORP_R();// retorna uma única leitura do valor de ph (%.2f) 
            break;   
@@ -484,6 +452,7 @@ void monta_out_buffer( int8 num_comando) {
 
 
 // Implementações de cada comando
+#separate
 int1 isStr_float(char *str_teste)  {
     
     int8 num_ponto=0;
@@ -513,6 +482,7 @@ int1 isStr_float(char *str_teste)  {
  return TRUE;      
 }
 
+#inline
 float32 get_orp_value_mV(void) {
           
             float32 mcp_value_mV = read_adc_volts_mcp3421(MCP3421_ADDRESS)*1000 ;
@@ -520,7 +490,7 @@ float32 get_orp_value_mV(void) {
 }
 
 
-
+#inline 
 void ANORP_R(void){
     
 // resposta: 1(DEC) %.2f(ASCII) 0(DEC)
@@ -534,7 +504,7 @@ void ANORP_R(void){
         else out_buffer[0]= 2; // 2 sintax error
 }
 
-
+#inline 
 void ANORP_FIND(void){
     
     if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma FIND
@@ -560,6 +530,8 @@ void ANORP_FIND(void){
     FIND_exe= FALSE ;
 }
 
+
+#separate
 void ANORP_L(void){
 /* Comando sintaxe
  L,1 // LED on ; Response: 1(DEC) 0(NULL)
@@ -603,6 +575,7 @@ void ANORP_L(void){
  else out_buffer[0]= 2; // 2 sintax error ;
 }
 
+#inline
 void ANORP_i(void){
  // Command sintax: i    // device information
 // 1   ?i,ORP, 19.7
@@ -611,7 +584,7 @@ void ANORP_i(void){
  sprintf(out_buffer+1,"?i,ORP,%.2f", VERSAO_FIRMWARE);   
 }
 
-
+#separate
 void ANORP_STATUS(void){
     
 //Status voltage at Vcc pin and reason for last restart
@@ -633,7 +606,7 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
         
         switch(Reason_for_restart){
             
-            case NORMAL_POWER_UP: //??? O ultimo reset foi por falta de alimentacao => ultimo reset foi quando o dispositivo "ligou" dps de ter estar sem alimentacao (Normal)      
+            case NORMAL_POWER_UP: // O ultimo reset foi por falta de alimentacao => ultimo reset foi quando o dispositivo "ligou" dps de ter estar sem alimentacao (Normal)      
                   sprintf(out_buffer+1,"?Status,%c,%.2f",'P',Vdd) ;
                    break;  
             case BROWNOUT_RESTART:
@@ -657,7 +630,7 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
 
 }
 
-
+#inline 
  void ANORP_SLEEP(void){
  // Sleep mode/low power : Send any character or command to awaken device 
  // Command syntax: Sleep; Resposta : no response (Do not read status byte after issuing sleep command.)
@@ -674,10 +647,10 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
        
 
  else   out_buffer[0]= 2; // 2 sintax error 
- 
   
  }
-
+ 
+#separate
 void ANORP_CAL(void) {
 /*
 Command syntax 
@@ -735,6 +708,7 @@ if( (CMD2[0]=='\0')&&(VALOR[0]!='\0')) // Comando é da da forma: Cal,%c
 else out_buffer[0]= 2;  // ErroSintaxe: comando invalido
 }
 
+#separate
 void ANORP_FACTORY(void){
    
 /* 
@@ -766,14 +740,16 @@ write_eeprom(STATUS_LED_CONTROL_ADDRESS,estado_led);
 //Response codes enabled (Falta implementar)
 
 //Response: device reboot
-out_buffer[0]=1;
-//sprintf(out_buffer,"%s", "device reboot") ;
+reset_cpu(); // Response : device reboot
+//out_buffer[0]=1;
+///sprintf(out_buffer,"%s", "device reboot") ;
 
 }
 
 else out_buffer[0]= 2; // 2 sintax error  
 }
 
+#separate
 void ANORP_I2C(void) {
 // I2C,n // sets I2C address and reboots into I2C mode
     
@@ -793,7 +769,7 @@ if((CMD2[0]=='\0')&&(VALOR[0]!='\0')) {
      
      i2c_slaveaddr(I2C_PIC_SLAVE, i2c_address << 1); //  muda o endereco i2c do PIC ; Obs: CCS usa o endereco na forma de 8 bits
      write_eeprom(USER_I2C_ADDRESS,i2c_address); // salva na EEPROM
-     // reset_cpu(); // Response : device reboot
+     reset_cpu(); // Response : device reboot
       
     }
 
@@ -819,6 +795,7 @@ else out_buffer[0]= 2; // 2 sintax error (Comando escrito de maneira errada)
 // Returns:    Nothing.
 //////////////////////////////////////////////////////////////////////////////////
 
+#inline
 void adc_init(unsigned int8 address=MCP3421_ADDRESS)
 {
   i2c_start(MCP3421_STREAM);  //send I2C start
@@ -838,6 +815,8 @@ void adc_init(unsigned int8 address=MCP3421_ADDRESS)
 // Returns:   signed int32 or signed int16 value depending MCP3421_BITS value.
 //////////////////////////////////////////////////////////////////////////////////
 #if MCP3421_BITS == MCP3421_18BITS
+
+#separate
 signed int32 read_adc_mcp3421(unsigned int8 address=MCP3421_ADDRESS)
 #else
 signed int16 read_adc_mcp3421(unsigned int8 address=MCP3421_ADDRESS)
@@ -918,6 +897,7 @@ signed int16 read_adc_mcp3421(unsigned int8 address=MCP3421_ADDRESS)
 //                      same bus.  Defaults to MCP3421_ADDRESS if not specified.
 // Returns:   float32
 //////////////////////////////////////////////////////////////////////////////////
+#separate
 float32 read_adc_volts_mcp3421(unsigned int8 address=MCP3421_ADDRESS)
 {
   #if MCP3421_BITS == MCP3421_18BITS

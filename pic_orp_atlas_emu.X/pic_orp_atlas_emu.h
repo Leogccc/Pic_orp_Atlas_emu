@@ -95,7 +95,6 @@ bit 1-0 ADFVR<1:0>: ADC FVR Buffer Gain Selection bit
 /*
 bit 7 SYSCMD: Disable Peripheral System Clock Network bit
 See description in Section 14.3 ?System Clock Disable?.
-
 1 = System Clock network disabled (a.k.a. FOSC)
 0 = System Clock network enabled
 */
@@ -230,15 +229,7 @@ registers cannot be written; FSR access to EEPROM returns zero.
  */ 
 #use i2c(SLAVE, I2C1, address= PIC_ADDRESS , stream= I2C_PIC_SLAVE, NOINIT,FORCE_HW, restart_wdt) 
 
-/*
-#pin_select U1TX= PIN_A4 // PIN_C1 SDA/TX
-#pin_select U1RX= PIN_A5 // PIN_C0 SCL/RX
-#use rs232(baud=9600, xmit = PIN_A4 , rcv = PIN_A5, bits=8 , stream= UART_PIC ,NOINIT)
 
-*/
-
-// C5 SDA MCP
-// C4 SCL MCP
 
 //unsigned int8 tamanho = 0;
 char in_buffer[BUF_SIZE+1]; // buffer de recepcao de dados vindos do Master para o PIC
@@ -266,9 +257,13 @@ int8 Reason_for_restart ; // indica a causa do ultimo restart do PIC
 typedef enum {cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2C, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status} comandos;
 char lista_comandos[15][LEN_MAX_CMD +1]= {"ERR","BAUD","CAL","EXPORT","FACTORY","FIND","I","I2C","IMPORT","L","PLOCK","R","SLEEP","SLOPE","STATUS"} ;
 
-
+#separate
 void config_PIC(void) ;
+
+#separate
 void disable_Modulos_PIC(void);
+
+#separate
 void renable_Modulos_PIC(void);
 
 /*
@@ -279,13 +274,17 @@ void renable_Modulos_PIC(void);
  retorna TRUE se o parseamento foi correto (nº esperado de separadores)
  retorna FALSE se o parseamento foi inválido(erro de sintaxe) (nº inesperado de separadores)
  */
+
+#separate
 int1 parsing_in_buffer(char *rcv_buffer) ; 
 
 /* Retorna qual  comando(CMD) foi enviado pelo usuário
  O retorno é um valor de enum comandos
  */
+#inline
 int8 identifica_comando( char * comando) ;
 
+#inline
 void monta_out_buffer( int8 num_comando ) ; // monta o vetor out_buffer de resposta as requisicoes do mestre
 
 
@@ -306,18 +305,37 @@ union float32_eeprom offset_cal; //valor  do offset usado na calibracao do eletr
  Protótipos das funções do ANORP
  */
 
+#separate
 int1 isStr_float(char *str_teste) ;// verifica se uma string representa um float válido
+
+#inline 
 float32 get_orp_value_mV(void) ;
 
-
+#inline // é o padrao do CCS (O codigo da funcao é colocado diretamente onde ocorre a chamada) (codigo mais rapido pq não tem chamada de funcoes (economiza a pilha e consome mais rom) ) )
 void ANORP_R(void) ; // retorna uma única leitura do valor de ph (%.2f) 
+
+#inline 
 void ANORP_FIND(void); //Find: LED rapidly blinks white, used to help find device
-void ANORP_L(void); // LED CONTROL
+
+#inline 
 void ANORP_i(void); // retorna device information para o usuario
+
+#separate // isso faz com que CCS use chamadas as funcoes (uso de stack) ao invés de inline(inserir o codigo da funcao diretamente(evita overhead e uso da pilha) mas consome + ROM) economizando memoria de programa(evita passar dos limites dos segmentos da ROM (Olhar main.stat para ver os segmentos) )
 void ANORP_I2C(void); //
+
+#separate
+void ANORP_L(void); // LED CONTROL
+
+#separate
 void ANORP_STATUS(void) ; //  Status voltage at Vcc pin and reason for last restart
+
+#inline
 void ANORP_SLEEP(void) ; // Placa entre em modo Sleep
+
+#separate
 void ANORP_CAL(void); //
+
+#separate
 void ANORP_FACTORY(void);//
 
 /* */
@@ -437,17 +455,20 @@ void ANORP_FACTORY(void);//
 
 
 /* Protótipos*/
+#inline
 void adc_init(unsigned int8 address=MCP3421_ADDRESS) ;
 
 #if MCP3421_BITS == MCP3421_18BITS
+
+#separate
 signed int32 read_adc_mcp3421(unsigned int8 address=MCP3421_ADDRESS) ;
 #else
 signed int16 read_adc_mcp3421(unsigned int8 address=MCP3421_ADDRESS) ;
 #endif
 
+#separate
 float32 read_adc_volts_mcp3421(unsigned int8 address=MCP3421_ADDRESS) ;
 
 #endif // debug
 
 #endif	/* PIC_ORP_ATLAS_EMU_H */
-
