@@ -403,6 +403,8 @@ void ANORP_FACTORY(void);//
 //// in object code form are not restricted in any way.              ////
 /////////////////////////////////////////////////////////////////////////
 
+#define OFFSET_HARDWARE_mV -1.03 // esse é o valor que a placa mostra quando os terminais do probe são curto circuitados (era pra medir 0V)
+
 #define MCP3421_CONTINUOUS 0x10
 #define MCP3421_ONE_SHOT   0x00
 

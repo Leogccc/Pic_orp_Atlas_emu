@@ -1,18 +1,18 @@
-CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
+CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:43
 
-               Filename:   C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\build\default\production\main.lst
+               Filename:   C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\build\default\debug\main.lst
 
-               ROM used:   5462 words (33%)
+               ROM used:   5463 words (33%)
                            Largest free fragment is 2048
                RAM used:   285 (14%) at main() level
                            348 (17%) worst case
                Stack used: 3 locations (2 in main + 1 for interrupts)
-               Stack size: 16
+               Stack size: 15
 
 *
-0000:  MOVLP  10
-0001:  GOTO   24E
-0002:  NOP
+0000:  NOP
+0001:  MOVLP  10
+0002:  GOTO   24E
 0004:  CLRF   03
 0005:  MOVLP  00
 0006:  MOVLB  00
@@ -6075,7 +6075,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 ....................        
 ....................       if(flag_monta_out_buffer==TRUE)  
 1366:  BTFSS  39.0
-1367:  GOTO   56D
+1367:  GOTO   56E
 ....................       { 
 ....................             flag_monta_out_buffer=FALSE ;  
 1368:  BCF    39.0
@@ -6148,7 +6148,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 ....................  
 ....................             if(parseamento_ok) 
 13A8:  BTFSS  39.1
-13A9:  GOTO   55E
+13A9:  GOTO   55F
 ....................             { 
 ....................               int8 cmd_identificado = identifica_comando(CMD) ; 
 13AA:  MOVLW  20
@@ -6167,31 +6167,31 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 ....................             // fprintf(UART_PIC,"%s", in_buffer) ; 
 ....................            RESET_in_buffer ; // limpa o in_buffer (deixa limpo  para um proximo comando) 
 *
-155E:  CLRF   3C
-155F:  MOVF   3C,W
-1560:  SUBLW  28
-1561:  BTFSS  03.0
-1562:  GOTO   56D
-1563:  MOVLW  0E
-1564:  ADDWF  3C,W
-1565:  MOVWF  04
-1566:  MOVLW  20
-1567:  MOVWF  05
-1568:  BTFSC  03.0
-1569:  INCF   05,F
-156A:  CLRF   00
-156B:  INCF   3C,F
-156C:  GOTO   55F
+155F:  CLRF   3C
+1560:  MOVF   3C,W
+1561:  SUBLW  28
+1562:  BTFSS  03.0
+1563:  GOTO   56E
+1564:  MOVLW  0E
+1565:  ADDWF  3C,W
+1566:  MOVWF  04
+1567:  MOVLW  20
+1568:  MOVWF  05
+1569:  BTFSC  03.0
+156A:  INCF   05,F
+156B:  CLRF   00
+156C:  INCF   3C,F
+156D:  GOTO   560
 ....................      
 ....................       } // fim if flag_monta_out_buffer   
-156D:  GOTO   344
+156E:  GOTO   344
 ....................       
 ....................     } // fim loop    
 .................... } // fim main 
 ....................  
 .................... #separate 
 .................... void config_PIC(void)  
-156E:  SLEEP
+156F:  GOTO   56F
 .................... {    
 ....................     
 ....................     setup_wdt(WDT_4S); // configura o WTD para resetar dps de 4s sem chamar restart_wdt(); Comeca a contar logo após do fuse WDT 
@@ -7149,26 +7149,26 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 13EB:  GOTO   40A
 13EC:  XORLW  01
 13ED:  BTFSC  03.2
-13EE:  GOTO   42D
+13EE:  GOTO   42E
 13EF:  XORLW  0C
 13F0:  BTFSC  03.2
-13F1:  GOTO   431
+13F1:  GOTO   432
 13F2:  XORLW  0E
 13F3:  BTFSC  03.2
-13F4:  GOTO   4EE
+13F4:  GOTO   4EF
 13F5:  XORLW  0C
 13F6:  BTFSC  03.2
-13F7:  GOTO   52C
+13F7:  GOTO   52D
 13F8:  XORLW  07
 13F9:  BTFSC  03.2
-13FA:  GOTO   52E
+13FA:  GOTO   52F
 13FB:  XORLW  02
 13FC:  BTFSC  03.2
-13FD:  GOTO   530
+13FD:  GOTO   531
 13FE:  XORLW  0C
 13FF:  BTFSC  03.2
-1400:  GOTO   55B
-1401:  GOTO   55D
+1400:  GOTO   55C
+1401:  GOTO   55E
 ....................       
 ....................        case cmd_Cal: 
 ....................                  ANORP_CAL(); // 
@@ -7176,57 +7176,57 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 1403:  GOTO   13F
 1404:  MOVLP  10
 ....................            break; 
-1405:  GOTO   55D
+1405:  GOTO   55E
 ....................        case cmd_Factory: 
 ....................                  ANORP_FACTORY();// 
 1406:  MOVLP  08
 1407:  GOTO   465
 1408:  MOVLP  10
 ....................            break; 
-1409:  GOTO   55D
+1409:  GOTO   55E
 ....................        case cmd_i: 
 ....................                  ANORP_i(); 
 ....................            break; 
 *
-142C:  GOTO   55D
+142D:  GOTO   55E
 ....................        case cmd_I2C: 
 ....................                  ANORP_I2C(); 
-142D:  MOVLP  08
-142E:  GOTO   66E
-142F:  MOVLP  10
+142E:  MOVLP  08
+142F:  GOTO   66E
+1430:  MOVLP  10
 ....................            break;  
-1430:  GOTO   55D
+1431:  GOTO   55E
 ....................        case cmd_R: 
 ....................                   ANORP_R();// retorna uma única leitura do valor de ph (%.2f)  
 ....................            break;    
 *
-14ED:  GOTO   55D
+14EE:  GOTO   55E
 ....................        case cmd_Find: 
 ....................                   ANORP_FIND(); //Find: LED rapidly blinks white, used to help find device 
 ....................            break ;  
 *
-152B:  GOTO   55D
+152C:  GOTO   55E
 ....................        case cmd_L: 
 ....................                   ANORP_L(); // LED CONTROL 
-152C:  GOTO   000
+152D:  GOTO   000
 ....................            break; 
-152D:  GOTO   55D
+152E:  GOTO   55E
 ....................        case cmd_Status: 
 ....................                  ANORP_STATUS(); // 
-152E:  GOTO   098
+152F:  GOTO   098
 ....................            break; 
-152F:  GOTO   55D
+1530:  GOTO   55E
 ....................        case cmd_Sleep:    
 ....................                  ANORP_SLEEP(); 
 ....................            break; 
 *
-155A:  GOTO   55D
+155B:  GOTO   55E
 ....................        case cmd_err:  
 ....................                     out_buffer[0]= 2; // 2 sintax error "Comando invalido" 
-155B:  MOVLW  02
-155C:  MOVWF  57
+155C:  MOVLW  02
+155D:  MOVWF  57
 ....................            break; 
-155D:  MOVLB  03
+155E:  MOVLB  03
 ....................    }        
 ....................        
 ....................     
@@ -7522,86 +7522,86 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 0AF6:  MOVF   77,W
 0AF7:  MOVWF  50
 *
-144C:  MOVLB  03
-144D:  CLRF   58
-144E:  MOVLP  08
-144F:  MOVLB  00
-1450:  CALL   000
-1451:  MOVLP  10
-1452:  MOVF   7A,W
-1453:  MOVLB  03
-1454:  MOVWF  5B
-1455:  MOVF   79,W
-1456:  MOVWF  5A
-1457:  MOVF   78,W
-1458:  MOVWF  59
-1459:  MOVF   77,W
-145A:  MOVWF  58
-145B:  MOVF   5B,W
-145C:  MOVWF  6B
-145D:  MOVF   5A,W
-145E:  MOVWF  6A
-145F:  MOVF   59,W
-1460:  MOVWF  69
-1461:  MOVF   58,W
-1462:  MOVWF  68
-1463:  CLRF   6F
-1464:  CLRF   6E
-1465:  MOVLW  7A
-1466:  MOVWF  6D
-1467:  MOVLW  88
-1468:  MOVWF  6C
-1469:  MOVLP  00
-146A:  MOVLB  00
-146B:  CALL   47B
-146C:  MOVLP  10
-146D:  MOVF   7A,W
-146E:  MOVLB  03
-146F:  MOVWF  5B
-1470:  MOVF   79,W
-1471:  MOVWF  5A
-1472:  MOVF   78,W
-1473:  MOVWF  59
-1474:  MOVF   77,W
-1475:  MOVWF  58
-1476:  MOVF   05,W
-1477:  MOVWF  5D
-1478:  MOVF   04,W
-1479:  MOVWF  5C
-147A:  BSF    03.1
-147B:  MOVF   5B,W
-147C:  MOVWF  63
-147D:  MOVF   5A,W
-147E:  MOVWF  62
-147F:  MOVF   59,W
-1480:  MOVWF  61
-1481:  MOVF   58,W
-1482:  MOVWF  60
-1483:  MOVLW  0A
-1484:  MOVWF  67
-1485:  MOVLW  D7
-1486:  MOVWF  66
-1487:  MOVLW  83
-1488:  MOVWF  65
-1489:  MOVLW  7F
-148A:  MOVWF  64
-148B:  MOVLP  00
-148C:  MOVLB  00
-148D:  CALL   602
-148E:  MOVLP  10
-148F:  MOVLB  03
-1490:  MOVF   5D,W
-1491:  MOVWF  05
-1492:  MOVF   5C,W
-1493:  MOVWF  04
-1494:  MOVF   7A,W
-1495:  MOVWF  53
-1496:  MOVF   79,W
-1497:  MOVWF  52
-1498:  MOVF   78,W
-1499:  MOVWF  51
-149A:  MOVF   77,W
-149B:  MOVWF  50
+144D:  MOVLB  03
+144E:  CLRF   58
+144F:  MOVLP  08
+1450:  MOVLB  00
+1451:  CALL   000
+1452:  MOVLP  10
+1453:  MOVF   7A,W
+1454:  MOVLB  03
+1455:  MOVWF  5B
+1456:  MOVF   79,W
+1457:  MOVWF  5A
+1458:  MOVF   78,W
+1459:  MOVWF  59
+145A:  MOVF   77,W
+145B:  MOVWF  58
+145C:  MOVF   5B,W
+145D:  MOVWF  6B
+145E:  MOVF   5A,W
+145F:  MOVWF  6A
+1460:  MOVF   59,W
+1461:  MOVWF  69
+1462:  MOVF   58,W
+1463:  MOVWF  68
+1464:  CLRF   6F
+1465:  CLRF   6E
+1466:  MOVLW  7A
+1467:  MOVWF  6D
+1468:  MOVLW  88
+1469:  MOVWF  6C
+146A:  MOVLP  00
+146B:  MOVLB  00
+146C:  CALL   47B
+146D:  MOVLP  10
+146E:  MOVF   7A,W
+146F:  MOVLB  03
+1470:  MOVWF  5B
+1471:  MOVF   79,W
+1472:  MOVWF  5A
+1473:  MOVF   78,W
+1474:  MOVWF  59
+1475:  MOVF   77,W
+1476:  MOVWF  58
+1477:  MOVF   05,W
+1478:  MOVWF  5D
+1479:  MOVF   04,W
+147A:  MOVWF  5C
+147B:  BSF    03.1
+147C:  MOVF   5B,W
+147D:  MOVWF  63
+147E:  MOVF   5A,W
+147F:  MOVWF  62
+1480:  MOVF   59,W
+1481:  MOVWF  61
+1482:  MOVF   58,W
+1483:  MOVWF  60
+1484:  MOVLW  0A
+1485:  MOVWF  67
+1486:  MOVLW  D7
+1487:  MOVWF  66
+1488:  MOVLW  83
+1489:  MOVWF  65
+148A:  MOVLW  7F
+148B:  MOVWF  64
+148C:  MOVLP  00
+148D:  MOVLB  00
+148E:  CALL   602
+148F:  MOVLP  10
+1490:  MOVLB  03
+1491:  MOVF   5D,W
+1492:  MOVWF  05
+1493:  MOVF   5C,W
+1494:  MOVWF  04
+1495:  MOVF   7A,W
+1496:  MOVWF  53
+1497:  MOVF   79,W
+1498:  MOVWF  52
+1499:  MOVF   78,W
+149A:  MOVWF  51
+149B:  MOVF   77,W
+149C:  MOVWF  50
 ....................            
 ....................             float32 mcp_value_mV = (read_adc_volts_mcp3421(MCP3421_ADDRESS)*1000) -OFFSET_HARDWARE_mV ; 
 ....................             return mcp_value_mV ; 
@@ -7615,14 +7615,14 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 0AFE:  MOVF   53,W
 0AFF:  MOVWF  7A
 *
-149C:  MOVF   50,W
-149D:  MOVWF  77
-149E:  MOVF   51,W
-149F:  MOVWF  78
-14A0:  MOVF   52,W
-14A1:  MOVWF  79
-14A2:  MOVF   53,W
-14A3:  MOVWF  7A
+149D:  MOVF   50,W
+149E:  MOVWF  77
+149F:  MOVF   51,W
+14A0:  MOVWF  78
+14A1:  MOVF   52,W
+14A2:  MOVWF  79
+14A3:  MOVF   53,W
+14A4:  MOVWF  7A
 .................... } 
 ....................  
 ....................  
@@ -7632,201 +7632,201 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 .................... // resposta: 1(DEC) %.2f(ASCII) 0(DEC) 
 ....................         if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma R 
 *
-1431:  MOVLW  20
-1432:  MOVLB  03
-1433:  MOVWF  4D
-1434:  MOVLW  60
-1435:  MOVWF  4C
-1436:  MOVLW  20
-1437:  MOVWF  4F
-1438:  MOVLW  0E
-1439:  MOVWF  4E
-143A:  MOVLP  00
-143B:  MOVLB  00
-143C:  CALL   36E
-143D:  MOVLP  10
-143E:  MOVF   78,F
-143F:  BTFSS  03.2
-1440:  GOTO   4EB
-1441:  MOVLB  01
-1442:  MOVF   38,F
-1443:  BTFSC  03.2
-1444:  GOTO   447
-1445:  MOVLB  00
-1446:  GOTO   4EB
-1447:  MOVF   3E,F
-1448:  BTFSC  03.2
-1449:  GOTO   44C
-144A:  MOVLB  00
-144B:  GOTO   4EB
+1432:  MOVLW  20
+1433:  MOVLB  03
+1434:  MOVWF  4D
+1435:  MOVLW  60
+1436:  MOVWF  4C
+1437:  MOVLW  20
+1438:  MOVWF  4F
+1439:  MOVLW  0E
+143A:  MOVWF  4E
+143B:  MOVLP  00
+143C:  MOVLB  00
+143D:  CALL   36E
+143E:  MOVLP  10
+143F:  MOVF   78,F
+1440:  BTFSS  03.2
+1441:  GOTO   4EC
+1442:  MOVLB  01
+1443:  MOVF   38,F
+1444:  BTFSC  03.2
+1445:  GOTO   448
+1446:  MOVLB  00
+1447:  GOTO   4EC
+1448:  MOVF   3E,F
+1449:  BTFSC  03.2
+144A:  GOTO   44D
+144B:  MOVLB  00
+144C:  GOTO   4EC
 ....................          
 ....................         float32 orp=  get_orp_value_mV() + offset_cal.valor ; // Orp value em mV 
 *
-14A4:  MOVF   7A,W
-14A5:  MOVWF  49
-14A6:  MOVF   79,W
-14A7:  MOVWF  48
-14A8:  MOVF   78,W
-14A9:  MOVWF  47
-14AA:  MOVF   77,W
-14AB:  MOVWF  46
-14AC:  MOVF   05,W
-14AD:  MOVWF  4B
-14AE:  MOVF   04,W
-14AF:  MOVWF  4A
-14B0:  BCF    03.1
-14B1:  MOVF   49,W
-14B2:  MOVWF  63
-14B3:  MOVF   48,W
-14B4:  MOVWF  62
-14B5:  MOVF   47,W
-14B6:  MOVWF  61
-14B7:  MOVF   46,W
-14B8:  MOVWF  60
-14B9:  MOVF   36,W
-14BA:  MOVWF  67
-14BB:  MOVF   35,W
-14BC:  MOVWF  66
-14BD:  MOVF   34,W
-14BE:  MOVWF  65
-14BF:  MOVF   33,W
-14C0:  MOVWF  64
-14C1:  MOVLP  00
-14C2:  MOVLB  00
-14C3:  CALL   602
-14C4:  MOVLP  10
-14C5:  MOVLB  03
-14C6:  MOVF   4B,W
-14C7:  MOVWF  05
-14C8:  MOVF   4A,W
-14C9:  MOVWF  04
-14CA:  MOVF   7A,W
-14CB:  MOVWF  42
-14CC:  MOVF   79,W
-14CD:  MOVWF  41
-14CE:  MOVF   78,W
-14CF:  MOVWF  40
-14D0:  MOVF   77,W
-14D1:  MOVWF  3F
+14A5:  MOVF   7A,W
+14A6:  MOVWF  49
+14A7:  MOVF   79,W
+14A8:  MOVWF  48
+14A9:  MOVF   78,W
+14AA:  MOVWF  47
+14AB:  MOVF   77,W
+14AC:  MOVWF  46
+14AD:  MOVF   05,W
+14AE:  MOVWF  4B
+14AF:  MOVF   04,W
+14B0:  MOVWF  4A
+14B1:  BCF    03.1
+14B2:  MOVF   49,W
+14B3:  MOVWF  63
+14B4:  MOVF   48,W
+14B5:  MOVWF  62
+14B6:  MOVF   47,W
+14B7:  MOVWF  61
+14B8:  MOVF   46,W
+14B9:  MOVWF  60
+14BA:  MOVF   36,W
+14BB:  MOVWF  67
+14BC:  MOVF   35,W
+14BD:  MOVWF  66
+14BE:  MOVF   34,W
+14BF:  MOVWF  65
+14C0:  MOVF   33,W
+14C1:  MOVWF  64
+14C2:  MOVLP  00
+14C3:  MOVLB  00
+14C4:  CALL   602
+14C5:  MOVLP  10
+14C6:  MOVLB  03
+14C7:  MOVF   4B,W
+14C8:  MOVWF  05
+14C9:  MOVF   4A,W
+14CA:  MOVWF  04
+14CB:  MOVF   7A,W
+14CC:  MOVWF  42
+14CD:  MOVF   79,W
+14CE:  MOVWF  41
+14CF:  MOVF   78,W
+14D0:  MOVWF  40
+14D1:  MOVF   77,W
+14D2:  MOVWF  3F
 ....................          
 ....................         out_buffer[0]=1; 
-14D2:  MOVLW  01
-14D3:  MOVLB  00
-14D4:  MOVWF  57
+14D3:  MOVLW  01
+14D4:  MOVLB  00
+14D5:  MOVWF  57
 ....................         sprintf(out_buffer+1,"%.2f",orp) ; 
-14D5:  MOVLW  20
-14D6:  MOVLB  03
-14D7:  MOVWF  38
-14D8:  MOVLW  38
-14D9:  MOVWF  37
-14DA:  MOVLW  89
-14DB:  MOVWF  04
-14DC:  MOVF   42,W
-14DD:  MOVWF  49
-14DE:  MOVF   41,W
-14DF:  MOVWF  48
-14E0:  MOVF   40,W
-14E1:  MOVWF  47
-14E2:  MOVF   3F,W
-14E3:  MOVWF  46
-14E4:  MOVLW  02
-14E5:  MOVWF  4A
-14E6:  MOVLP  08
-14E7:  MOVLB  00
-14E8:  CALL   56F
-14E9:  MOVLP  10
+14D6:  MOVLW  20
+14D7:  MOVLB  03
+14D8:  MOVWF  38
+14D9:  MOVLW  38
+14DA:  MOVWF  37
+14DB:  MOVLW  89
+14DC:  MOVWF  04
+14DD:  MOVF   42,W
+14DE:  MOVWF  49
+14DF:  MOVF   41,W
+14E0:  MOVWF  48
+14E1:  MOVF   40,W
+14E2:  MOVWF  47
+14E3:  MOVF   3F,W
+14E4:  MOVWF  46
+14E5:  MOVLW  02
+14E6:  MOVWF  4A
+14E7:  MOVLP  08
+14E8:  MOVLB  00
+14E9:  CALL   56F
+14EA:  MOVLP  10
 ....................         } 
-14EA:  GOTO   4ED
+14EB:  GOTO   4EE
 ....................         else out_buffer[0]= 2; // 2 sintax error 
-14EB:  MOVLW  02
-14EC:  MOVWF  57
+14EC:  MOVLW  02
+14ED:  MOVWF  57
 .................... } 
 ....................  
 .................... #inline  
 .................... void ANORP_FIND(void){ 
 ....................      
 ....................     if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma FIND 
-14EE:  MOVLW  20
-14EF:  MOVLB  03
-14F0:  MOVWF  4D
-14F1:  MOVLW  60
-14F2:  MOVWF  4C
-14F3:  MOVLW  20
-14F4:  MOVWF  4F
-14F5:  MOVLW  0E
-14F6:  MOVWF  4E
-14F7:  MOVLP  00
-14F8:  MOVLB  00
-14F9:  CALL   36E
-14FA:  MOVLP  10
-14FB:  MOVF   78,F
-14FC:  BTFSS  03.2
-14FD:  GOTO   528
-14FE:  MOVLB  01
-14FF:  MOVF   38,F
-1500:  BTFSC  03.2
-1501:  GOTO   504
-1502:  MOVLB  00
-1503:  GOTO   528
-1504:  MOVF   3E,F
-1505:  BTFSC  03.2
-1506:  GOTO   509
-1507:  MOVLB  00
-1508:  GOTO   528
+14EF:  MOVLW  20
+14F0:  MOVLB  03
+14F1:  MOVWF  4D
+14F2:  MOVLW  60
+14F3:  MOVWF  4C
+14F4:  MOVLW  20
+14F5:  MOVWF  4F
+14F6:  MOVLW  0E
+14F7:  MOVWF  4E
+14F8:  MOVLP  00
+14F9:  MOVLB  00
+14FA:  CALL   36E
+14FB:  MOVLP  10
+14FC:  MOVF   78,F
+14FD:  BTFSS  03.2
+14FE:  GOTO   529
+14FF:  MOVLB  01
+1500:  MOVF   38,F
+1501:  BTFSC  03.2
+1502:  GOTO   505
+1503:  MOVLB  00
+1504:  GOTO   529
+1505:  MOVF   3E,F
+1506:  BTFSC  03.2
+1507:  GOTO   50A
+1508:  MOVLB  00
+1509:  GOTO   529
 ....................         FIND_exe= TRUE ; 
-1509:  BSF    70.1
+150A:  BSF    70.1
 ....................         //Response: DEC NULL 
 ....................         //           1  0 
 ....................         out_buffer[0]=1; // response code 
-150A:  MOVLW  01
-150B:  MOVLB  00
-150C:  MOVWF  57
+150B:  MOVLW  01
+150C:  MOVLB  00
+150D:  MOVWF  57
 ....................         in_buffer[0]=0; //sentinela do comando FIND 
-150D:  CLRF   2E
+150E:  CLRF   2E
 ....................          
 ....................         while(in_buffer[0]==0){// fica piscando o led até o usuário enviar um caracter(in_buffer[0]=!0) 
-150E:  MOVF   2E,F
-150F:  BTFSS  03.2
-1510:  GOTO   527
+150F:  MOVF   2E,F
+1510:  BTFSS  03.2
+1511:  GOTO   528
 ....................             LATA1=!LATA1 ; 
-1511:  MOVLW  02
-1512:  MOVLB  02
-1513:  XORWF  0C,F
+1512:  MOVLW  02
+1513:  MOVLB  02
+1514:  XORWF  0C,F
 ....................             delay_ms(100); 
-1514:  MOVLW  64
-1515:  MOVLB  03
-1516:  MOVWF  3F
-1517:  MOVLP  08
-1518:  MOVLB  00
-1519:  CALL   7D8
-151A:  MOVLP  10
+1515:  MOVLW  64
+1516:  MOVLB  03
+1517:  MOVWF  3F
+1518:  MOVLP  08
+1519:  MOVLB  00
+151A:  CALL   7D8
+151B:  MOVLP  10
 ....................             LATA1=!LATA1 ; 
-151B:  MOVLW  02
-151C:  MOVLB  02
-151D:  XORWF  0C,F
+151C:  MOVLW  02
+151D:  MOVLB  02
+151E:  XORWF  0C,F
 ....................             delay_ms(100); 
-151E:  MOVLW  64
-151F:  MOVLB  03
-1520:  MOVWF  3F
-1521:  MOVLP  08
-1522:  MOVLB  00
-1523:  CALL   7D8
-1524:  MOVLP  10
+151F:  MOVLW  64
+1520:  MOVLB  03
+1521:  MOVWF  3F
+1522:  MOVLP  08
+1523:  MOVLB  00
+1524:  CALL   7D8
+1525:  MOVLP  10
 ....................             restart_wdt(); // usado por causa do loop do find que pode fazer WDT estourar, resetando o pic; delay_ms reseta o WDT implicitamente se restart_wdt estiver em #use delay  
-1525:  CLRWDT
-1526:  GOTO   50E
+1526:  CLRWDT
+1527:  GOTO   50F
 ....................         } 
 ....................          
 ....................          
 ....................         } 
-1527:  GOTO   52A
+1528:  GOTO   52B
 ....................      
 ....................     else out_buffer[0]= 2; // 2 sintax error   
-1528:  MOVLW  02
-1529:  MOVWF  57
+1529:  MOVLW  02
+152A:  MOVWF  57
 ....................      
 ....................     FIND_exe= FALSE ; 
-152A:  BCF    70.1
+152B:  BCF    70.1
 .................... } 
 ....................  
 ....................  
@@ -8024,7 +8024,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 1094:  MOVLB  11
 1095:  MOVLP  10
 1096:  MOVLB  00
-1097:  GOTO   55D (RETURN)
+1097:  GOTO   55E (RETURN)
 .................... } 
 ....................  
 .................... #inline 
@@ -8069,6 +8069,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 1429:  MOVLB  00
 142A:  CALL   56F
 142B:  MOVLP  10
+142C:  NOP
 .................... } 
 ....................  
 .................... #separate 
@@ -8552,7 +8553,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 124A:  MOVLW  02
 124B:  MOVWF  57
 124C:  MOVLP  10
-124D:  GOTO   55D (RETURN)
+124D:  GOTO   55E (RETURN)
 ....................  
 .................... } 
 ....................  
@@ -8564,58 +8565,58 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 ....................  // Consumo: 3.3 V- led on 6.65 mA  ;standby( 5.5mA) sleep (3.8 mA) ;  
 ....................  if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0') ) { 
 *
-1530:  MOVLW  20
-1531:  MOVLB  03
-1532:  MOVWF  4D
-1533:  MOVLW  60
-1534:  MOVWF  4C
-1535:  MOVLW  20
-1536:  MOVWF  4F
-1537:  MOVLW  0E
-1538:  MOVWF  4E
-1539:  MOVLP  00
-153A:  MOVLB  00
-153B:  CALL   36E
-153C:  MOVLP  10
-153D:  MOVF   78,F
-153E:  BTFSS  03.2
-153F:  GOTO   558
-1540:  MOVLB  01
-1541:  MOVF   38,F
-1542:  BTFSC  03.2
-1543:  GOTO   546
-1544:  MOVLB  00
-1545:  GOTO   558
-1546:  MOVF   3E,F
-1547:  BTFSC  03.2
-1548:  GOTO   54B
-1549:  MOVLB  00
-154A:  GOTO   558
+1531:  MOVLW  20
+1532:  MOVLB  03
+1533:  MOVWF  4D
+1534:  MOVLW  60
+1535:  MOVWF  4C
+1536:  MOVLW  20
+1537:  MOVWF  4F
+1538:  MOVLW  0E
+1539:  MOVWF  4E
+153A:  MOVLP  00
+153B:  MOVLB  00
+153C:  CALL   36E
+153D:  MOVLP  10
+153E:  MOVF   78,F
+153F:  BTFSS  03.2
+1540:  GOTO   559
+1541:  MOVLB  01
+1542:  MOVF   38,F
+1543:  BTFSC  03.2
+1544:  GOTO   547
+1545:  MOVLB  00
+1546:  GOTO   559
+1547:  MOVF   3E,F
+1548:  BTFSC  03.2
+1549:  GOTO   54C
+154A:  MOVLB  00
+154B:  GOTO   559
 ....................     SLEEP_exe= TRUE ; // indica a execucao do modo Sleep; Usado para a interrupcao I2C não interpretar como comando quando o usuario fazer: (Send any character or command to awaken device ) 
-154B:  BSF    70.2
+154C:  BSF    70.2
 ....................     LATA1=0; // desliga o led 
-154C:  MOVLB  02
-154D:  BCF    0C.1
+154D:  MOVLB  02
+154E:  BCF    0C.1
 ....................     disable_Modulos_PIC(); // desabilita todos os modulos do PIC para consumir menos energia (exceto alguns que eu não estou alterando ex, i2c uart, gerador do Fosc etc) 
-154E:  MOVLP  00
-154F:  MOVLB  00
-1550:  CALL   0D5
-1551:  MOVLP  10
+154F:  MOVLP  00
+1550:  MOVLB  00
+1551:  CALL   0D5
+1552:  MOVLP  10
 ....................     sleep();  // comando passado é da forma Sleep 
-1552:  SLEEP
+1553:  SLEEP
 ....................     SLEEP_exe= FALSE; 
-1553:  BCF    70.2
+1554:  BCF    70.2
 ....................     renable_Modulos_PIC(); // reabilita e configura os modulos do Pic que estou utilizando  
-1554:  MOVLP  00
-1555:  CALL   1CC
-1556:  MOVLP  10
+1555:  MOVLP  00
+1556:  CALL   1CC
+1557:  MOVLP  10
 ....................  } 
-1557:  GOTO   55A
+1558:  GOTO   55B
 ....................         
 ....................  
 ....................  else   out_buffer[0]= 2; // 2 sintax error  
-1558:  MOVLW  02
-1559:  MOVWF  57
+1559:  MOVLW  02
+155A:  MOVWF  57
 ....................    
 ....................  } 
 ....................   
@@ -9083,7 +9084,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 0C61:  MOVLB  00
 0C62:  MOVWF  57
 0C63:  MOVLP  10
-0C64:  GOTO   55D (RETURN)
+0C64:  GOTO   55E (RETURN)
 .................... } 
 ....................  
 .................... #separate 
@@ -9311,7 +9312,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 0D1C:  MOVLB  11
 0D1D:  MOVLP  10
 0D1E:  MOVLB  00
-0D1F:  GOTO   55D (RETURN)
+0D1F:  GOTO   55E (RETURN)
 .................... } 
 ....................  
 .................... #separate 
@@ -9450,7 +9451,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 0FD4:  MOVLB  11
 0FD5:  MOVLP  10
 0FD6:  MOVLB  00
-0FD7:  GOTO   55D (RETURN)
+0FD7:  GOTO   55E (RETURN)
 ....................  
 .................... } 
 ....................  
@@ -9828,10 +9829,12 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 .................... #endif 
 
 Configuration Fuses:
-   Word  1: 3FEC   NOEXTOSC RSTOSC_HFINTRC NOCLKOUT CKS FCMEN
-   Word  2: 3DF8   NOMCLR PUT WDT_NOSL NOLPBOR BROWNOUT BORV27 PPS1WAY STVREN NODEBUG
+   Word  1: 1FEC   NOEXTOSC RSTOSC_HFINTRC NOCLKOUT CKS NOFCMEN
+   Word  2: 1D32   NOMCLR NOPUT NOWDT NOLPBOR NOBROWNOUT BORV27 PPS1WAY STVREN DEBUG
    Word  3: 1FFC   WRT NOLVP
-   Word  4: 3FFC   PROTECT CPD
+   Word  4: 3FFF   NOPROTECT NOCPD
+
+   Some fuses have been forced to be compatible with the ICD debugger.
 
 ROM data:
 003FFF: 342C                                       4,

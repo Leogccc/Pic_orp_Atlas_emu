@@ -485,7 +485,7 @@ int1 isStr_float(char *str_teste)  {
 #inline
 float32 get_orp_value_mV(void) {
           
-            float32 mcp_value_mV = read_adc_volts_mcp3421(MCP3421_ADDRESS)*1000 ;
+            float32 mcp_value_mV = (read_adc_volts_mcp3421(MCP3421_ADDRESS)*1000) -OFFSET_HARDWARE_mV ;
             return mcp_value_mV ;
 }
 
