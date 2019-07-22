@@ -21,9 +21,9 @@ Lines Stmts  %   Files
    28     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h
    37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h
    32     0   0  MAPA_DATA_EEPROM.h
-  477     0   0  pic_orp_atlas_emu.h
+  493     0   0  pic_orp_atlas_emu.h
 ----- -----
- 4713   733 Total
+ 4729   733 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -55,24 +55,24 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     13   0    1             @SPRINTF
  Inline         5             @FTOSD
 1     79   1   14             @DIV3232
-1    255   5   18             @PRINTF_L32D_1222FPFPF
+1    255   5   18             @PRINTF_L32D_1230FPFPF
  Inline         1    474  5.7  ANORP_FIND
 2    152   3    1    790  8.0  ANORP_L
 0     23   0    3             @DIV88
-1    111   2    8             @PRINTF_D_1222
+1    111   2    8             @PRINTF_D_1230
  Inline         0     82  2.4  ANORP_i
-0      6   0    0             @const1239
-1     92   2    6             @PSTRINGCN7_1222
+0      6   0    0             @const1247
+1     92   2    6             @PSTRINGCN7_1230
 2    438   8    7   1049  8.5  ANORP_STATUS
-0      8   0    0             @const1243
-0      8   0    0             @const1244
-0      8   0    0             @const1245
-0      8   0    0             @const1246
-0      8   0    0             @const1247
-0      8   0    0             @const1248
+0      8   0    0             @const1251
+0      8   0    0             @const1252
+0      8   0    0             @const1253
+0      8   0    0             @const1254
+0      8   0    0             @const1255
+0      8   0    0             @const1256
  Inline         1    287  4.6  ANORP_SLEEP
 1    806  15   19   1637  7.4  ANORP_CAL
-0      4   0    0             @const1251
+0      4   0    0             @const1259
 1    187   3    1    692  5.8  ANORP_FACTORY
 1    362   7    2    622  7.9  ANORP_I2C
  Inline         2    191  3.6  adc_init
@@ -84,7 +84,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 Program metrics:
     Functions               26
     Statements              733
-    Comments                1377
+    Comments                1381
     Volume (V)              32956
     Difficulty (D)          161.5
     Effort to implement (E) 5321632

@@ -12,7 +12,7 @@
 
 // #define debug /*depuracao*/
 
-#use delay(internal=16MHZ/*,restart_wdt*/) // CPU rodando em 16MHZ (clock interno); WDT sempre é resetado duranto o uso das funcoes delay built in se tiver restart_wdt como argumento
+#use delay(internal=32MHZ/*,restart_wdt*/) // CPU rodando em 32MHZ (clock interno); WDT sempre é resetado duranto o uso das funcoes delay built in se tiver restart_wdt como argumento
 
 // configuracoes de hardware do PIC (fuses)
 #fuses PUT, RSTOSC_HFINTRC // POR
@@ -43,7 +43,6 @@ WDT_NOSL //  Watch Dog Timer enable, except during SLEEP
  */
 #byte TRISA= getenv("SFR:TRISA") // registrador que define se os pinos do PORTA são Digital input ou  Digital output
 #bit  TRISA1= TRISA.1 
-#bit  TRISA2= TRISA.2
 
 
 #byte PORTA= getenv("SFR:PORTA") // registrador para leitura do estado atual dos pinos do PORTA (pode ser usado para escrita, igual ao LATA)
@@ -51,6 +50,23 @@ WDT_NOSL //  Watch Dog Timer enable, except during SLEEP
 
 #byte LATA=getenv("SFR:LATA") // registrador que altera as saídas nos pinos digitais do PORTA(caso seja input muda a semântica desse registrador)
 #bit  LATA1= LATA.1 
+///////////////////////
+
+#byte TRISC= getenv("SFR:TRISC") // registrador que define se os pinos do PORTC são Digital input ou  Digital output
+#bit  TRISC2= TRISC.2 
+#bit  TRISC3= TRISC.3
+
+
+#byte PORTC= getenv("SFR:PORTC") // registrador para leitura do estado atual dos pinos do PORTC (pode ser usado para escrita, igual ao LATC)
+#bit  PORTC2= PORTC.2 
+#bit  PORTC3= PORTC.3 
+
+#byte LATC= getenv("SFR:LATC") // registrador que altera as saídas nos pinos digitais do PORTC(caso seja input muda a semântica desse registrador)
+#bit  LATC2= LATC.2 
+#bit  LATC3= LATC.3 
+
+
+
 
 #byte FVRCON =getenv("SFR:FVRCON") // FIXED VOLTAGE REFERENCE CONTROL REGISTER
 

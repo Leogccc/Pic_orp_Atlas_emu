@@ -1,4 +1,4 @@
-CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
+CCS PCM C Compiler, Version 5.080, 43599               22-jul-19 17:12
 
                Filename:   C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\build\default\production\main.lst
 
@@ -5093,7 +5093,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 ....................  
 .................... // #define debug /*depuracao*/ 
 ....................  
-.................... #use delay(internal=16MHZ/*,restart_wdt*/) // CPU rodando em 16MHZ (clock interno); WDT sempre é resetado duranto o uso das funcoes delay built in se tiver restart_wdt como argumento 
+.................... #use delay(internal=16MHZ/*,restart_wdt*/) // CPU rodando em 32MHZ (clock interno); WDT sempre é resetado duranto o uso das funcoes delay built in se tiver restart_wdt como argumento 
 *
 0FD8:  MOVLW  21
 0FD9:  MOVWF  05
@@ -5147,7 +5147,6 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 ....................  */ 
 .................... #byte TRISA= getenv("SFR:TRISA") // registrador que define se os pinos do PORTA são Digital input ou  Digital output 
 .................... #bit  TRISA1= TRISA.1  
-.................... #bit  TRISA2= TRISA.2 
 ....................  
 ....................  
 .................... #byte PORTA= getenv("SFR:PORTA") // registrador para leitura do estado atual dos pinos do PORTA (pode ser usado para escrita, igual ao LATA) 
@@ -5155,6 +5154,23 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 ....................  
 .................... #byte LATA=getenv("SFR:LATA") // registrador que altera as saídas nos pinos digitais do PORTA(caso seja input muda a semântica desse registrador) 
 .................... #bit  LATA1= LATA.1  
+.................... /////////////////////// 
+....................  
+.................... #byte TRISC= getenv("SFR:TRISC") // registrador que define se os pinos do PORTC são Digital input ou  Digital output 
+.................... #bit  TRISC2= TRISC.2  
+.................... #bit  TRISC3= TRISC.3 
+....................  
+....................  
+.................... #byte PORTC= getenv("SFR:PORTC") // registrador para leitura do estado atual dos pinos do PORTC (pode ser usado para escrita, igual ao LATC) 
+.................... #bit  PORTC2= PORTC.2  
+.................... #bit  PORTC3= PORTC.3  
+....................  
+.................... #byte LATC= getenv("SFR:LATC") // registrador que altera as saídas nos pinos digitais do PORTC(caso seja input muda a semântica desse registrador) 
+.................... #bit  LATC2= LATC.2  
+.................... #bit  LATC3= LATC.3  
+....................  
+....................  
+....................  
 ....................  
 .................... #byte FVRCON =getenv("SFR:FVRCON") // FIXED VOLTAGE REFERENCE CONTROL REGISTER 
 ....................  
@@ -6312,7 +6328,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 0156:  MOVLW  4B
 0157:  MOVWF  18
 ....................      
-.................... TRISA1=0; // configura o pino do led como saída 
+.................... TRISA1=0; // configura o pino do led R como saída 
 0158:  MOVLB  01
 0159:  BCF    0C.1
 ....................  
@@ -7875,7 +7891,7 @@ CCS PCM C Compiler, Version 5.080, 43599               17-jul-19 17:49
 101D:  GOTO   05B
 101E:  GOTO   086
 ....................  
-....................             case '1': 
+....................             case '1':   
 ....................                        LATA1=1 ; 
 101F:  MOVLB  02
 1020:  BSF    0C.1

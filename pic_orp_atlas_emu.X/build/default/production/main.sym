@@ -1,11 +1,14 @@
-004-005 @READ_PROGRAM_MEMORY8.P1
-004-005 @READ_PACKED_MEMORY.P2
+004-005 @READ_PACKED_MEMORY.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
 004-005 @WRITE_PROGRAM_MEMORY8.P3
 004-005 @WRITE_PACKED_MEMORY.P4
-006-007 @READ_PACKED_MEMORY.P1
-006-007 @WRITE_PACKED_MEMORY.P2
+006-007 @WRITE_PACKED_MEMORY.P1
+006-007 @READ_PACKED_MEMORY.P2
 00C     PORTA
 00C.1   PORTA1
+00E     PORTC
+00E.2   PORTC2
+00E.3   PORTC3
 020     @INTERRUPT_AREA
 021     @INTERRUPT_AREA
 022     @INTERRUPT_AREA
@@ -36,7 +39,9 @@
 07F     @INTERRUPT_AREA
 08C     TRISA
 08C.1   TRISA1
-08C.2   TRISA2
+08E     TRISC
+08E.2   TRISC2
+08E.3   TRISC3
 0B0-0B7 CMD
 0B8-0BD CMD2
 0BE-0DA VALOR
@@ -44,6 +49,9 @@
 0FF     @INTERRUPT_AREA
 10C     LATA
 10C.1   LATA1
+10E     LATC
+10E.2   LATC2
+10E.3   LATC3
 111.6   C1OUT
 113.6   C2OUT
 117     FVRCON
@@ -60,25 +68,25 @@
 1BA     MAIN.i
 1BB     MAIN.cmd_identificado
 1BC     MAIN.i
-1BE     monta_out_buffer.num_comando
-1BE-1BF parsing_in_buffer.rcv_buffer
 1BE-1BF identifica_comando.comando
+1BE-1BF parsing_in_buffer.rcv_buffer
+1BE     monta_out_buffer.num_comando
 1BE     MAIN.@SCRATCH1
-1BF     config_PIC.i
+1BF-1C2 ANORP_R.orp
 1BF     ANORP_I2C.i
 1BF     @delay_ms1.P1
 1BF-1C4 ANORP_CAL.str_clear
 1BF-1C2 ANORP_STATUS.Vdd
-1BF-1C2 ANORP_R.orp
+1BF     config_PIC.i
 1BF     MAIN.@SCRATCH2
 1BF     ANORP_FIND.@SCRATCH1
 1BF     ANORP_L.@SCRATCH1
 1BF     ANORP_SLEEP.@SCRATCH1
 1BF     ANORP_FACTORY.@SCRATCH1
-1C0     adc_init.address
-1C0     parsing_in_buffer.num_separadores
 1C0-1C1 atoi.s
+1C0     parsing_in_buffer.num_separadores
 1C0     identifica_comando.CMD
+1C0     adc_init.address
 1C0     config_PIC.@SCRATCH1
 1C0     ANORP_I2C.@SCRATCH1
 1C1     parsing_in_buffer.index_separador_1
@@ -97,9 +105,9 @@
 1C5-1C6 ANORP_CAL.str_interrogacao
 1C5     parsing_in_buffer.i
 1C5     ANORP_STATUS.@SCRATCH2
-1C6-1C9 @PRINTF_L32D_1222FPFPF.P1
-1C6     atoi.c
 1C6     parsing_in_buffer.i
+1C6     atoi.c
+1C6-1C9 @PRINTF_L32D_1230FPFPF.P1
 1C6     ANORP_R.@SCRATCH1
 1C7     ANORP_R.@SCRATCH2
 1C8     @MUL88.P1
@@ -109,59 +117,59 @@
 1C9     atoi.@SCRATCH2
 1C9     parsing_in_buffer.@SCRATCH1
 1C9     ANORP_R.@SCRATCH4
-1CA     @PRINTF_L32D_1222FPFPF.P1
+1CA     @PRINTF_L32D_1230FPFPF.P1
 1CA     parsing_in_buffer.@SCRATCH2
 1CA     ANORP_R.@SCRATCH5
 1CB     parsing_in_buffer.@SCRATCH3
 1CB     ANORP_R.@SCRATCH6
-1CC     @READ_PROGRAM_MEMORY8.P1
-1CC-1CD strcmp.s1
-1CC-1CD isStr_float.str_teste
-1CC     @PSTRINGCN7_1222.P1
-1CC     @PRINTF_D_1222.P2
+1CC     @PSTRINGCN7_1230.P1
 1CC-1CD strtof.s
+1CC     @READ_PROGRAM_MEMORY8.P1
+1CC     @PRINTF_D_1230.P2
+1CC-1CD isStr_float.str_teste
+1CC-1CD strcmp.s1
 1CC     ANORP_CAL.@SCRATCH1
-1CD     @PRINTF_D_1222.P1
+1CD     @PRINTF_D_1230.P1
 1CD     ANORP_CAL.@SCRATCH2
-1CE-1CF strtof.endptr
-1CE     isStr_float.num_ponto
 1CE-1CF strcmp.s2
+1CE     isStr_float.num_ponto
+1CE-1CF strtof.endptr
 1CE     ANORP_CAL.@SCRATCH3
 1CF     isStr_float.num_sinal_menos
-1CF     @PSTRINGCN7_1222.@SCRATCH1
+1CF     @PSTRINGCN7_1230.@SCRATCH1
 1CF     ANORP_CAL.@SCRATCH4
 1D0     isStr_float.i
-1D0-1D3 get_orp_value_mV.mcp_value_mV
 1D0-1D3 strtof.pow10
+1D0-1D3 get_orp_value_mV.mcp_value_mV
 1D0     strcmp.@SCRATCH1
-1D0     @PRINTF_L32D_1222FPFPF.@SCRATCH1
-1D0     @PRINTF_D_1222.@SCRATCH1
-1D0     @PSTRINGCN7_1222.@SCRATCH2
+1D0     @PRINTF_L32D_1230FPFPF.@SCRATCH1
+1D0     @PRINTF_D_1230.@SCRATCH1
+1D0     @PSTRINGCN7_1230.@SCRATCH2
 1D0     ANORP_CAL.@SCRATCH5
 1D1-1D2 strlen.s
 1D1     isStr_float.@SCRATCH1
-1D1     @PRINTF_L32D_1222FPFPF.@SCRATCH2
-1D1     @PRINTF_D_1222.@SCRATCH2
-1D1     @PSTRINGCN7_1222.@SCRATCH3
+1D1     @PRINTF_L32D_1230FPFPF.@SCRATCH2
+1D1     @PRINTF_D_1230.@SCRATCH2
+1D1     @PSTRINGCN7_1230.@SCRATCH3
 1D1     ANORP_CAL.@SCRATCH6
-1D2     @PRINTF_L32D_1222FPFPF.@SCRATCH3
-1D2     @PRINTF_D_1222.@SCRATCH3
+1D2     @PRINTF_L32D_1230FPFPF.@SCRATCH3
+1D2     @PRINTF_D_1230.@SCRATCH3
 1D3-1D4 strlen.sc
-1D3     @PRINTF_L32D_1222FPFPF.@SCRATCH4
-1D3     @PRINTF_D_1222.@SCRATCH4
-1D4     @DIV88.P1
+1D3     @PRINTF_L32D_1230FPFPF.@SCRATCH4
+1D3     @PRINTF_D_1230.@SCRATCH4
 1D4-1D7 strtof.result
-1D4     @PRINTF_L32D_1222FPFPF.@SCRATCH5
+1D4     @DIV88.P1
+1D4     @PRINTF_L32D_1230FPFPF.@SCRATCH5
 1D5     @DIV88.P1
 1D5     strlen.@SCRATCH1
-1D5     @PRINTF_L32D_1222FPFPF.@SCRATCH6
-1D6     @PRINTF_L32D_1222FPFPF.@SCRATCH7
+1D5     @PRINTF_L32D_1230FPFPF.@SCRATCH6
+1D6     @PRINTF_L32D_1230FPFPF.@SCRATCH7
 1D6     @DIV88.@SCRATCH1
-1D7     @PRINTF_L32D_1222FPFPF.@SCRATCH8
+1D7     @PRINTF_L32D_1230FPFPF.@SCRATCH8
 1D8-1DB @DIV3232.P1
-1D8-1DB @FTOSD.P2
-1D8     @SPRINTF.P3
 1D8     read_adc_volts_mcp3421.address
+1D8     @SPRINTF.P1
+1D8-1DB @FTOSD.P2
 1D8.0   strtof.skip
 1D8.1   strtof.sign
 1D8.2   strtof.point
@@ -181,16 +189,16 @@
 1DD     get_orp_value_mV.@SCRATCH6
 1DE     strtof.@SCRATCH3
 1DF     strtof.@SCRATCH4
-1E0-1E3 @DIVFF.P1
+1E0-1E3 @ADDFF.P1
 1E0-1E1 @ITOF.P2
-1E0-1E3 @ADDFF.P3
+1E0-1E3 @DIVFF.P3
 1E1     @DIV3232.@SCRATCH1
 1E2     @DIV3232.@SCRATCH2
 1E3     @DIV3232.@SCRATCH3
 1E4-1E7 @DIVFF.P1
-1E4-1E7 @ADDFF.P2
+1E4-1E7 @SDTOF.P2
 1E4     read_adc_mcp3421.address
-1E4-1E7 @SDTOF.P1
+1E4-1E7 @ADDFF.P1
 1E4     @DIV3232.@SCRATCH4
 1E4     read_adc_volts_mcp3421.@SCRATCH1
 1E5-1E8 read_adc_mcp3421.result
@@ -237,11 +245,11 @@
 295     CCP_2_LOW
 296     CCP_2_HIGH
 2FF     @INTERRUPT_AREA
-311     CCP_3_LOW
 311     CCP_3
+311     CCP_3_LOW
 312     CCP_3_HIGH
-315     CCP_4
 315     CCP_4_LOW
+315     CCP_4
 316     CCP_4_HIGH
 37F     @INTERRUPT_AREA
 39C.0   MDBIT
@@ -262,8 +270,8 @@
 891-892 @WRITE_PROGRAM_MEMORY8.P1
 891-892 @READ_PROGRAM_MEMORY8.P2
 8FF     @INTERRUPT_AREA
-911.0   IOCMD
 911     PMD0
+911.0   IOCMD
 911.1   CLKRMD
 911.2   NVMMD
 911.6   FVRMD
@@ -355,14 +363,14 @@ FFF     @INTERRUPT_AREA
 ROM Allocation:
 000041  SSP_isr_slave
 000075  @I2C_WRITE_1
-00009B  @const1239.call
-0000A1  @const1243.call
-0000A9  @const1244.call
-0000B1  @const1245.call
-0000B9  @const1246.call
-0000C1  @const1247.call
-0000C9  @const1248.call
-0000D1  @const1251.call
+00009B  @const1247.call
+0000A1  @const1251.call
+0000A9  @const1252.call
+0000B1  @const1253.call
+0000B9  @const1254.call
+0000C1  @const1255.call
+0000C9  @const1256.call
+0000D1  @const1259.call
 0000D5  disable_Modulos_PIC
 0000EC  @I2C_WRITEU_2
 000101  config_PIC
@@ -383,13 +391,13 @@ ROM Allocation:
 0007E2  @DIV88
 000800  read_adc_volts_mcp3421
 000818  @SDTOF
-000874  @PSTRINGCN7_1222
-0008D0  @PRINTF_D_1222
+000874  @PSTRINGCN7_1230
+0008D0  @PRINTF_D_1230
 00093F  ANORP_CAL
 000968  strtof
 000C65  ANORP_FACTORY
 000D20  @DIV3232
-000D6F  @PRINTF_L32D_1222FPFPF
+000D6F  @PRINTF_L32D_1230FPFPF
 000D9B  @FTOSD
 000E6E  ANORP_I2C
 000EA3  atoi
@@ -417,7 +425,7 @@ Project Directory:
     C:\Users\Leonardo\MPLABXProjects\Pic_orp_Atlas_emu\pic_orp_atlas_emu.X\
 
 Project Files:
-    main.c                                                  [17-jul-19 17:07  CRC=CC9F4BD8]
+    main.c                                                  [22-jul-19 17:03  CRC=5F2BADCD]
     ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h [20-jul-18 14:24  CRC=7C37FC38]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h [29-jun-16 10:34  CRC=7E9CC16B]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h [05-set-14 12:47  CRC=897CEC6C]
@@ -425,9 +433,9 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h [03-jan-08 15:55  CRC=2D1F019F]
     ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h [31-jul-07 15:24  CRC=4E4534F4]
     MAPA_DATA_EEPROM.h                                      [15-jul-19 17:20  CRC=AE2C9232]
-    pic_orp_atlas_emu.h                                     [17-jul-19 17:36  CRC=79784232]
+    pic_orp_atlas_emu.h                                     [22-jul-19 17:12  CRC=59EDF52A]
 
-Source signature=31F385A7
+Source signature=856B4D8C
 Program memory checksum=8396
 Program memory CRC=3E99
 Hex file CRC=97CF

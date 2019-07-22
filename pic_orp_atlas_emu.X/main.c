@@ -162,28 +162,18 @@ void config_PIC(void)
     
            
     /*Cálculo de parametros associados a interrupcao de TMR0(por overflow)
-    FCLK- frequência do clock que o pic utiliza ; Neste caso FCLK= internal=16MHZ
-    Fout? The output frequency after the division. 
-    Tout ? The Cycle Time after the division. (periodo da interrupcao)
-    4 - The division of the original clock (4 MHz) by 4, when using internal crystal as clock (and not external oscillator). 
-    Count - A numeric value to be placed to obtain the desired output frequency - Fout. (fator necessário para ajustar Tout/Fout desejado)
-    (256 - TMR0) - The number of times in the timer will count based on the register TMR0. (Ajusta até onde o timer iira contar)
-     // 256 usando o timer no modo 8 bits, ou T0_16_BIT
-     
-     // Fout= FCLK/(4*Prescaler*(2^8-TMR0)*Count); // modo 8 bits
-     // Fout= FCLK/(4*Prescaler*(2^16-TMR0)*Count); // modo 16 bits
-  
-     
+    FCLK- frequência do clock que o TIMER0 utiliza =Fosc/4 (Passa pelo Prescaler); Como Fosc= internal=32MHZ=> FCLK=32MHz/4=8MHz
+    f_incremento_TMR0= FCLK/Prescaler ;  
      Para:
-     TMR0=0; //valor inicial
-     FCLK= internal=16MHZ
-     tempo_TMR0_incremento=1/(FCLK/(4*Prescaler) ) =>  // tempo_TMR0_incremento= (Prescaler/4)us
-     TMR0(max modo 16 bits)=2^16 -1 (16bits) ( 2^16 incrementos para o overflow=>TMR0=0
+     TMR0=0; //valor inicial (Timer zerado)
+     FCLK= 8MHZ (Fosc/4) ; Prescaler= 4096
+     tempo_TMR0_incremento= 1/f_incremento_TMR0 =>  // tempo_TMR0_incremento= Prescaler/FCLK => 4096/8MHz = 512us
+     TMR0(max modo 16 bits)=2^16 -1 (16bits) ( 2^16 incrementos para o overflow=> zera TMR0 => TMR0=0
      
      */
-    setup_timer_0(T0_INTERNAL|T0_DIV_2048| T0_16_BIT); //TMR0 incrementa a cada 512us
+    setup_timer_0(T0_INTERNAL|T0_DIV_4096| T0_16_BIT); //TMR0 incrementa a cada 512us
     
-TRISA1=0; // configura o pino do led como saída
+TRISA1=0; // configura o pino do led R como saída
 
 delay_us(100);
 
@@ -544,7 +534,7 @@ void ANORP_L(void){
   
         switch(VALOR[0]){
 
-            case '1':
+            case '1':  
                        LATA1=1 ;
                        out_buffer[0]=1; //Response: 1(DEC) 0(NULL) 
                        estado_led= TRUE;
