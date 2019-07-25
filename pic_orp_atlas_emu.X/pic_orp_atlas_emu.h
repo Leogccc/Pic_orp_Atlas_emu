@@ -41,33 +41,78 @@ WDT_NOSL //  Watch Dog Timer enable, except during SLEEP
 /*
  Def para acesso dos registradores do PIC (ambiente CCS) ; Obs: Alterar alguns desses bits do registrador(diretamente) pode sobreescrever os FUSES se não tomar cuidado
  */
+
+
+// I/O registers cap 12 datasheet
+
 #byte TRISA= getenv("SFR:TRISA") // registrador que define se os pinos do PORTA são Digital input ou  Digital output
 #bit  TRISA1= TRISA.1 
 
-
 #byte PORTA= getenv("SFR:PORTA") // registrador para leitura do estado atual dos pinos do PORTA (pode ser usado para escrita, igual ao LATA)
-#bit  PORTA1= PORTA.1 
+#bit  RA1= PORTA.1 
 
 #byte LATA=getenv("SFR:LATA") // registrador que altera as saídas nos pinos digitais do PORTA(caso seja input muda a semântica desse registrador)
 #bit  LATA1= LATA.1 
+
+#byte ANSELA= getenv("SFR:ANSELA") // PORTA ANALOG SELECT REGISTER
+// 1 = Analog input. Pin is assigned as analog input(2). Digital input buffer disabled.
+//0 = Digital I/O. Pin is assigned to port or digital special function.
+#bit  ANSA1= ANSELA.1
+
+#byte WPUA  = getenv("SFR:WPUA") 
+//1 = Pull-up enabled
+//0 = Pull-up disabled
+#bit  WPUA1 = WPUA.1
+
+#byte ODCONA = getenv("SFR:ODCONA")
+#bit  ODCA1= ODCONA.1
+
+#byte SLRCONA = getenv("SFR:SLRCONA")
+#bit  SLRA1 = SLRCONA.1
+
+#byte INLVLA  = getenv("SFR:INLVLA")
+#bit  INLVLA1 = INLVLA.1
+
 ///////////////////////
+
 
 #byte TRISC= getenv("SFR:TRISC") // registrador que define se os pinos do PORTC são Digital input ou  Digital output
 #bit  TRISC2= TRISC.2 
 #bit  TRISC3= TRISC.3
 
-
 #byte PORTC= getenv("SFR:PORTC") // registrador para leitura do estado atual dos pinos do PORTC (pode ser usado para escrita, igual ao LATC)
-#bit  PORTC2= PORTC.2 
-#bit  PORTC3= PORTC.3 
+#bit  RC2= PORTC.2 
+#bit  RC3= PORTC.3 
 
 #byte LATC= getenv("SFR:LATC") // registrador que altera as saídas nos pinos digitais do PORTC(caso seja input muda a semântica desse registrador)
 #bit  LATC2= LATC.2 
 #bit  LATC3= LATC.3 
 
+#byte ANSELC= getenv("SFR:ANSELC")  // PORTC ANALOG SELECT REGISTER
+// 1 = Analog input. Pin is assigned as analog input(2). Digital input buffer disabled.
+//0 = Digital I/O. Pin is assigned to port or digital special function.
+#bit ANSC2= ANSELC.2
+#bit ANSC3= ANSELC.3
+
+#byte WPUC  = getenv("SFR:WPUC") 
+#bit  WPUC2 = WPUC.2
+#bit  WPUC3 = WPUC.3
+
+#byte ODCONC = getenv("SFR:ODCONC")
+#bit  ODCC2 = ODCONC.2
+#bit  ODCC3 = ODCONC.3 
+
+#byte SLRCONC = getenv("SFR:SLRCONC")
+#bit  SLRC2 = SLRCONC.2
+#bit  SLRC3 = SLRCONC.3
+
+#byte INLVLC  = getenv("SFR:INLVLC")
+#bit  INLVLC2 = INLVLC.2
+#bit  INLVLC3 = INLVLC.3
 
 
 
+////////////////////////
 #byte FVRCON =getenv("SFR:FVRCON") // FIXED VOLTAGE REFERENCE CONTROL REGISTER
 
 /* bit 7 FVREN: Fixed Voltage Reference Enable bit bit 7 FVREN: Fixed Voltage Reference Enable bit
@@ -222,6 +267,23 @@ registers cannot be written; FSR access to EEPROM returns zero.
 #define LED_STATUS  PIN_A1
 #define TAM_MAX  25
 
+// pinos do Led RGB ânodo comum
+#define LED_R LATA1
+#define LED_G LATC2
+#define LED_B LATC3
+
+#define LED_ACESSO 0
+#define LED_APAGADO 1
+
+#define I2C_STANDBY_LED          { LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_ACESSO ;} // Azul estranho
+#define I2C_TAKING_READING_LED   { LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_APAGADO  ; } // Verde
+#define CHANGING_I2C_ADDRESS_LED { LED_R= LED_ACESSO ;  LED_G = LED_APAGADO ; LED_B = LED_ACESSO; } // Purple
+#define CMD_NOT_UNDERSTOOD_LED   { LED_R= LED_ACESSO;   LED_G = LED_APAGADO ; LED_B = LED_APAGADO; } // Red
+
+#define LED_WHITE { LED_R = LED_ACESSO;  LED_G = LED_ACESSO;  LED_B = LED_ACESSO ;}
+#define LEDS_OFF {  LED_R = LED_APAGADO ;LED_G = LED_APAGADO; LED_B = LED_APAGADO ;}
+
+
 #define LEN_MAX_CMD 7 // o numero maximo de caracteres dos comandos da lista_comandos  ( não contando '\0') para comandos da forma : "CMD"
 #define LEN_MAX_CMD2 5  // tamanho max do cmd2 ( não contando '\0') para um comando da forma CMD,CMD2,VALOR
 #define LEN_MAX_VALOR 28 // tamanho max de  valor (não contando '\0') para comandos da forma CMD,VALOR ouu CMD,CMD2,VALOR pode variar, mas não passara de 20
@@ -263,6 +325,7 @@ unsigned int8  index_out_buffer;
 unsigned int8  index_in_buffer ;
 unsigned int1  FIND_exe= FALSE ;// status do comando FIND (se está executando é TRUE)
 unsigned int1  SLEEP_exe= FALSE ; // // status do comando SLEEP
+unsigned int1  R_exe= FALSE; // status da execucao do comando R 
 unsigned int8  device_calibrated ; // indica se o dispositivo está calibrado ou não TRUE= Calibrado; FALSE= Não calibrado
 unsigned int8  estado_led; // Estado do led controlado pelo comando L, salvo na EEPROM para voltar caso a energia acabe 
 unsigned int8  i2c_address; // endereco da i2c da placa padrão é 98 (DEC),mas pode ser alterado com o comando I2C
@@ -459,7 +522,7 @@ void ANORP_FACTORY(void);//
 #endif
 
 #ifndef MCP3421_ADDRESS
- #define MCP3421_ADDRESS 0 // endereco MCP3421 0x68=> 0xD0|0x00<<1  ;  
+ #define MCP3421_ADDRESS 1 // endereco MCP3421 0x69=> 0xD0|0x01<<1  ;  
 #endif
 
 

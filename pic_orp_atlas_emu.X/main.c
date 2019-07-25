@@ -46,10 +46,12 @@ if(state == 0x00 ) /*recebou o endereco do master( bit R/W =0 escrita), slave ir
       if( FIND_exe==FALSE ) {lendo_str_master = TRUE ;  out_buffer[0]= 254 ; }                  // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
       else out_buffer[0]= 0; // limpa a resposta anterior do FIND 
        // isso evita que o caracter de saida (lixo) do FIND ou Sleep (ou algum outro) seja analisado
-           
+       
 }
    
-if(state == 0x80)  { i2c_read(I2C_PIC_SLAVE,2); index_out_buffer=0 ; }// recebeu o endereco do master (bit R/W =1 leitura), slave deve responder a requisicao de leitura do master; e reinicia o indice do buffer tbm         
+if(state == 0x80)  { i2c_read(I2C_PIC_SLAVE,2); index_out_buffer=0 ; 
+                     if(R_exe) R_exe=FALSE; //O usuario está requisitando dados de leitura
+        }// recebeu o endereco do master (bit R/W =1 leitura), slave deve responder a requisicao de leitura do master; e reinicia o indice do buffer tbm         
 
 if(state >= 0x80) { 
     
@@ -91,6 +93,7 @@ void main()
     
     unsigned int1 flag_monta_out_buffer= FALSE ;// flag para montar o vetor out_buffer
     
+    
     while(TRUE)
     { 
       restart_wdt();
@@ -112,18 +115,34 @@ void main()
             flag_monta_out_buffer=FALSE ; 
             RESET_out_buffers ; // reseta out_buffer, CMD,CMD2 e VALOR
 
-            int1 parseamento_ok= parsing_in_buffer(in_buffer);
+           int1 parseamento_ok= parsing_in_buffer(in_buffer);
 
             if(parseamento_ok)
             {
               int8 cmd_identificado = identifica_comando(CMD) ;
               monta_out_buffer(cmd_identificado); 
-             
+              
             }
-
-            // fprintf(UART_PIC,"%s", in_buffer) ;
+         
            RESET_in_buffer ; // limpa o in_buffer (deixa limpo  para um proximo comando)
-    
+           
+           
+           
+        if(estado_led) {
+         if(R_exe){
+            set_timer0(0);// timer0 comeca a contar do 0 (incrementando a cada 512us)
+            while( (get_timer0()<=2930)&& (R_exe) ){ // time out de 1.5 s para o led piscar (caso usuario demore mais que esse tempo para fazer a requisicao de leitura), se passar disso o led apaga e libera a placa para um proximo comando
+                                    I2C_TAKING_READING_LED  
+                                    delay_ms(35);
+                                    LEDS_OFF
+                                    delay_ms(35);  } 
+         } 
+                             
+          I2C_STANDBY_LED  
+        }
+           
+           
+           
       } // fim if flag_monta_out_buffer  
      
     } // fim loop   
@@ -172,14 +191,43 @@ void config_PIC(void)
      
      */
     setup_timer_0(T0_INTERNAL|T0_DIV_4096| T0_16_BIT); //TMR0 incrementa a cada 512us
-    
+
+// Config pino RA1 (Led) LED Ânodo comum
 TRISA1=0; // configura o pino do led R como saída
+ANSA1 =0 ;// 0 = Digital I/O. Pin is assigned to port or digital special function.
+WPUA1 =0 ; // 0= Pull up desabilitado em RA1
+ODCA1 =1 ; // 1 = Port pin operates as open-drain drive (sink current only)
+SLRA1 = 0; // 0 = Port pin slews at maximum rate
+INLVLA1 =0 ; //0 = TTL input used for PORT reads and interrupt-on-change
+// Config pino RC2  e RC3 (Leds) LEDs Ânodo comum
 
-delay_us(100);
+TRISC2= 0 ;
+TRISC3= 0 ;
 
+ANSC2= 0 ;
+ANSC3= 0 ;
+
+WPUC2 =  0 ;
+WPUC3 =  0;
+
+ODCC2 = 1;
+ODCC3 = 1 ;
+
+
+SLRC2 = 0 ;
+SLRC3 = 0;
+
+INLVLC2 =  0;
+INLVLC3 =  0;
+////////// 
+
+delay_us(100); 
 estado_led= read_eeprom(STATUS_LED_CONTROL_ADDRESS);
-LATA1= estado_led; // led A1 comeca conforme seu estado do ultimo comando L usado pelo usuario
 
+// OS leds comecam ligado ou desligado conforme seu estado do ultimo comando L usado pelo usuario
+if(estado_led) I2C_STANDBY_LED 
+else LEDS_OFF
+        
 /*
  Carrega os parametros e status armazenados na EEPROM
  
@@ -486,12 +534,14 @@ void ANORP_R(void){
 // resposta: 1(DEC) %.2f(ASCII) 0(DEC)
         if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando passado é da forma R
         
+        R_exe=TRUE;  
+          
         float32 orp=  get_orp_value_mV() + offset_cal.valor ; // Orp value em mV
         
         out_buffer[0]=1;
-        sprintf(out_buffer+1,"%.2f",orp) ;
+        sprintf(out_buffer+1,"%.2f",orp) ;         
         }
-        else out_buffer[0]= 2; // 2 sintax error
+        else { out_buffer[0]= 2;  R_exe=FALSE; }// 2 sintax error              
 }
 
 #inline 
@@ -505,14 +555,16 @@ void ANORP_FIND(void){
         in_buffer[0]=0; //sentinela do comando FIND
         
         while(in_buffer[0]==0){// fica piscando o led até o usuário enviar um caracter(in_buffer[0]=!0)
-            LATA1=!LATA1 ;
+            LED_WHITE
             delay_ms(100);
-            LATA1=!LATA1 ;
+            LEDS_OFF
             delay_ms(100);
             restart_wdt(); // usado por causa do loop do find que pode fazer WDT estourar, resetando o pic; delay_ms reseta o WDT implicitamente se restart_wdt estiver em #use delay 
         }
         
-        
+        if(estado_led) { I2C_STANDBY_LED }
+        else { LEDS_OFF }
+            
         }
     
     else out_buffer[0]= 2; // 2 sintax error  
@@ -535,13 +587,13 @@ void ANORP_L(void){
         switch(VALOR[0]){
 
             case '1':  
-                       LATA1=1 ;
+                       I2C_STANDBY_LED
                        out_buffer[0]=1; //Response: 1(DEC) 0(NULL) 
                        estado_led= TRUE;
                        write_eeprom(STATUS_LED_CONTROL_ADDRESS,estado_led);
                 break;
             case '0':
-                       LATA1=0 ;
+                       LEDS_OFF
                        out_buffer[0]=1; // //Response: 1(DEC) 0(NULL)  
                        estado_led= FALSE ;
                        write_eeprom(STATUS_LED_CONTROL_ADDRESS,estado_led);
@@ -550,7 +602,7 @@ void ANORP_L(void){
             case '?':
                       // Response: 1(DEC) ?L,1 0(NULL) ou 1(DEC) ?L,0 0(NULL)
                       out_buffer[0]=1; 
-                      sprintf(out_buffer+1,"L,?%d",PORTA1);
+                      sprintf(out_buffer+1,"L,?%d",estado_led);
                 break ;
 
             default:
@@ -628,7 +680,7 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
  // Consumo: 3.3 V- led on 6.65 mA  ;standby( 5.5mA) sleep (3.8 mA) ; 
  if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0') ) {
     SLEEP_exe= TRUE ; // indica a execucao do modo Sleep; Usado para a interrupcao I2C não interpretar como comando quando o usuario fazer: (Send any character or command to awaken device )
-    LATA1=0; // desliga o led
+    LEDS_OFF
     disable_Modulos_PIC(); // desabilita todos os modulos do PIC para consumir menos energia (exceto alguns que eu não estou alterando ex, i2c uart, gerador do Fosc etc)
     sleep();  // comando passado é da forma Sleep
     SLEEP_exe= FALSE;
@@ -724,7 +776,7 @@ device_calibrated= FALSE;
 write_eeprom(DEVICE_CALIBRATED_ADDRESS,device_calibrated);
 
 //LED on
-LATA1=1;
+I2C_STANDBY_LED 
 estado_led= TRUE;
 write_eeprom(STATUS_LED_CONTROL_ADDRESS,estado_led);
 //Response codes enabled (Falta implementar)

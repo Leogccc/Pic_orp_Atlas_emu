@@ -1,9 +1,9 @@
 
-ROM used:   5462/16384 (33%)
+ROM used:   5642/16384 (34%)
             6144/16384 (38%) including unused fragments
 
             1.2 Average locations per line
-            7.5 Average locations per statement
+            6.9 Average locations per statement
 
 RAM used:   285/2048 (14%) at main() level
             348/2048 (17%) worst case
@@ -13,23 +13,23 @@ Stack size: 16
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  935   374  51  main.c
+  981   463  56  main.c
  1385     0   0  ..\..\..\..\..\Program Files (x86)\PICC\devices\16F18326.h
- 1352   359  49  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h
+ 1352   359  44  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h
    32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h
   435     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\string.h
    28     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h
    37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h
    32     0   0  MAPA_DATA_EEPROM.h
-  493     0   0  pic_orp_atlas_emu.h
+  556     0   0  pic_orp_atlas_emu.h
 ----- -----
- 4729   733 Total
+ 4838   822 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
  Inline         7             @READ_PROGRAM_MEMORY8
 0     65   1    5    243  7.0  strcmp
-0     28   1    5    140  5.0  strlen
+0     28   0    5    140  5.0  strlen
  Inline         2             @MUL88
 0    156   3   13             @MULFF
 0     31   1    2             @ITOF
@@ -37,13 +37,14 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0    204   4   16             @DIVFF
  Inline        10   1815 10.5  atoi
  Inline        20   1549 12.4  strtof
-1     22   0    1             @delay_ms1
+1     21   0    1             @delay_ms1
+ Inline         1             @delay_us1
  Inline         1             @I2C_WRITE_1
 0     21   0    1             @I2C_WRITEU_2
 0     16   0    1             @I2C_READU_2
-0     90   2    4    681  6.2  SSP_isr_slave
-2    801  15    7   1024  5.6  MAIN
-0    203   4    3   1224  7.8  config_PIC
+0     93   2    4    731  6.3  SSP_isr_slave
+2    909  16    7   1795  6.6  MAIN
+0    257   5    3   2000  8.4  config_PIC
 0     23   0    0    461  1.9  disable_Modulos_PIC
 0      9   0    0    108  1.7  renable_Modulos_PIC
 0    409   7   15   2402 12.1  parsing_in_buffer
@@ -51,56 +52,56 @@ Page ROM  %  RAM    Vol Diff  Functions:
  Inline         1    470  4.2  monta_out_buffer
 0    176   3    6   1017  8.9  isStr_float
  Inline        14     79  2.5  get_orp_value_mV
- Inline        13    329  5.4  ANORP_R
+ Inline        13    387  5.5  ANORP_R
 0     13   0    1             @SPRINTF
  Inline         5             @FTOSD
 1     79   1   14             @DIV3232
-1    255   5   18             @PRINTF_L32D_1230FPFPF
- Inline         1    474  5.7  ANORP_FIND
-2    152   3    1    790  8.0  ANORP_L
-0     23   0    3             @DIV88
-1    111   2    8             @PRINTF_D_1230
+1    255   5   18             @PRINTF_L32D_1256FPFPF
+ Inline         1    809  5.3  ANORP_FIND
+1    149   3    1    923  8.1  ANORP_L
+1     23   0    3             @DIV88
+1    107   2    8             @PRINTF_D_1256
  Inline         0     82  2.4  ANORP_i
-0      6   0    0             @const1247
-1     92   2    6             @PSTRINGCN7_1230
+0      6   0    0             @const1273
+0     88   2    6             @PSTRINGCN7_1256
 2    438   8    7   1049  8.5  ANORP_STATUS
-0      8   0    0             @const1251
-0      8   0    0             @const1252
-0      8   0    0             @const1253
-0      8   0    0             @const1254
-0      8   0    0             @const1255
-0      8   0    0             @const1256
- Inline         1    287  4.6  ANORP_SLEEP
-1    806  15   19   1637  7.4  ANORP_CAL
-0      4   0    0             @const1259
-1    187   3    1    692  5.8  ANORP_FACTORY
-1    362   7    2    622  7.9  ANORP_I2C
+0      8   0    0             @const1277
+0      8   0    0             @const1278
+0      8   0    0             @const1279
+0      8   0    0             @const1280
+0      8   0    0             @const1281
+0      8   0    0             @const1282
+ Inline         1    344  4.7  ANORP_SLEEP
+1    809  14   19   1637  7.4  ANORP_CAL
+0      4   0    0             @const1285
+1    189   3    1    756  5.8  ANORP_FACTORY
+2    362   6    2    622  7.9  ANORP_I2C
  Inline         2    191  3.6  adc_init
-0    124   2    7   1700  7.6  read_adc_mcp3421
-1    116   2   16    282  3.3  read_adc_volts_mcp3421
+1    148   3    7   1700  7.6  read_adc_mcp3421
+1    114   2   16    282  3.3  read_adc_volts_mcp3421
  Inline         5             @SDTOF
  Inline         0             @cinit1
 
 Program metrics:
     Functions               26
-    Statements              733
-    Comments                1381
-    Volume (V)              32956
-    Difficulty (D)          161.5
-    Effort to implement (E) 5321632
-    Time to implement (T)   82 hours, 7 minutes
-    Est Delivered Bugs (B)  10
-    Cyclomatic Complexity   110
-    Maintainability (MI)    31
+    Statements              822
+    Comments                1394
+    Volume (V)              36442
+    Difficulty (D)          162.9
+    Effort to implement (E) 5937398
+    Time to implement (T)   91 hours, 38 minutes
+    Est Delivered Bugs (B)  11
+    Cyclomatic Complexity   116
+    Maintainability (MI)    29
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00002     3  0  
 00003-00003     0  1  
 00004-00040    61  0  
-00041-007FF  1976  7  
-00800-00FFF  2030  18  
-01000-017FF  1391  657  
+00041-007FF  1974  9  
+00800-00FFF  1894  154  
+01000-017FF  1709  339  
 01800-01FFF     0  2048  
 02000-027FF     0  2048  
 02800-02FFF     0  2048  
