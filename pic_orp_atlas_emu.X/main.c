@@ -34,19 +34,15 @@ void SSP_isr_slave(void) // ISR associado a interrupcao INT_SSP
 {
 
     
-   unsigned int8 state;
+   unsigned int8 state ;
    state = i2c_isr_state(I2C_PIC_SLAVE);
        
+   
 if(state == 0x00 ) /*recebou o endereco do master( bit R/W =0 escrita), slave ira armazenar os dados vindos pelo master*/
     { 
       i2c_read(I2C_PIC_SLAVE); 
       index_in_buffer=0; 
-      
-
-      if( FIND_exe==FALSE ) {lendo_str_master = TRUE ;  out_buffer[0]= 254 ; }                  // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
-      else out_buffer[0]= 0; // limpa a resposta anterior do FIND 
-       // isso evita que o caracter de saida (lixo) do FIND ou Sleep (ou algum outro) seja analisado
-       
+          
 }
    
 if(state == 0x80)  { i2c_read(I2C_PIC_SLAVE,2); index_out_buffer=0 ; 
@@ -71,6 +67,11 @@ else {
      if(index_in_buffer<=BUF_SIZE) {
     
    
+      if( FIND_exe==FALSE ) {lendo_str_master = TRUE ;  out_buffer[0]= 254 ; }                  // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
+      else out_buffer[0]= 0; // limpa a resposta anterior do FIND 
+       // isso evita que o caracter de saida (lixo) do FIND ou Sleep (ou algum outro) seja analisado
+         
+         
     in_buffer[index_in_buffer] = i2c_read(I2C_PIC_SLAVE) ;// o slave lê só até o byte BUF_SIZE-1 ou até receber um caracter nulo; O slave envia  um nack para o mestre na leitura desse byte(ultimo byte) informando para o mestre gerar um stop no protocolo(parar de enviar dados)) 
     index_in_buffer++ ; 
       
@@ -101,7 +102,7 @@ void main()
       // delay de leitura do in_buffer I2C
       if(lendo_str_master) { 
           set_timer0(0);// timer0 comeca a contar do 0 (incrementando a cada 512us; para um delay de 30ms=512us*N_incrementos => N_incrementos=58.59375~ 59)  
-          while(get_timer0()<=59){;} // delay de ~30ms
+          while(get_timer0()<=156){;} // delay de ~80ms
           
           flag_monta_out_buffer= TRUE ;
           in_buffer[BUF_SIZE]='\0'; // adiciona o caracter nulo para formar a string in_buffer
@@ -110,7 +111,7 @@ void main()
       } // habilita a montagem do vetor out_buffer quando tiver preenchido o buffer de entrada (recebido todo o comando do mestre )get_timer0() >=59
               
       
-      if(flag_monta_out_buffer==TRUE) 
+      if(flag_monta_out_buffer) 
       {
             flag_monta_out_buffer=FALSE ; 
             RESET_out_buffers ; // reseta out_buffer, CMD,CMD2 e VALOR
@@ -121,9 +122,12 @@ void main()
             {
               int8 cmd_identificado = identifica_comando(CMD) ;
               monta_out_buffer(cmd_identificado); 
-              
+              if(cmd_identificado==cmd_err) {LEDS_OFF; LED_R=0;LED_G=0; delay_ms(350) ;}
             }
-         
+            else{ LEDS_OFF; LED_R=0; delay_ms(350) ;}
+           
+           
+           
            RESET_in_buffer ; // limpa o in_buffer (deixa limpo  para um proximo comando)
            
            
@@ -131,11 +135,11 @@ void main()
         if(estado_led) {
          if(R_exe){
             set_timer0(0);// timer0 comeca a contar do 0 (incrementando a cada 512us)
-            while( (get_timer0()<=2930)&& (R_exe) ){ // time out de 1.5 s para o led piscar (caso usuario demore mais que esse tempo para fazer a requisicao de leitura), se passar disso o led apaga e libera a placa para um proximo comando
+            while( (get_timer0()<=879)&& (R_exe) ){ // time out de 450 ms para o led piscar (caso usuario demore mais que esse tempo para fazer a requisicao de leitura), se passar disso o led apaga e libera a placa para um proximo comando
                                     I2C_TAKING_READING_LED  
-                                    delay_ms(35);
+                                    delay_ms(20);
                                     LEDS_OFF
-                                    delay_ms(35);  } 
+                                    delay_ms(20);  } 
          } 
                              
           I2C_STANDBY_LED  
@@ -556,9 +560,9 @@ void ANORP_FIND(void){
         
         while(in_buffer[0]==0){// fica piscando o led até o usuário enviar um caracter(in_buffer[0]=!0)
             LED_WHITE
-            delay_ms(100);
+            delay_ms(50);
             LEDS_OFF
-            delay_ms(100);
+            delay_ms(50);
             restart_wdt(); // usado por causa do loop do find que pode fazer WDT estourar, resetando o pic; delay_ms reseta o WDT implicitamente se restart_wdt estiver em #use delay 
         }
         
@@ -679,11 +683,10 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
  // Consumo: 5V-  led on, 10.5 mA ; standby( 7,5 mA) sleep ( 5,8 mA) ; 
  // Consumo: 3.3 V- led on 6.65 mA  ;standby( 5.5mA) sleep (3.8 mA) ; 
  if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0') ) {
-    SLEEP_exe= TRUE ; // indica a execucao do modo Sleep; Usado para a interrupcao I2C não interpretar como comando quando o usuario fazer: (Send any character or command to awaken device )
+     
     LEDS_OFF
     disable_Modulos_PIC(); // desabilita todos os modulos do PIC para consumir menos energia (exceto alguns que eu não estou alterando ex, i2c uart, gerador do Fosc etc)
     sleep();  // comando passado é da forma Sleep
-    SLEEP_exe= FALSE;
     renable_Modulos_PIC(); // reabilita e configura os modulos do Pic que estou utilizando 
  }
        

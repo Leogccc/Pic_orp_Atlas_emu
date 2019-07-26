@@ -261,10 +261,8 @@ registers cannot be written; FSR access to EEPROM returns zero.
 
 
 #define VERSAO_FIRMWARE 1.0
-#define BUF_SIZE 40 // tamanho dos Buffers do I2C1
+#define BUF_SIZE 21 // tamanho dos Buffers do I2C1
 #define PIC_ADDRESS  0xC4// endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4
-#define LED_PIN PIN_A1 // pino onde está conectado o LED pino 12 RA1
-#define LED_STATUS  PIN_A1
 #define TAM_MAX  25
 
 // pinos do Led RGB ânodo comum
@@ -324,7 +322,6 @@ unsigned int1  lendo_str_master = FALSE ; // indica se o PIC está preenchendo in
 unsigned int8  index_out_buffer;
 unsigned int8  index_in_buffer ;
 unsigned int1  FIND_exe= FALSE ;// status do comando FIND (se está executando é TRUE)
-unsigned int1  SLEEP_exe= FALSE ; // // status do comando SLEEP
 unsigned int1  R_exe= FALSE; // status da execucao do comando R 
 unsigned int8  device_calibrated ; // indica se o dispositivo está calibrado ou não TRUE= Calibrado; FALSE= Não calibrado
 unsigned int8  estado_led; // Estado do led controlado pelo comando L, salvo na EEPROM para voltar caso a energia acabe 
