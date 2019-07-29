@@ -42,7 +42,10 @@ if(state == 0x00 ) /*recebou o endereco do master( bit R/W =0 escrita), slave ir
     { 
       i2c_read(I2C_PIC_SLAVE); 
       index_in_buffer=0; 
-          
+      
+      if( FIND_exe==FALSE ) {lendo_str_master = TRUE ;  out_buffer[0]= 254 ; }                  // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
+      else out_buffer[0]= 0; // limpa a resposta anterior do FIND 
+       // isso evita que o caracter de saida (lixo) do FIND ou Sleep (ou algum outro) seja analisado           
 }
    
 if(state == 0x80)  { i2c_read(I2C_PIC_SLAVE,2); index_out_buffer=0 ; 
@@ -65,12 +68,6 @@ else {
  if(state > 0x00) { // master escrevendo em slave
     
      if(index_in_buffer<=BUF_SIZE) {
-    
-   
-      if( FIND_exe==FALSE ) {lendo_str_master = TRUE ;  out_buffer[0]= 254 ; }                  // Response code: 254 still processing, not ready (exceto quando FIND está executando e está esperando um caracter da I2C para finalizar o comando)
-      else out_buffer[0]= 0; // limpa a resposta anterior do FIND 
-       // isso evita que o caracter de saida (lixo) do FIND ou Sleep (ou algum outro) seja analisado
-         
          
     in_buffer[index_in_buffer] = i2c_read(I2C_PIC_SLAVE) ;// o slave lê só até o byte BUF_SIZE-1 ou até receber um caracter nulo; O slave envia  um nack para o mestre na leitura desse byte(ultimo byte) informando para o mestre gerar um stop no protocolo(parar de enviar dados)) 
     index_in_buffer++ ; 
@@ -90,10 +87,9 @@ void main()
     
     disable_Modulos_PIC(); // desabilita todos os modulos do PIC (exceto alguns que eu não estou alterando)
     renable_Modulos_PIC(); // reabilita só os modulos que eu estou utilizando e os configura (chama config_PIC() ; // configura os Módulos, Registradores etc )
-    //config_PIC();
     
     unsigned int1 flag_monta_out_buffer= FALSE ;// flag para montar o vetor out_buffer
-    
+    RESET_in_buffer ;
     
     while(TRUE)
     { 
@@ -102,7 +98,7 @@ void main()
       // delay de leitura do in_buffer I2C
       if(lendo_str_master) { 
           set_timer0(0);// timer0 comeca a contar do 0 (incrementando a cada 512us; para um delay de 30ms=512us*N_incrementos => N_incrementos=58.59375~ 59)  
-          while(get_timer0()<=156){;} // delay de ~80ms
+          while(get_timer0()<=59){ ;} // delay de ~30ms
           
           flag_monta_out_buffer= TRUE ;
           in_buffer[BUF_SIZE]='\0'; // adiciona o caracter nulo para formar a string in_buffer
@@ -122,29 +118,33 @@ void main()
             {
               int8 cmd_identificado = identifica_comando(CMD) ;
               monta_out_buffer(cmd_identificado); 
-              if(cmd_identificado==cmd_err) {LEDS_OFF; LED_R=0;LED_G=0; delay_ms(350) ;}
+              
             }
-            else{ LEDS_OFF; LED_R=0; delay_ms(350) ;}
            
+        if(Cmd_Sleep_awake==FALSE) { 
+            
+                    RESET_in_buffer ; 
+        
+                    if(estado_led) {
+                        
+                        if(R_exe){
+                           set_timer0(0);// timer0 comeca a contar do 0 (incrementando a cada 512us)
+                           while( (get_timer0()<=879)&& (R_exe) ){ // time out de 450 ms para o led piscar (caso usuario demore mais que esse tempo para fazer a requisicao de leitura), se passar disso o led apaga e libera a placa para um proximo comando
+                                                   I2C_TAKING_READING_LED   } 
+                           } 
+
+                        else if(out_buffer[0]==2) CMD_NOT_UNDERSTOOD_LED 
+                             else if(out_buffer[0]==1) CMD_SUCCESSFUL_LED
+
+                      I2C_STANDBY_LED  
+                    }
+
+
+        } // limpa o in_buffer (deixa limpo  para um proximo comando) ; Acondicao evita que o comando de awake seja limpo
+        
            
-           
-           RESET_in_buffer ; // limpa o in_buffer (deixa limpo  para um proximo comando)
-           
-           
-           
-        if(estado_led) {
-         if(R_exe){
-            set_timer0(0);// timer0 comeca a contar do 0 (incrementando a cada 512us)
-            while( (get_timer0()<=879)&& (R_exe) ){ // time out de 450 ms para o led piscar (caso usuario demore mais que esse tempo para fazer a requisicao de leitura), se passar disso o led apaga e libera a placa para um proximo comando
-                                    I2C_TAKING_READING_LED  
-                                    delay_ms(20);
-                                    LEDS_OFF
-                                    delay_ms(20);  } 
-         } 
-                             
-          I2C_STANDBY_LED  
-        }
-           
+        else { Cmd_Sleep_awake=FALSE ; }
+
            
            
       } // fim if flag_monta_out_buffer  
@@ -249,7 +249,6 @@ i2c_address=  read_eeprom(USER_I2C_ADDRESS);
 if( (i2c_address>=1)&&(i2c_address<=127) ) i2c_slaveaddr(I2C_PIC_SLAVE, i2c_address << 1); // Muda o endereco I2C para o endereco da ultima vez que ele escolheu ; A condicao só serve para evitar que algum lixo na EEPROM (Geralmente ocorre pq o ICSP está apagando a EEPROM tbm)  mude o endereco da i2c (continua sendo o padrão nesse caso 98(DEC))
 
 
-RESET_in_buffer ;
 }
 
 #separate
@@ -683,10 +682,14 @@ if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0')) { // comando 
  // Consumo: 5V-  led on, 10.5 mA ; standby( 7,5 mA) sleep ( 5,8 mA) ; 
  // Consumo: 3.3 V- led on 6.65 mA  ;standby( 5.5mA) sleep (3.8 mA) ; 
  if( (strcmp(CMD,in_buffer)==0)&&(CMD2[0]=='\0')&&(VALOR[0]=='\0') ) {
-     
+    
     LEDS_OFF
+    RESET_in_buffer ; // limpa o in_buffer (deixa limpo  para o comando de awake) 
+    
     disable_Modulos_PIC(); // desabilita todos os modulos do PIC para consumir menos energia (exceto alguns que eu não estou alterando ex, i2c uart, gerador do Fosc etc)
     sleep();  // comando passado é da forma Sleep
+    Cmd_Sleep_awake=TRUE; // O código só continua quando o pic desperta
+    
     renable_Modulos_PIC(); // reabilita e configura os modulos do Pic que estou utilizando 
  }
        
@@ -814,6 +817,9 @@ if((CMD2[0]=='\0')&&(VALOR[0]!='\0')) {
      
      i2c_slaveaddr(I2C_PIC_SLAVE, i2c_address << 1); //  muda o endereco i2c do PIC ; Obs: CCS usa o endereco na forma de 8 bits
      write_eeprom(USER_I2C_ADDRESS,i2c_address); // salva na EEPROM
+     
+     CHANGING_I2C_ADDRESS_LED
+  
      reset_cpu(); // Response : device reboot
       
     }

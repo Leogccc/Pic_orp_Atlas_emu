@@ -1,7 +1,7 @@
 D G "__PCM__" 0 0 ""5.080""
 D G "__DEVICE__" 0 0 ""
-D G "__DATE__" 0 0 ""26-Jul-19""
-D G "__TIME__" 0 0 ""18:48:48""
+D G "__DATE__" 0 0 ""29-Jul-19""
+D G "__TIME__" 0 0 ""17:22:52""
 D G "_UNICODE" 0 0 ""?""
 D G "__EVAL" 0 0 ""?""
 D G "__16F18326" 0 0 "1" "* File:   main.c"
@@ -2259,22 +2259,23 @@ C G "" 7 17 1 "*"
 C G "" 7 17 2 "*"
 C G "" 8 1 1 "*"
 C G "" 8 1 1 "*"
-D G "PIC_ORP_ATLAS_EMU_H" 8 10 ""
-D G "VERSAO_FIRMWARE" 8 263 "1.0"
-D G "BUF_SIZE" 8 264 "21" "tamanho dos Buffers do I2C1"
-D G "PIC_ADDRESS" 8 265 "0xC4" "endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4"
-D G "TAM_MAX" 8 266 "25"
-D G "LED_R" 8 269 "LATA1"
-D G "LED_G" 8 270 "LATC2"
-D G "LED_B" 8 271 "LATC3"
-D G "LED_ACESSO" 8 273 "0"
-D G "LED_APAGADO" 8 274 "1"
-D G "I2C_STANDBY_LED" 8 276 "{ LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_ACESSO ;}" "Azul estranho"
-D G "I2C_TAKING_READING_LED" 8 277 "{ LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_APAGADO  ; }" "Verde"
-D G "CHANGING_I2C_ADDRESS_LED" 8 278 "{ LED_R= LED_ACESSO ;  LED_G = LED_APAGADO ; LED_B = LED_ACESSO; }" "Purple"
-D G "CMD_NOT_UNDERSTOOD_LED" 8 279 "{ LED_R= LED_ACESSO;   LED_G = LED_APAGADO ; LED_B = LED_APAGADO; }" "Red"
-D G "LED_WHITE" 8 281 "{ LED_R = LED_ACESSO;  LED_G = LED_ACESSO;  LED_B = LED_ACESSO ;}"
-D G "LEDS_OFF" 8 282 "{  LED_R = LED_APAGADO ;LED_G = LED_APAGADO; LED_B = LED_APAGADO ;}"
+D G "PIC_ORP_ATLAS_EMU_H" 8 9 ""
+D G "VERSAO_FIRMWARE" 8 262 "1.0"
+D G "BUF_SIZE" 8 263 "21" "tamanho dos Buffers do I2C1"
+D G "PIC_ADDRESS" 8 264 "0xC4" "endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4"
+D G "TAM_MAX" 8 265 "25"
+D G "LED_R" 8 268 "LATA1"
+D G "LED_G" 8 269 "LATC2"
+D G "LED_B" 8 270 "LATC3"
+D G "LED_ACESSO" 8 272 "0"
+D G "LED_APAGADO" 8 273 "1"
+D G "LED_WHITE" 8 275 "{ LED_R = LED_ACESSO;  LED_G = LED_ACESSO;  LED_B = LED_ACESSO ;}"
+D G "LEDS_OFF" 8 276 "{  LED_R = LED_APAGADO ;LED_G = LED_APAGADO; LED_B = LED_APAGADO ;}"
+D G "I2C_STANDBY_LED" 8 278 "{ LED_R= LED_APAGADO ; LED_G = LED_APAGADO ;  LED_B = LED_ACESSO ;}" "Azul estranho"
+D G "I2C_TAKING_READING_LED" 8 279 "{ LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_APAGADO  ;delay_ms(20); LEDS_OFF ; delay_ms(20);  }" "Verde"
+D G "CHANGING_I2C_ADDRESS_LED" 8 280 "{ LED_R= LED_ACESSO ;  LED_G = LED_APAGADO ; LED_B = LED_ACESSO; delay_ms(200); }" "Purple"
+D G "CMD_NOT_UNDERSTOOD_LED" 8 281 "{ LED_R= LED_ACESSO;   LED_G = LED_APAGADO ; LED_B = LED_APAGADO; delay_ms(150); }" "Red"
+D G "CMD_SUCCESSFUL_LED" 8 282 "{ LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_APAGADO  ;delay_ms(150) ; }" "Verde"
 D G "LEN_MAX_CMD" 8 285 "7" "o numero maximo de caracteres dos comandos da lista_comandos  ( não contando '\0') para comandos da forma : "CMD""
 D G "LEN_MAX_CMD2" 8 286 "5" "tamanho max do cmd2 ( não contando '\0') para um comando da forma CMD,CMD2,VALOR"
 D G "LEN_MAX_VALOR" 8 287 "28" "tamanho max de  valor (não contando '\0') para comandos da forma CMD,VALOR ouu CMD,CMD2,VALOR pode variar, mas não passara de 20"
@@ -2291,133 +2292,135 @@ V G "index_out_buffer" 8 322 "int8" `1158
 V G "index_in_buffer" 8 323 "int8" `1159 
 V G "FIND_exe" 8 324 "int1" `1160 
 V G "R_exe" 8 325 "int1" `1161 
-V G "device_calibrated" 8 326 "int8" `1162  "indica se o dispositivo está calibrado ou não TRUE= Calibrado; FALSE= Não calibrado"
-V G "estado_led" 8 327 "int8" `1163  "Estado do led controlado pelo comando L, salvo na EEPROM para voltar caso a energia acabe"
-V G "i2c_address" 8 328 "int8" `1164  "endereco da i2c da placa padrão é 98 (DEC),mas pode ser alterado com o comando I2C"
-V G "Reason_for_restart" 8 330 "int8" `1165  "indica a causa do ultimo restart do PIC"
-E G "cmd_err" 8 333 "0" `1167 
-E G "cmd_Baud" 8 333 "1" `1168 
-E G "cmd_Cal" 8 333 "2" `1169 
-E G "cmd_Export" 8 333 "3" `1170 
-E G "cmd_Factory" 8 333 "4" `1171 
-E G "cmd_Find" 8 333 "5" `1172 
-E G "cmd_i" 8 333 "6" `1173 
-E G "cmd_I2C" 8 333 "7" `1174 
-E G "cmd_Import" 8 333 "8" `1175 
-E G "cmd_L" 8 333 "9" `1176 
-E G "cmd_Plock" 8 333 "10" `1177 
-E G "cmd_R" 8 333 "11" `1178 
-E G "cmd_Sleep" 8 333 "12" `1179 
-E G "cmd_Slope" 8 333 "13" `1180 
-E G "cmd_Status" 8 333 "14" `1181 
-T G "comandos" 8 333 "" `1182 
-V G "lista_comandos" 8 334 "int8[15][8]" `1183 
-F N "config_PIC" 8 337 ""
-f G "config_PIC" 8 337 "void()" `1185 
-F N "disable_Modulos_PIC" 8 340 ""
-f G "disable_Modulos_PIC" 8 340 "void()" `1186 
-F N "renable_Modulos_PIC" 8 343 ""
-f G "renable_Modulos_PIC" 8 343 "void()" `1187  "Faz o parseamento de in_buffer, conforme o protocolo definido abaixo:"
+V G "Cmd_Sleep_awake" 8 326 "int1" `1162 
+V G "device_calibrated" 8 327 "int8" `1163  "indica se o dispositivo está calibrado ou não TRUE= Calibrado; FALSE= Não calibrado"
+V G "estado_led" 8 328 "int8" `1164  "Estado do led controlado pelo comando L, salvo na EEPROM para voltar caso a energia acabe"
+V G "i2c_address" 8 329 "int8" `1165  "endereco da i2c da placa padrão é 98 (DEC),mas pode ser alterado com o comando I2C"
+V G "Reason_for_restart" 8 331 "int8" `1166  "indica a causa do ultimo restart do PIC"
+E G "cmd_err" 8 334 "0" `1168 
+E G "cmd_Baud" 8 334 "1" `1169 
+E G "cmd_Cal" 8 334 "2" `1170 
+E G "cmd_Export" 8 334 "3" `1171 
+E G "cmd_Factory" 8 334 "4" `1172 
+E G "cmd_Find" 8 334 "5" `1173 
+E G "cmd_i" 8 334 "6" `1174 
+E G "cmd_I2C" 8 334 "7" `1175 
+E G "cmd_Import" 8 334 "8" `1176 
+E G "cmd_L" 8 334 "9" `1177 
+E G "cmd_Plock" 8 334 "10" `1178 
+E G "cmd_R" 8 334 "11" `1179 
+E G "cmd_Sleep" 8 334 "12" `1180 
+E G "cmd_Slope" 8 334 "13" `1181 
+E G "cmd_Status" 8 334 "14" `1182 
+T G "comandos" 8 334 "" `1183 
+V G "lista_comandos" 8 335 "int8[15][8]" `1184 
+F N "config_PIC" 8 338 ""
+f G "config_PIC" 8 338 "void()" `1186 
+F N "disable_Modulos_PIC" 8 341 ""
+f G "disable_Modulos_PIC" 8 341 "void()" `1187 
+F N "renable_Modulos_PIC" 8 344 ""
+f G "renable_Modulos_PIC" 8 344 "void()" `1188  "Faz o parseamento de in_buffer, conforme o protocolo definido abaixo:"
 C L "renable_Modulos_PIC" 8 1 5 "FUNCTION"
-F N "parsing_in_buffer" 8 355 ""
-V L "rcv_buffer" 8 355 "*int8" `1189 
-f G "parsing_in_buffer" 8 355 "int8(*int8 rcv_buffer)" `1188  "Retorna qual  comando(CMD) foi enviado pelo usuário"
+F N "parsing_in_buffer" 8 356 ""
+V L "rcv_buffer" 8 356 "*int8" `1190 
+f G "parsing_in_buffer" 8 356 "int8(*int8 rcv_buffer)" `1189  "Retorna qual  comando(CMD) foi enviado pelo usuário"
 C L "parsing_in_buffer" 8 1 1 "FUNCTION"
-F N "identifica_comando" 8 361 ""
-V L "comando" 8 361 "*int8" `1191 
-f G "identifica_comando" 8 361 "int8(*int8 comando)" `1190 
-F N "monta_out_buffer" 8 364 ""
-V L "num_comando" 8 364 "int8" `1193 
-f G "monta_out_buffer" 8 364 "void(int8 num_comando)" `1192  "monta o vetor out_buffer de resposta as requisicoes do mestre"
+F N "identifica_comando" 8 362 ""
+V L "comando" 8 362 "*int8" `1192 
+f G "identifica_comando" 8 362 "int8(*int8 comando)" `1191 
+F N "monta_out_buffer" 8 365 ""
+V L "num_comando" 8 365 "int8" `1194 
+f G "monta_out_buffer" 8 365 "void(int8 num_comando)" `1193  "monta o vetor out_buffer de resposta as requisicoes do mestre"
 C L "monta_out_buffer" 8 1 1 "FUNCTION"
 C L "monta_out_buffer" 8 1 1 "FUNCTION"
 C L "monta_out_buffer" 8 1 1 "FUNCTION"
-V G "offset_cal" 8 377 "{float VALOR,int8[4] valor_byte}" `1197  "valor  do offset usado na calibracao do eletrodo de ORP (Salvo na eeprom)"
+V G "offset_cal" 8 378 "{float VALOR,int8[4] valor_byte}" `1198  "valor  do offset usado na calibracao do eletrodo de ORP (Salvo na eeprom)"
 C L "monta_out_buffer" 8 1 1 "FUNCTION"
-F N "isStr_float" 8 385 ""
-V L "str_teste" 8 385 "*int8" `1199 
-f G "isStr_float" 8 385 "int8(*int8 str_teste)" `1198  "verifica se uma string representa um float válido"
-F N "get_orp_value_mV" 8 388 ""
-f G "get_orp_value_mV" 8 388 "float()" `1200  "é o padrao do CCS (O codigo da funcao é colocado diretamente onde ocorre a chamada) (codigo mais rapido pq não tem chamada de funcoes (economiza a pilha e consome mais rom) ) )"
-F N "ANORP_R" 8 391 ""
-f G "ANORP_R" 8 391 "void()" `1201  "retorna uma única leitura do valor de ph (%.2f)"
-F N "ANORP_FIND" 8 394 ""
-f G "ANORP_FIND" 8 394 "void()" `1202  "Find: LED rapidly blinks white, used to help find device"
-F N "ANORP_i" 8 397 ""
-f G "ANORP_i" 8 397 "void()" `1203  "retorna device information para o usuario"
+F N "isStr_float" 8 386 ""
+V L "str_teste" 8 386 "*int8" `1200 
+f G "isStr_float" 8 386 "int8(*int8 str_teste)" `1199  "verifica se uma string representa um float válido"
+F N "get_orp_value_mV" 8 389 ""
+f G "get_orp_value_mV" 8 389 "float()" `1201  "é o padrao do CCS (O codigo da funcao é colocado diretamente onde ocorre a chamada) (codigo mais rapido pq não tem chamada de funcoes (economiza a pilha e consome mais rom) ) )"
+F N "ANORP_R" 8 392 ""
+f G "ANORP_R" 8 392 "void()" `1202  "retorna uma única leitura do valor de ph (%.2f)"
+F N "ANORP_FIND" 8 395 ""
+f G "ANORP_FIND" 8 395 "void()" `1203  "Find: LED rapidly blinks white, used to help find device"
+F N "ANORP_i" 8 398 ""
+f G "ANORP_i" 8 398 "void()" `1204  "retorna device information para o usuario"
 C L "ANORP_i" 8 1 1 "FUNCTION"
-F N "ANORP_I2C" 8 400 ""
-f G "ANORP_I2C" 8 400 "void()" `1204  ""
-F N "ANORP_L" 8 403 ""
-f G "ANORP_L" 8 403 "void()" `1205  "LED CONTROL"
-F N "ANORP_STATUS" 8 406 ""
-f G "ANORP_STATUS" 8 406 "void()" `1206  "Status voltage at Vcc pin and reason for last restart"
-F N "ANORP_SLEEP" 8 409 ""
-f G "ANORP_SLEEP" 8 409 "void()" `1207  "Placa entre em modo Sleep"
-F N "ANORP_CAL" 8 412 ""
-f G "ANORP_CAL" 8 412 "void()" `1208  ""
-F N "ANORP_FACTORY" 8 415 ""
-f G "ANORP_FACTORY" 8 415 "void()" `1209  "Driver for MCP3421 A/D Converter ///////////////////"
-D G "OFFSET_HARDWARE_mV" 8 482 "-1.03" "esse é o valor que a placa mostra quando os terminais do probe são curto circuitados (era pra medir 0V)"
-D G "MCP3421_CONTINUOUS" 8 484 "0x10"
-D G "MCP3421_ONE_SHOT" 8 485 "0x00"
-D G "MCP3421_18BITS" 8 487 "0x0C"
-D G "MCP3421_16BITS" 8 488 "0x08"
-D G "MCP3421_14BITS" 8 489 "0x04"
-D G "MCP3421_12BITS" 8 490 "0x00"
-D G "MCP3421_8X_GAIN" 8 492 "0x03"
-D G "MCP3421_4X_GAIN" 8 493 "0x02"
-D G "MCP3421_2X_GAIN" 8 494 "0x01"
-D G "MCP3421_1X_GAIN" 8 495 "0x00"
-D G "MCP3421_DEVICE_CODE" 8 497 "0xD0"
-D G "MCP3421_START_CONVERSTION" 8 498 "0x80"
-D G "MCP3421_SCL" 8 501 "PIN_C4"
-D G "MCP3421_SDA" 8 505 "PIN_C5"
-D G "MCP3421_MODE" 8 510 "MCP3421_CONTINUOUS" "MCP3421_ONE_SHOT"
-D G "MCP3421_BITS" 8 514 "MCP3421_18BITS"
-D G "MCP3421_GAIN" 8 518 "MCP3421_1X_GAIN"
-D G "MCP3421_ADDRESS" 8 522 "1" "endereco MCP3421 0x69=> 0xD0|0x01<<1  ;"
+F N "ANORP_I2C" 8 401 ""
+f G "ANORP_I2C" 8 401 "void()" `1205  ""
+F N "ANORP_L" 8 404 ""
+f G "ANORP_L" 8 404 "void()" `1206  "LED CONTROL"
+F N "ANORP_STATUS" 8 407 ""
+f G "ANORP_STATUS" 8 407 "void()" `1207  "Status voltage at Vcc pin and reason for last restart"
+F N "ANORP_SLEEP" 8 410 ""
+f G "ANORP_SLEEP" 8 410 "void()" `1208  "Placa entre em modo Sleep"
+F N "ANORP_CAL" 8 413 ""
+f G "ANORP_CAL" 8 413 "void()" `1209  ""
+F N "ANORP_FACTORY" 8 416 ""
+f G "ANORP_FACTORY" 8 416 "void()" `1210  "Driver for MCP3421 A/D Converter ///////////////////"
+D G "OFFSET_HARDWARE_mV" 8 483 "-1.03" "esse é o valor que a placa mostra quando os terminais do probe são curto circuitados (era pra medir 0V)"
+D G "MCP3421_CONTINUOUS" 8 485 "0x10"
+D G "MCP3421_ONE_SHOT" 8 486 "0x00"
+D G "MCP3421_18BITS" 8 488 "0x0C"
+D G "MCP3421_16BITS" 8 489 "0x08"
+D G "MCP3421_14BITS" 8 490 "0x04"
+D G "MCP3421_12BITS" 8 491 "0x00"
+D G "MCP3421_8X_GAIN" 8 493 "0x03"
+D G "MCP3421_4X_GAIN" 8 494 "0x02"
+D G "MCP3421_2X_GAIN" 8 495 "0x01"
+D G "MCP3421_1X_GAIN" 8 496 "0x00"
+D G "MCP3421_DEVICE_CODE" 8 498 "0xD0"
+D G "MCP3421_START_CONVERSTION" 8 499 "0x80"
+D G "MCP3421_SCL" 8 502 "PIN_C4"
+D G "MCP3421_SDA" 8 506 "PIN_C5"
+D G "MCP3421_MODE" 8 511 "MCP3421_CONTINUOUS" "MCP3421_ONE_SHOT"
+D G "MCP3421_BITS" 8 515 "MCP3421_18BITS"
+D G "MCP3421_GAIN" 8 519 "MCP3421_1X_GAIN"
+D G "MCP3421_ADDRESS" 8 523 "1" "endereco MCP3421 0x69=> 0xD0|0x01<<1  ;"
 C L "ANORP_FACTORY" 8 1 1 "FUNCTION"
-F N "adc_init" 8 537 ""
-V L "address" 8 537 "int8" `1216 
-f G "adc_init" 8 537 "void(int8=1 address)" `1215 
-F N "read_adc_mcp3421" 8 542 ""
-V L "address" 8 542 "int8" `1219 
-f G "read_adc_mcp3421" 8 542 "sint32(int8=1 address)" `1218 
-F N "read_adc_volts_mcp3421" 8 548 ""
-V L "address" 8 548 "int8" `1222 
-f G "read_adc_volts_mcp3421" 8 548 "float(int8=1 address)" `1221  "debug"
+F N "adc_init" 8 538 ""
+V L "address" 8 538 "int8" `1217 
+f G "adc_init" 8 538 "void(int8=1 address)" `1216 
+F N "read_adc_mcp3421" 8 543 ""
+V L "address" 8 543 "int8" `1220 
+f G "read_adc_mcp3421" 8 543 "sint32(int8=1 address)" `1219 
+F N "read_adc_volts_mcp3421" 8 549 ""
+V L "address" 8 549 "int8" `1223 
+f G "read_adc_volts_mcp3421" 8 549 "float(int8=1 address)" `1222  "debug"
 C L "read_adc_volts_mcp3421" 8 1 1 "FUNCTION"
 F N "SSP_isr_slave" 0 33 ""
 C L "SSP_isr_slave" 0 33 1 "FUNCTION"
-F G "SSP_isr_slave" 0 34 "void()" `1224 
-V L "state" 0 37 "int8" `1225 
-C L "SSP_isr_slave" 0 33 1 "FUNCTION"
-C L "SSP_isr_slave" 0 33 1 "FUNCTION"
-C L "SSP_isr_slave" 0 33 1 "FUNCTION"
-C L "SSP_isr_slave" 0 33 1 "FUNCTION"
+F G "SSP_isr_slave" 0 34 "void()" `1225 
+V L "state" 0 37 "int8" `1226 
 C L "SSP_isr_slave" 0 33 1 "FUNCTION"
 C L "SSP_isr_slave" 0 33 1 "FUNCTION"
 C L "SSP_isr_slave" 0 33 2 "FUNCTION"
 C L "SSP_isr_slave" 0 33 1 "FUNCTION"
+C L "SSP_isr_slave" 0 33 1 "FUNCTION"
+C L "SSP_isr_slave" 0 33 1 "FUNCTION"
+C L "SSP_isr_slave" 0 33 1 "FUNCTION"
+C L "SSP_isr_slave" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
-F N "MAIN" 0 86 ""
-F G "MAIN" 0 87 "void()" `1227 
-C L "MAIN" 0 33 1 "FUNCTION"
-C L "MAIN" 0 33 1 "FUNCTION"
-C L "MAIN" 0 33 2 "FUNCTION"
-V L "flag_monta_out_buffer" 0 95 "int1" `1230 
-C L "MAIN" 0 33 1 "FUNCTION"
-C L "MAIN" 0 33 1 "FUNCTION"
+F N "MAIN" 0 83 ""
+F G "MAIN" 0 84 "void()" `1228 
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
+V L "flag_monta_out_buffer" 0 91 "int1" `1231 
 C L "MAIN" 0 33 1 "FUNCTION"
-V L "i" 0 117 "int8" `1231 
+V L "i" 0 92 "int8" `1232 
 C L "MAIN" 0 33 1 "FUNCTION"
-V L "parseamento_ok" 0 119 "int1" `1232 
-V L "cmd_identificado" 0 123 "int8" `1233 
-V L "i" 0 131 "int8" `1234 
+C L "MAIN" 0 33 1 "FUNCTION"
+C L "MAIN" 0 33 1 "FUNCTION"
+C L "MAIN" 0 33 1 "FUNCTION"
+C L "MAIN" 0 33 1 "FUNCTION"
+V L "i" 0 113 "int8" `1233 
+C L "MAIN" 0 33 1 "FUNCTION"
+V L "parseamento_ok" 0 115 "int1" `1234 
+V L "cmd_identificado" 0 119 "int8" `1235 
+V L "i" 0 126 "int8" `1236 
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
@@ -2425,7 +2428,7 @@ C L "MAIN" 0 33 1 "FUNCTION"
 C L "MAIN" 0 33 1 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
 F N "config_PIC" 0 156 ""
-F G "config_PIC" 0 157 "void()" `1185 
+F G "config_PIC" 0 157 "void()" `1186 
 C L "config_PIC" 0 33 1 "FUNCTION"
 C L "config_PIC" 0 33 2 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
@@ -2448,9 +2451,8 @@ C L "config_PIC" 0 33 1 "FUNCTION"
 C L "config_PIC" 0 33 2 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
 C L "config_PIC" 0 33 1 "FUNCTION"
-V L "i" 0 252 "int8" `1235 
-F N "disable_Modulos_PIC" 0 256 ""
-F G "disable_Modulos_PIC" 0 256 "void()" `1186  "REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)"
+F N "disable_Modulos_PIC" 0 255 ""
+F G "disable_Modulos_PIC" 0 255 "void()" `1187  "REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)"
 C L "disable_Modulos_PIC" 0 33 5 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 12 "FUNCTION"
@@ -2472,8 +2474,8 @@ C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "disable_Modulos_PIC" 0 33 1 "FUNCTION"
-F N "renable_Modulos_PIC" 0 319 ""
-F G "renable_Modulos_PIC" 0 319 "void()" `1187  "REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)"
+F N "renable_Modulos_PIC" 0 318 ""
+F G "renable_Modulos_PIC" 0 318 "void()" `1188  "REGISTRADORES PARA DESABILITAR\HABILITAR OS MÓDULOS DO PIC ( all modules are ON by default following any Reset.) : (CAP 14 datasheet)"
 C L "renable_Modulos_PIC" 0 33 5 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 12 "FUNCTION"
@@ -2481,64 +2483,64 @@ C L "renable_Modulos_PIC" 0 33 2 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 1 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 22 "FUNCTION"
 C L "renable_Modulos_PIC" 0 33 1 "FUNCTION"
-F N "parsing_in_buffer" 0 384 ""
-V L "rcv_buffer" 0 384 "*int8" `1237 
-F G "parsing_in_buffer" 0 384 "int8(*int8 rcv_buffer)" `1188 
-V L "num_separadores" 0 386 "int8" `1236 
-V L "index_separador_1" 0 387 "int8" `1237 
-V L "index_separador_2" 0 388 "int8" `1238 
-V L "separador" 0 389 "rom int8" `1239 
-V L "i" 0 391 "int8" `1240 
+F N "parsing_in_buffer" 0 383 ""
+V L "rcv_buffer" 0 383 "*int8" `1238 
+F G "parsing_in_buffer" 0 383 "int8(*int8 rcv_buffer)" `1189 
+V L "num_separadores" 0 385 "int8" `1237 
+V L "index_separador_1" 0 386 "int8" `1238 
+V L "index_separador_2" 0 387 "int8" `1239 
+V L "separador" 0 388 "rom int8" `1240 
+V L "i" 0 390 "int8" `1241 
 C L "parsing_in_buffer" 0 33 2 "FUNCTION"
 C L "parsing_in_buffer" 0 33 2 "FUNCTION"
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
-V L "i" 0 405 "int8" `1241 
+V L "i" 0 404 "int8" `1242 
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
-V L "i" 0 411 "int8" `1242 
+V L "i" 0 410 "int8" `1243 
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
-V L "i" 0 422 "int8" `1243 
+V L "i" 0 421 "int8" `1244 
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
 C L "parsing_in_buffer" 0 33 1 "FUNCTION"
 C L "parsing_in_buffer" 0 33 2 "FUNCTION"
-F N "identifica_comando" 0 445 ""
-V L "comando" 0 445 "*int8" `1245 
-F G "identifica_comando" 0 445 "int8(*int8 comando)" `1190  "Identiicacao de qual comando foi recebido pelo PIC*"
-V L "CMD" 0 447 "int8" `1244 
+F N "identifica_comando" 0 444 ""
+V L "comando" 0 444 "*int8" `1246 
+F G "identifica_comando" 0 444 "int8(*int8 comando)" `1191  "Identiicacao de qual comando foi recebido pelo PIC*"
+V L "CMD" 0 446 "int8" `1245 
 C L "identifica_comando" 0 33 1 "FUNCTION"
 C L "identifica_comando" 0 33 1 "FUNCTION"
-F N "monta_out_buffer" 0 455 ""
-V L "num_comando" 0 455 "int8" `1246 
-F G "monta_out_buffer" 0 455 "void(int8 num_comando)" `1192  "Os comandos podem ser(ou qualquer outro acrescentado em lista_comandos[] e em enum comandos): cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status, cmd_T, cmd_RT"
+F N "monta_out_buffer" 0 454 ""
+V L "num_comando" 0 454 "int8" `1247 
+F G "monta_out_buffer" 0 454 "void(int8 num_comando)" `1193  "Os comandos podem ser(ou qualquer outro acrescentado em lista_comandos[] e em enum comandos): cmd_err, cmd_Baud ,cmd_Cal, cmd_Export, cmd_Factory, cmd_Find, cmd_i, cmd_I2c, cmd_Import, cmd_L, cmd_Plock, cmd_R, cmd_Sleep, cmd_Slope,cmd_Status, cmd_T, cmd_RT"
 C L "monta_out_buffer" 0 33 1 "FUNCTION"
 C L "monta_out_buffer" 0 33 1 "FUNCTION"
 C L "monta_out_buffer" 0 33 1 "FUNCTION"
 C L "monta_out_buffer" 0 33 1 "FUNCTION"
 C L "isStr_float" 0 33 1 "FUNCTION"
-F N "isStr_float" 0 498 ""
-V L "str_teste" 0 498 "*int8" `1246 
-F G "isStr_float" 0 498 "int8(*int8 str_teste)" `1198 
-V L "num_ponto" 0 500 "int8" `1245 
-V L "num_sinal_menos" 0 501 "int8" `1246 
+F N "isStr_float" 0 497 ""
+V L "str_teste" 0 497 "*int8" `1247 
+F G "isStr_float" 0 497 "int8(*int8 str_teste)" `1199 
+V L "num_ponto" 0 499 "int8" `1246 
+V L "num_sinal_menos" 0 500 "int8" `1247 
 C L "isStr_float" 0 33 1 "FUNCTION"
-V L "i" 0 504 "int8" `1247 
-C L "isStr_float" 0 33 1 "FUNCTION"
-C L "isStr_float" 0 33 1 "FUNCTION"
+V L "i" 0 503 "int8" `1248 
 C L "isStr_float" 0 33 1 "FUNCTION"
 C L "isStr_float" 0 33 1 "FUNCTION"
 C L "isStr_float" 0 33 1 "FUNCTION"
 C L "isStr_float" 0 33 1 "FUNCTION"
-F N "get_orp_value_mV" 0 528 ""
-F G "get_orp_value_mV" 0 528 "float()" `1200 
-V L "mcp_value_mV" 0 530 "float" `1251 
-F N "ANORP_R" 0 536 ""
-F G "ANORP_R" 0 536 "void()" `1201  "resposta: 1(DEC) %.2f(ASCII) 0(DEC)"
+C L "isStr_float" 0 33 1 "FUNCTION"
+C L "isStr_float" 0 33 1 "FUNCTION"
+F N "get_orp_value_mV" 0 527 ""
+F G "get_orp_value_mV" 0 527 "float()" `1201 
+V L "mcp_value_mV" 0 529 "float" `1252 
+F N "ANORP_R" 0 535 ""
+F G "ANORP_R" 0 535 "void()" `1202  "resposta: 1(DEC) %.2f(ASCII) 0(DEC)"
 C L "ANORP_R" 0 33 1 "FUNCTION"
-V L "orp" 0 543 "float" `1252 
+V L "orp" 0 542 "float" `1253 
 C L "ANORP_R" 0 33 1 "FUNCTION"
 C L "ANORP_R" 0 33 1 "FUNCTION"
-F N "ANORP_FIND" 0 552 ""
-F G "ANORP_FIND" 0 552 "void()" `1202 
+F N "ANORP_FIND" 0 551 ""
+F G "ANORP_FIND" 0 551 "void()" `1203 
 C L "ANORP_FIND" 0 33 1 "FUNCTION"
 C L "ANORP_FIND" 0 33 2 "FUNCTION"
 C L "ANORP_FIND" 0 33 1 "FUNCTION"
@@ -2546,8 +2548,8 @@ C L "ANORP_FIND" 0 33 1 "FUNCTION"
 C L "ANORP_FIND" 0 33 1 "FUNCTION"
 C L "ANORP_FIND" 0 33 1 "FUNCTION"
 C L "ANORP_FIND" 0 33 1 "FUNCTION"
-F N "ANORP_L" 0 581 ""
-F G "ANORP_L" 0 581 "void()" `1205  "Comando sintaxe"
+F N "ANORP_L" 0 580 ""
+F G "ANORP_L" 0 580 "void()" `1206  "Comando sintaxe"
 C L "ANORP_L" 0 33 3 "FUNCTION"
 C L "ANORP_L" 0 33 1 "FUNCTION"
 C L "ANORP_L" 0 33 1 "FUNCTION"
@@ -2555,30 +2557,33 @@ C L "ANORP_L" 0 33 1 "FUNCTION"
 C L "ANORP_L" 0 33 1 "FUNCTION"
 C L "ANORP_L" 0 33 1 "FUNCTION"
 C L "ANORP_L" 0 33 1 "FUNCTION"
-F N "ANORP_i" 0 625 ""
-F G "ANORP_i" 0 625 "void()" `1203  "Command sintax: i    // device information"
+F N "ANORP_i" 0 624 ""
+F G "ANORP_i" 0 624 "void()" `1204  "Command sintax: i    // device information"
 C L "ANORP_i" 0 33 2 "FUNCTION"
-F N "ANORP_STATUS" 0 634 ""
-F G "ANORP_STATUS" 0 634 "void()" `1206  "Status voltage at Vcc pin and reason for last restart"
+F N "ANORP_STATUS" 0 633 ""
+F G "ANORP_STATUS" 0 633 "void()" `1207  "Status voltage at Vcc pin and reason for last restart"
 C L "ANORP_STATUS" 0 33 8 "FUNCTION"
 C L "ANORP_STATUS" 0 33 1 "FUNCTION"
-V L "Vdd" 0 649 "float" `1275 
+V L "Vdd" 0 648 "float" `1276 
 C L "ANORP_STATUS" 0 33 1 "FUNCTION"
 C L "ANORP_STATUS" 0 33 1 "FUNCTION"
 C L "ANORP_STATUS" 0 33 1 "FUNCTION"
 C L "ANORP_STATUS" 0 33 1 "FUNCTION"
-F N "ANORP_SLEEP" 0 680 ""
-F G "ANORP_SLEEP" 0 680 "void()" `1207  "Sleep mode/low power : Send any character or command to awaken device"
+F N "ANORP_SLEEP" 0 679 ""
+F G "ANORP_SLEEP" 0 679 "void()" `1208  "Sleep mode/low power : Send any character or command to awaken device"
 C L "ANORP_SLEEP" 0 33 3 "FUNCTION"
+V L "i" 0 687 "int8" `1283 
 C L "ANORP_SLEEP" 0 33 1 "FUNCTION"
 C L "ANORP_SLEEP" 0 33 1 "FUNCTION"
 C L "ANORP_SLEEP" 0 33 1 "FUNCTION"
 C L "ANORP_SLEEP" 0 33 1 "FUNCTION"
-F N "ANORP_CAL" 0 699 ""
-F G "ANORP_CAL" 0 699 "void()" `1208  "Command syntax"
+C L "ANORP_SLEEP" 0 33 1 "FUNCTION"
+C L "ANORP_SLEEP" 0 33 1 "FUNCTION"
+F N "ANORP_CAL" 0 702 ""
+F G "ANORP_CAL" 0 702 "void()" `1209  "Command syntax"
 C L "ANORP_CAL" 0 33 3 "FUNCTION"
-V L "str_clear" 0 707 "int8[1]" `1282 
-V L "str_interrogacao" 0 708 "int8[1]" `1283 
+V L "str_clear" 0 710 "int8[1]" `1284 
+V L "str_interrogacao" 0 711 "int8[1]" `1285 
 C L "ANORP_CAL" 0 33 1 "FUNCTION"
 C L "ANORP_CAL" 0 33 1 "FUNCTION"
 C L "ANORP_CAL" 0 33 1 "FUNCTION"
@@ -2590,67 +2595,67 @@ C L "ANORP_CAL" 0 33 1 "FUNCTION"
 C L "ANORP_CAL" 0 33 1 "FUNCTION"
 C L "ANORP_CAL" 0 33 1 "FUNCTION"
 C L "ANORP_CAL" 0 33 1 "FUNCTION"
-F N "ANORP_FACTORY" 0 757 ""
-F G "ANORP_FACTORY" 0 757 "void()" `1209  "Clears calibration"
+F N "ANORP_FACTORY" 0 760 ""
+F G "ANORP_FACTORY" 0 760 "void()" `1210  "Clears calibration"
 C L "ANORP_FACTORY" 0 33 2 "FUNCTION"
-C L "ANORP_FACTORY" 0 759 3 "*"
-C L "ANORP_FACTORY" 0 759 1 "FUNCTION"
-C L "ANORP_FACTORY" 0 759 1 "FUNCTION"
-C L "ANORP_FACTORY" 0 759 1 "FUNCTION"
-C L "ANORP_FACTORY" 0 759 1 "FUNCTION"
-C L "ANORP_FACTORY" 0 759 2 "FUNCTION"
-C L "ANORP_FACTORY" 0 759 3 "FUNCTION"
-C L "ANORP_FACTORY" 0 759 1 "FUNCTION"
-F N "ANORP_I2C" 0 798 ""
-F G "ANORP_I2C" 0 798 "void()" `1204  "I2C,n // sets I2C address and reboots into I2C mode"
-C L "ANORP_I2C" 0 759 1 "FUNCTION"
-V L "i" 0 804 "int8" `1285 
-C L "ANORP_I2C" 0 759 1 "FUNCTION"
-C L "ANORP_I2C" 0 759 2 "FUNCTION"
-C L "ANORP_I2C" 0 759 1 "FUNCTION"
-C L "ANORP_I2C" 0 759 1 "FUNCTION"
-C L "ANORP_I2C" 0 759 1 "FUNCTION"
-C L "ANORP_I2C" 0 759 1 "FUNCTION"
-C L "ANORP_I2C" 0 759 1 "FUNCTION"
-C L "ANORP_I2C" 0 759 1 "FUNCTION"
-C L "adc_init" 0 759 9 "FUNCTION"
-F N "adc_init" 0 844 ""
-V L "address" 0 844 "int8" `1216 
-F G "adc_init" 0 845 "void(int8=1 address)" `1215 
-C L "adc_init" 0 759 1 "FUNCTION"
-C L "adc_init" 0 759 1 "FUNCTION"
-C L "adc_init" 0 759 1 "FUNCTION"
-C L "adc_init" 0 759 1 "FUNCTION"
-F N "read_adc_mcp3421" 0 865 ""
-V L "address" 0 865 "int8" `1219 
-F G "read_adc_mcp3421" 0 869 "sint32(int8=1 address)" `1218 
-V L "result" 0 879 "{sint32 sint32,int8[4] b}" `1290 
-V L "status" 0 880 "int8" `1291 
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_mcp3421" 0 759 1 "FUNCTION"
-C L "read_adc_volts_mcp3421" 0 759 7 "FUNCTION"
-F N "read_adc_volts_mcp3421" 0 946 ""
-V L "address" 0 946 "int8" `1222 
-F G "read_adc_volts_mcp3421" 0 947 "float(int8=1 address)" `1221 
-V L "result" 0 949 "sint32" `1292 
-V L "fresult" 0 954 "float" `1293 
+C L "ANORP_FACTORY" 0 762 3 "*"
+C L "ANORP_FACTORY" 0 762 1 "FUNCTION"
+C L "ANORP_FACTORY" 0 762 1 "FUNCTION"
+C L "ANORP_FACTORY" 0 762 1 "FUNCTION"
+C L "ANORP_FACTORY" 0 762 1 "FUNCTION"
+C L "ANORP_FACTORY" 0 762 2 "FUNCTION"
+C L "ANORP_FACTORY" 0 762 3 "FUNCTION"
+C L "ANORP_FACTORY" 0 762 1 "FUNCTION"
+F N "ANORP_I2C" 0 801 ""
+F G "ANORP_I2C" 0 801 "void()" `1205  "I2C,n // sets I2C address and reboots into I2C mode"
+C L "ANORP_I2C" 0 762 1 "FUNCTION"
+V L "i" 0 807 "int8" `1287 
+C L "ANORP_I2C" 0 762 1 "FUNCTION"
+C L "ANORP_I2C" 0 762 2 "FUNCTION"
+C L "ANORP_I2C" 0 762 1 "FUNCTION"
+C L "ANORP_I2C" 0 762 1 "FUNCTION"
+C L "ANORP_I2C" 0 762 1 "FUNCTION"
+C L "ANORP_I2C" 0 762 1 "FUNCTION"
+C L "ANORP_I2C" 0 762 1 "FUNCTION"
+C L "ANORP_I2C" 0 762 1 "FUNCTION"
+C L "adc_init" 0 762 9 "FUNCTION"
+F N "adc_init" 0 850 ""
+V L "address" 0 850 "int8" `1217 
+F G "adc_init" 0 851 "void(int8=1 address)" `1216 
+C L "adc_init" 0 762 1 "FUNCTION"
+C L "adc_init" 0 762 1 "FUNCTION"
+C L "adc_init" 0 762 1 "FUNCTION"
+C L "adc_init" 0 762 1 "FUNCTION"
+F N "read_adc_mcp3421" 0 871 ""
+V L "address" 0 871 "int8" `1220 
+F G "read_adc_mcp3421" 0 875 "sint32(int8=1 address)" `1219 
+V L "result" 0 885 "{sint32 sint32,int8[4] b}" `1292 
+V L "status" 0 886 "int8" `1293 
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_mcp3421" 0 762 1 "FUNCTION"
+C L "read_adc_volts_mcp3421" 0 762 7 "FUNCTION"
+F N "read_adc_volts_mcp3421" 0 952 ""
+V L "address" 0 952 "int8" `1223 
+F G "read_adc_volts_mcp3421" 0 953 "float(int8=1 address)" `1222 
+V L "result" 0 955 "sint32" `1294 
+V L "fresult" 0 960 "float" `1295 
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep" 0 0

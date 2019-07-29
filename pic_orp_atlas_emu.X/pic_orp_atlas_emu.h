@@ -5,9 +5,8 @@
  * Created on 17 de Junho de 2019, 16:35
  */
 
-
 #ifndef PIC_ORP_ATLAS_EMU_H
-#define	PIC_ORP_ATLAS_EMU_H
+#define   PIC_ORP_ATLAS_EMU_H
 
 
 // #define debug /*depuracao*/
@@ -273,13 +272,14 @@ registers cannot be written; FSR access to EEPROM returns zero.
 #define LED_ACESSO 0
 #define LED_APAGADO 1
 
-#define I2C_STANDBY_LED          { LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_ACESSO ;} // Azul estranho
-#define I2C_TAKING_READING_LED   { LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_APAGADO  ; } // Verde
-#define CHANGING_I2C_ADDRESS_LED { LED_R= LED_ACESSO ;  LED_G = LED_APAGADO ; LED_B = LED_ACESSO; } // Purple
-#define CMD_NOT_UNDERSTOOD_LED   { LED_R= LED_ACESSO;   LED_G = LED_APAGADO ; LED_B = LED_APAGADO; } // Red
-
 #define LED_WHITE { LED_R = LED_ACESSO;  LED_G = LED_ACESSO;  LED_B = LED_ACESSO ;}
 #define LEDS_OFF {  LED_R = LED_APAGADO ;LED_G = LED_APAGADO; LED_B = LED_APAGADO ;}
+
+#define I2C_STANDBY_LED          { LED_R= LED_APAGADO ; LED_G = LED_APAGADO ;  LED_B = LED_ACESSO ;} // Azul 
+#define I2C_TAKING_READING_LED   { LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_APAGADO  ;delay_ms(20); LEDS_OFF ; delay_ms(20);  } // Verde
+#define CHANGING_I2C_ADDRESS_LED { LED_R= LED_ACESSO ;  LED_G = LED_APAGADO ; LED_B = LED_ACESSO; delay_ms(200); } // Purple
+#define CMD_NOT_UNDERSTOOD_LED   { LED_R= LED_ACESSO;   LED_G = LED_APAGADO ; LED_B = LED_APAGADO; delay_ms(150); } // Red
+#define CMD_SUCCESSFUL_LED  { LED_R= LED_APAGADO ; LED_G = LED_ACESSO ;  LED_B = LED_APAGADO  ;delay_ms(150) ; } // Verde
 
 
 #define LEN_MAX_CMD 7 // o numero maximo de caracteres dos comandos da lista_comandos  ( não contando '\0') para comandos da forma : "CMD"
@@ -323,6 +323,7 @@ unsigned int8  index_out_buffer;
 unsigned int8  index_in_buffer ;
 unsigned int1  FIND_exe= FALSE ;// status do comando FIND (se está executando é TRUE)
 unsigned int1  R_exe= FALSE; // status da execucao do comando R 
+unsigned int1  Cmd_Sleep_awake = FALSE ;
 unsigned int8  device_calibrated ; // indica se o dispositivo está calibrado ou não TRUE= Calibrado; FALSE= Não calibrado
 unsigned int8  estado_led; // Estado do led controlado pelo comando L, salvo na EEPROM para voltar caso a energia acabe 
 unsigned int8  i2c_address; // endereco da i2c da placa padrão é 98 (DEC),mas pode ser alterado com o comando I2C
@@ -549,4 +550,4 @@ float32 read_adc_volts_mcp3421(unsigned int8 address=MCP3421_ADDRESS) ;
 
 #endif // debug
 
-#endif	/* PIC_ORP_ATLAS_EMU_H */
+#endif   /* PIC_ORP_ATLAS_EMU_H */
