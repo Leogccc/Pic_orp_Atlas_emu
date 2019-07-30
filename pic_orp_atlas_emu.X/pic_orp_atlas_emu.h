@@ -260,8 +260,8 @@ registers cannot be written; FSR access to EEPROM returns zero.
 
 
 #define VERSAO_FIRMWARE 1.0
-#define BUF_SIZE 21 // tamanho dos Buffers do I2C1
-#define PIC_ADDRESS  0xC4// endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4
+#define BUF_SIZE 40 // tamanho dos Buffers do I2C1
+#define PIC_ADDRESS  0xC4  // endereco padrão da I2C1 do pic Modo Slave (endereco em 7 bits) 0x62; As funcoes CCS usam endereco na forma 8 bits 0x62<<1= 0xC4
 #define TAM_MAX  25
 
 // pinos do Led RGB ânodo comum
